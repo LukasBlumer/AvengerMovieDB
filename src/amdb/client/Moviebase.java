@@ -17,11 +17,6 @@ import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
-import com.googlecode.gwt.charts.client.ChartLoader;
-import com.googlecode.gwt.charts.client.ChartPackage;
-import com.googlecode.gwt.charts.client.geochart.GeoChart;
-
-import amdb.shared.MovieCollection;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -39,8 +34,6 @@ public class Moviebase implements EntryPoint {
 	private HorizontalPanel southPanel = new HorizontalPanel();
 	private Tree filterTree = new Tree();
 	private Tree worldmapTree = new Tree();
-    private GeoChart geoChart;
-    private SplitLayoutPanel sl = new SplitLayoutPanel();
 	
 	/**
 	 * This is the entry point method.
@@ -134,22 +127,12 @@ public class Moviebase implements EntryPoint {
 	    /*******************************************************************/
 	    
 	    //builds the rootPanel where all the other widgets and panels are included
+	    SplitLayoutPanel sl = new SplitLayoutPanel();
 	    sl.addNorth(headerMenu, 40);
 	    sl.insertSouth(new HTML("south"), 2, null);
 	    sl.insertWest(slp, 18, null);
 	    sl.setWidgetMinSize(headerMenu, 40);
-	    //sl.add(new HTML("center"));
-	    ChartLoader chartLoader = new ChartLoader(ChartPackage.GEOCHART);
-	    chartLoader.loadApi(new Runnable() {
-
-			@Override
-			public void run() {
-				// Create and attach the chart
-				geoChart = new GeoChart();
-				sl.add(geoChart);
-				Map.drawMap(geoChart, new MovieCollection());
-			}
-		});	
+	    sl.add(new HTML("center"));
 		
 		RootLayoutPanel rp = RootLayoutPanel.get();
 		rp.add(sl);
