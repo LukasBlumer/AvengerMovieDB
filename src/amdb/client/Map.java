@@ -86,7 +86,7 @@ public class Map implements EntryPoint {
 		// zoom (no idea if this works)
 		MagnifyingGlass zoom = MagnifyingGlass.create();
 		zoom.setEnable(true);
-		zoom.setZoomFactor(100.0);
+		zoom.setZoomFactor(1000.0);
 		options.setMagnifyingGlass(zoom);
 	
 		// actually draw the map
