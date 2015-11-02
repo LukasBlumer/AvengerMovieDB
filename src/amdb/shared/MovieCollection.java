@@ -35,10 +35,10 @@ public class MovieCollection {
 		movies = new ArrayList<Movie>();
 
 //		// add first movie
-//		movies.add(new Movie("The Happening", 1990,new String[] {"Horror", "Romance", "Adventure"}, new String []{"Urdu", "Polish"}));
+		movies.add(new Movie("The Happening", 1990,new String[] {"Horror", "Romance", "Adventure"}, new String []{"Urdu", "Polish"}, new String []{"Germany"}));
 //
 //		// add second movie		
-//		movies.add(new Movie("That new movie", 2010, new String[] {"Vampire fanfiction"}, new String[] {"English", "Gibberish"}));
+		movies.add(new Movie("That new movie", 2010, new String[] {"Vampire fanfiction"}, new String[] {"English", "Gibberish"}, new String []{"Switzerland", "Germany"}));
 
 	}
 
