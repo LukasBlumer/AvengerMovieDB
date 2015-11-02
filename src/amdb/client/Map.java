@@ -24,10 +24,7 @@ import amdb.shared.MovieCollectionConverter;
 public class Map {
 	// create constructor
 	
-	public void drawMap(MovieCollection collection) {
-		GeoChart geoChart;
-		geoChart = new GeoChart();
-		// needs to be added to center panel
+	public static void drawMap(GeoChart geoChart, MovieCollection collection) {
 		
 		// Conversion of MovieCollection to DataTable
 		DataTable dataTable = MovieCollectionConverter.toDataTableCountryAmount(collection);
