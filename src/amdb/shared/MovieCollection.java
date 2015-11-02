@@ -2,7 +2,6 @@ package amdb.shared;
 
 import java.util.ArrayList;
 
-
 /**
  * Represents a collection of type Movie. The collection can be filtered by the attributes genre, country, language or a range of years.
  * 
