@@ -53,5 +53,4 @@ public class Map {
 		// actually draw the map
 		geoChart.draw(dataTable, options);
 	}
-
 }
