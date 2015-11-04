@@ -16,6 +16,16 @@
     <url-pattern>/avengermoviedb/greet</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>movieServlet</servlet-name>
+    <servlet-class>amdb.server.MovieCollectionService</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>movieServlet</servlet-name>
+    <url-pattern>/avengermoviedb/movies</url-pattern>
+  </servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>AvengerMovieDB.html</welcome-file>
