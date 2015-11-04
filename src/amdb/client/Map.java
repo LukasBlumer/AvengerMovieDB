@@ -23,10 +23,10 @@ public class Map {
 	 * Found this page helpful:
 	 * http://www.w3schools.com/tags/ref_colorpicker.asp
 	 */
-	private static final String lightestAxisColor = "5CD65C";
-	private static final String darkestAxisColor = "0A290A";
+	private static final String lightestAxisColor = "#FFCB96";
+	private static final String darkestAxisColor = "#E62E00";
 	private static final String datalessRegionColor = "white";
-	private static final String backgroundColor = "005CB8";
+	private static final String backgroundColor = "#E5F7FF";
 			
 			
 	// create constructor
