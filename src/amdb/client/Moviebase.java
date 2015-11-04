@@ -1,5 +1,7 @@
 package amdb.client;
 
+import amdb.client.MovieCollectionServiceInterface;
+import amdb.client.MovieCollectionServiceInterfaceAsync;
 import amdb.shared.MovieCollection;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -21,6 +23,9 @@ import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
+import com.googlecode.gwt.charts.client.ChartLoader;
+import com.googlecode.gwt.charts.client.ChartPackage;
+import com.googlecode.gwt.charts.client.geochart.GeoChart;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -39,6 +44,7 @@ public class Moviebase implements EntryPoint {
 	private Tree filterTree = new Tree();
 	private Tree worldmapTree = new Tree();
 	private MovieCollection dataBase; // should not be changed
+	private GeoChart worldmap;
 
 	private final MovieCollectionServiceInterfaceAsync movieCollectionService = GWT.create(MovieCollectionServiceInterface.class);
 	
@@ -134,12 +140,12 @@ public class Moviebase implements EntryPoint {
 		/*******************************************************************/
 
 		//builds the rootPanel where all the other widgets and panels are included
-		SplitLayoutPanel sl = new SplitLayoutPanel();
+		final SplitLayoutPanel sl = new SplitLayoutPanel();
 		sl.addNorth(headerMenu, 40);
 		sl.insertSouth(new HTML("south"), 2, null);
 		sl.insertWest(slp, 18, null);
 		sl.setWidgetMinSize(headerMenu, 40);
-		sl.add(new HTML("center"));
+//		sl.add(new HTML("center"));
 
 		RootLayoutPanel rp = RootLayoutPanel.get();
 		rp.add(sl);
@@ -165,6 +171,19 @@ public class Moviebase implements EntryPoint {
 		setDatabase();
 		
 		/*******************************************************************/
+		// create map and hang it into the central panel
+		ChartLoader chartLoader = new ChartLoader(ChartPackage.GEOCHART);
+		chartLoader.loadApi(new Runnable() {
+			@Override
+			public void run() {
+				// Create and attach the chart
+				worldmap = new GeoChart();
+				// attatch it to the approriate panel
+				sl.add(worldmap);
+				Map.drawMap(worldmap, dataBase);
+			}
+		});	
+		/*******************************************************************/
 
 	}
 
@@ -179,6 +198,7 @@ public class Moviebase implements EntryPoint {
 
 			public void onSuccess(MovieCollection result){
 				dataBase = result;
+				Map.drawMap(worldmap, dataBase);
 			}
 
 			@Override

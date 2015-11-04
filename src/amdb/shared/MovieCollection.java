@@ -33,6 +33,7 @@ public class MovieCollection implements Serializable {
 	public MovieCollection(){
 		// initialize the collection that holds the elements of type Movie
 		movies = new ArrayList<Movie>();
+		movies.add(new Movie("The Happening", 1990,new String[] {"Horror", "Romance", "Adventure"}, new String []{"Urdu", "Polish"}, new String[]{"Pakistan", "Italy"}));
 	}
 
 	/**
