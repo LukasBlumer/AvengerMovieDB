@@ -1,45 +1,39 @@
 package amdb.shared;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
 /**
- * Represents a collection of type Movie. The collection can be filtered by the attributes genre, country, language or a range of years.
+ * Represents a collection of objects of the type <tt>Movie</tt>. The collection can be filtered by the attributes genre, country, language or a range of years.
  * 
  * @author petrawittwer
- * @history 2015-10-31 first version
- * @version 2015-10-31 0.1
+ * @history 2015-10-31 PW first version
+ * @version 2015-10-31 PW 0.1
  * @responsibilities This class executes all instructions that directly influence the collection of movies	
  * 
  * @see Movie
  */
-public class MovieCollection {
+@SuppressWarnings("serial")
+public class MovieCollection implements Serializable {
 	/**
 	 * Contains the collection of Movies.
 	 * Content should never be changed.
 	 * @see Movie
 	 */
-	private final ArrayList<Movie> movies; 
-	private int minYear;
-	private int maxYear;
+	private ArrayList<Movie> movies; 
+
 
 	/**
-	 * Creates a new MovieCollection instance and fills it with dummy values.
+	 * Creates a new MovieCollection instance.
 	 * 
 	 * @pre true
-	 * @post movies.get(0) == Movie("The Happening", 1990,new String[] {"Horror", "Romance", "Adventure"}, new String []{"Urdu", "Polish"}) &&
-	 * 		movies.get(1) == Movie("That new movie", 2010, new String[] {"Vampire fanfiction"}, new String[] {"English", "Gibberish"})
+	 * @post movies != null
 	 */
 	public MovieCollection(){
 		// initialize the collection that holds the elements of type Movie
 		movies = new ArrayList<Movie>();
-
-//		// add first movie
-//		movies.add(new Movie("The Happening", 1990,new String[] {"Horror", "Romance", "Adventure"}, new String []{"Urdu", "Polish"}));
-//
-//		// add second movie		
-//		movies.add(new Movie("That new movie", 2010, new String[] {"Vampire fanfiction"}, new String[] {"English", "Gibberish"}));
-
+		movies.add(new Movie("The Happening", 1990,new String[] {"Horror", "Romance", "Adventure"}, new String []{"Urdu", "Polish"}, new String[]{"Pakistan", "Italy"}));
 	}
 
 	/**
@@ -54,7 +48,7 @@ public class MovieCollection {
 	}
 	
 	/**
-	 * Adds a movie to the collection of Movies
+	 * Adds a movie to the collection of Movies.
 	 * 
 	 * @param movie
 	 * @pre this.movies != null
@@ -65,7 +59,7 @@ public class MovieCollection {
 	}
 
 	/**
-	 * Returns the collection of movies as an ArrayList<Movie>
+	 * Returns the collection of movies as an ArrayList<Movie>.
 	 * 
 	 * @pre this.movies != NULL
 	 * @post true
@@ -73,44 +67,7 @@ public class MovieCollection {
 	 */
 	public ArrayList<Movie> getMovies(){
 		return movies;
-	}
-	
-	
-	// Currently only here for future reference. Unused code
-//	public DataTable convertToDataTable(){
-//		// initialize table
-//		DataTable table = DataTable.create();
-//		table.addColumn(ColumnType.STRING, "name");
-//		table.addColumn(ColumnType.NUMBER, "Release Date");
-//		table.addColumn(ColumnType.STRING, "Genres");
-//		table.addColumn(ColumnType.STRING, "Languages");
-//		table.addColumn(ColumnType.STRING, "Countries");
-//
-//		// fill the table with values from movies
-//		Movie currentMovie;
-//		for (int i = 0; i < movies.size(); i++) {
-//			currentMovie = movies.get(i);
-//			table.addRow();
-//			table.setValue(i, 0, currentMovie.getName());
-//			table.setValue(i, 1, currentMovie.getReleaseDate());
-//			
-//			// insert all the Genres or the empty String if there are none
-//			if(currentMovie.getGenres().length == 0){
-//				table.setValue(i, 2, "");
-//			} else if(currentMovie.getGenres().length == 1){
-//				table.setValue(i, 2, currentMovie.getGenres()[0]);
-//			} else{
-//				StringBuilder genres = new StringBuilder(currentMovie.getGenres()[0]);
-//				for (int j = 1; j < currentMovie.getGenres().length; j++) {
-//					genres.append(", "+currentMovie.getGenres()[j]);
-//				}
-//			}
-//			
-//
-//		}
-//
-//		return table;
-//	}
+	}	
 
 	/**
 	 * Returns a new MovieCollection created from elements in movies that have a releaseDate larger or equal to start and smaller or equal to end.

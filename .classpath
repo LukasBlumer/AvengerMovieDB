@@ -6,7 +6,11 @@
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="D:/Users/blume/Documents/GitHub/AvengerMovieDB/lib/gwt-charts-0.9.9.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Armando/Documents/GitHub/AvengerMovieDB/lib/gwt-charts-0.9.9.jar"/>
+=======
+	<classpathentry kind="lib" path="lib/gwt-charts-0.9.9.jar"/>
+>>>>>>> origin/master
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

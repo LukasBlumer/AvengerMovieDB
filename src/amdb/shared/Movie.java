@@ -1,5 +1,7 @@
 package amdb.shared;
 
+import java.io.Serializable;
+
 /**
  * Elements of this class represent metadata of movies.
  * 
@@ -9,7 +11,7 @@ package amdb.shared;
  * @responsibilities Manages the metadata of movies.
  *
  */
-public class Movie {
+public class Movie implements Serializable {
 
 	private String name;
 	private int releaseDate;
@@ -18,28 +20,35 @@ public class Movie {
 	private String[] countries;
 
 	/**
+	 * Creates an empty Movie object. 
+	 * Neccessary for seriazability of the class
+	 * s
+	 * @pre true
+	 * @post true
+	 */
+	public Movie() {
+		
+	}
+	
+	/**
 	 * Creates a new instance of Movie with data name, releaseDate, genres, languages and countries.
 	 * @param name The name of the movie.
 	 * @param releaseDate The release date as year. Must be larger than 1900 and smaller than 2100
 	 * @param genres The genres of the movie or void.
 	 * @param languages The languages of the movie or void.
-	 * @pre releaseDate > 1900 && releaseDate < 2100
+	 * @pre true
 	 * @post Created object has values specified by the parameters
 	 */
 	public Movie(String name, int releaseDate, String[] genres, String[] languages, String[] countries){
+		this.releaseDate = releaseDate;
 		this.name = name;
-		
-		// only allow movies made after 1900 and before 2100
-		if(releaseDate < 2100 && releaseDate> 1900){
-			this.releaseDate = releaseDate;
-		} else{
-			return;
-		}
+	
 		this.genres = genres;
 		this.languages = languages;
 		this.countries = countries;
 	}
 
+	
 	/**
 	 * Returns the name of the Movie as a String.
 	 * @pre true
