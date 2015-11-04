@@ -6,6 +6,10 @@
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="D:/Users/blume/Documents/GitHub/AvengerMovieDB/lib/gwt-charts-0.9.9.jar"/>
+=======
+	<classpathentry kind="lib" path="/Users/petrawittwer/Documents/Uni/Software Engineering/google/gwt-charts-0.9.9.jar"/>
+>>>>>>> 54ffb8c30105c5f6db034d0a4c1404f5a35f3f25
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
