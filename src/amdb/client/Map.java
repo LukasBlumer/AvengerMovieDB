@@ -50,7 +50,7 @@ public class Map {
 		options.setDatalessRegionColor(datalessRegionColor);
 		options.setBackgroundColor(backgroundColor);
 		
-//		onClick event listener (cannot figure out how to do this)
+//		onClick event listener (might go into another file)
 		geoChart.addSelectHandler(new SelectHandler() {
 			public void onSelect(SelectEvent select) {
 				// addFilter();
@@ -61,14 +61,15 @@ public class Map {
 		});
 		
 
-		// zoom (no idea if this works) - probably not
+		// zoom does not work
+		/*
 		MagnifyingGlass zoom = MagnifyingGlass.create();
 		zoom.setEnable(true);
 		zoom.setZoomFactor(1000.0);
 		options.setMagnifyingGlass(zoom);
+		*/
 	
 		// actually draw the map
 		geoChart.draw(dataTable, options);
 	}
-
 }
