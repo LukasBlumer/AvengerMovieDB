@@ -4,6 +4,7 @@ import amdb.shared.MovieCollection;
 import amdb.shared.MovieCollectionConverter;
 
 import com.google.gwt.core.client.JsArrayString;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.Window;
 import com.googlecode.gwt.charts.client.DataTable;
 import com.googlecode.gwt.charts.client.ajaxloader.ArrayHelper;
@@ -26,6 +27,7 @@ public class Map {
 	private static final String lightestAxisColor = "#FFDEBE";
 	private static final String darkestAxisColor = "#E62E00";
 	private static final String datalessRegionColor = "white";
+
 	private static final String backgroundColor = "#E5F7FF";
 			
 			
@@ -33,15 +35,22 @@ public class Map {
 	
 	public static void drawMap(GeoChart geoChart, MovieCollection collection) {
 		
+		// Log when the creation of the dataTable starts and ends
+		GWT.log("creating dataTable for worldmap.");
 		// Conversion of MovieCollection to DataTable
 		DataTable dataTable = MovieCollectionConverter.toDataTableCountryAmount(collection);
+		GWT.log("creating dataTable for worldmap finished.");
+
+		// Log how when the creation of the worldmap starts and finishes
+		GWT.log("drawing worldmap.");
 		
 		// Color countries according to number of movies released
 		GeoChartOptions options = GeoChartOptions.create();
 		GeoChartColorAxis geoChartColorAxis = GeoChartColorAxis.create();
 		// required to make a JsArrayString
 		@SuppressWarnings("deprecation")
-		JsArrayString colorAxisHelper = ArrayHelper.createJsArray(new String[]{lightestAxisColor,darkestAxisColor }); 
+		JsArrayString colorAxisHelper = ArrayHelper.createJsArray(new String[]{lightestAxisColor,darkestAxisColor });
+
 		geoChartColorAxis.setColors(colorAxisHelper);
 		// values higher than MaxValue are displayed in the darkest color. The gradient stops at this value
 		geoChartColorAxis.setMaxValue(10000);
@@ -55,8 +64,8 @@ public class Map {
 		geoChart.addSelectHandler(new SelectHandler() {
 			public void onSelect(SelectEvent select) {
 				// addFilter();
-				
-
+				GWT.log(select.NAME);
+				GWT.log(select.getProperties().toString());
 				Window.alert("You clicked on a country");
 			}
 		});
@@ -72,5 +81,8 @@ public class Map {
 	
 		// actually draw the map
 		geoChart.draw(dataTable, options);
+		
+		GWT.log("drawing worldmap finished.");
+
 	}
 }
