@@ -25,15 +25,10 @@ import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
-<<<<<<< HEAD
 import com.google.gwt.user.client.ui.VerticalPanel;
-
-import amdb.shared.MovieCollection;
-=======
 import com.googlecode.gwt.charts.client.ChartLoader;
 import com.googlecode.gwt.charts.client.ChartPackage;
 import com.googlecode.gwt.charts.client.geochart.GeoChart;
->>>>>>> origin/master
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -72,7 +67,7 @@ public class Moviebase implements EntryPoint {
 		filterTree.addItem(sort1);
 		filterTree.addItem(sort2);
 		filterTree.addItem(sort3);
-<<<<<<< HEAD
+
 		filterTree.addItem(exportButtonSort);
 		
 		sort1.setStyleName("sort1",false);
@@ -89,13 +84,7 @@ public class Moviebase implements EntryPoint {
 	    }
 	    sortListBox.setVisibleItemCount(1);
 	    filterTree.add(sortListBox);
-=======
 
-		sort1.setStyleName("sort1",false);
-		sort2.setStyleName("sort2",false);
-		sort3.setStyleName("sort3",false);
-
->>>>>>> origin/master
 		/*******************************************************************/
 
 		//Builds the Tree for the Worldmap Sort Options part
@@ -107,7 +96,7 @@ public class Moviebase implements EntryPoint {
 		worldmapTree.addItem(wmsort1);
 		worldmapTree.addItem(wmsort2);
 		worldmapTree.addItem(wmsort3);
-<<<<<<< HEAD
+
 		worldmapTree.addItem(wmExportButton);
 		
 		wmsort1.setStyleName("wmsort1",false);
@@ -116,14 +105,6 @@ public class Moviebase implements EntryPoint {
 		wmExportButton.setStyleName("wmExportButton", false);
 		
 		
-		
-=======
-
-		wmsort1.setStyleName("wmsort1",false);
-		wmsort2.setStyleName("wmsort2",false);
-		wmsort3.setStyleName("wmsort3",false);
-
->>>>>>> origin/master
 		/*******************************************************************/
 
 		//Build up the HeaderPanel
@@ -161,7 +142,6 @@ public class Moviebase implements EntryPoint {
 
 		//Defines the Panel for Menu Sidebar
 		slp.add(filterTree, new HTML("Filter Options"), 10);
-<<<<<<< HEAD
 	    slp.add(worldmapTree, new HTML("Worldmap View"), 10);
 	    slp.add(new HTML("Table view"), new HTML("Table View"), 10);
 	    slp.add(new HTML("Pie Chart Button"), new HTML("Pie Chart View"), 10);
@@ -172,11 +152,12 @@ public class Moviebase implements EntryPoint {
 	    /*******************************************************************/
 		
 	    //Rootpanel where anything else is include
-		DockLayoutPanel p = new DockLayoutPanel(Unit.EM);
+		final DockLayoutPanel p = new DockLayoutPanel(Unit.EM);
 		p.addNorth(headerMenu, 3);
 		p.addSouth(new HTML("South"), 5);
 		p.addWest(slp,20);
-        p.add(new HTML("Center"));
+//        p.add(new HTML("Center")); // can't add two widgets to p	
+		
 	    
 	    /*******************************************************************/
 	    
@@ -193,57 +174,6 @@ public class Moviebase implements EntryPoint {
 		rp.add(p);
 		
 		/*******************************************************************/
-	
-	}
-	}
-=======
-		slp.add(worldmapTree, new HTML("Worldmap View"), 10);
-		slp.add(new HTML("Table view"), new HTML("Table View"), 10);
-		slp.add(new HTML("Pie Chart Button"), new HTML("Pie Chart View"), 10);
-		slp.add(new HTML("Bar Diagram button"), new HTML("Bar Diagram View"), 10);
-		slp.getHeaderWidget(filterTree).addStyleName("filteroptionsheader");
-		slp.setStyleName("sidebar",false);
-
-		/*******************************************************************/
-
-		/*Rootpanel where anything else is include
-		DockLayoutPanel p = new DockLayoutPanel(Unit.EM);
-		p.addNorth(headerPanel, 30);
-		p.insertSouth(new HTML("south"), 2,null);
-		p.insertEast(new HTML("east"), 2,null);
-		p.addWest(slp,18);
-        p.add(new HTML("center"));*/
-
-		/*******************************************************************/
-
-		//builds the rootPanel where all the other widgets and panels are included
-		final SplitLayoutPanel sl = new SplitLayoutPanel();
-		sl.addNorth(headerMenu, 40);
-		sl.insertSouth(new HTML("south"), 2, null);
-		sl.insertWest(slp, 18, null);
-		sl.setWidgetMinSize(headerMenu, 40);
-//		sl.add(new HTML("center"));
-
-		RootLayoutPanel rp = RootLayoutPanel.get();
-		rp.add(sl);
-		//rp.add(p);
-
-		/*******************************************************************/
-
-		//functions for the minimize and the maximize buttons
-		minimize.addClickHandler(new ClickHandler(){
-			public void onClick(ClickEvent event) {
-				slp.setVisible(false);
-			}
-		});
-
-		maximize.addClickHandler(new ClickHandler(){
-			public void onClick(ClickEvent event) {
-				slp.setVisible(true);
-			}
-		});
-
-		/*******************************************************************/
 		// set a value for MovieCollection database if possible
 		setDatabase();
 		
@@ -256,12 +186,11 @@ public class Moviebase implements EntryPoint {
 				// Create and attach the chart
 				worldmap = new GeoChart();
 				// attatch it to the approriate panel
-				sl.add(worldmap);
+				p.add(worldmap);
 //				Map.drawMap(worldmap, dataBase);
 			}
 		});	
 		/*******************************************************************/
-
 	}
 
 	/**
@@ -270,16 +199,19 @@ public class Moviebase implements EntryPoint {
 	 * @pre true
 	 * @post database != null || alert given
 	 */
-	public void setDatabase(){
+	public void setDatabase() {
+		GWT.log("Fetching movies");
 		movieCollectionService.getMovieCollection(new AsyncCallback<MovieCollection>() {
 
 			public void onSuccess(MovieCollection result){
+				GWT.log("fetched "+result.getMovies().size()+" movies");
 				dataBase = result;
 				Map.drawMap(worldmap, dataBase);
 			}
 
 			@Override
 			public void onFailure(Throwable caught) {
+				GWT.log("Failed to load movies");
 				Window.alert("Failed to load movies");
 			}
 
@@ -287,4 +219,3 @@ public class Moviebase implements EntryPoint {
 	}
 
 }
->>>>>>> origin/master

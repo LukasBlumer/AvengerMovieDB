@@ -178,13 +178,20 @@ public class MovieCollection implements Serializable {
 		
 		return new MovieCollection(filteredMovies);
 	}
-
-	public int getMinYear(){
-		return minYear;
-	}
 	
+	/**
+	 * @deprecated
+	 * @return
+	 */
+	public int getMinYear(){
+		return 0;
+	}
+	/**
+	 * @deprecated
+	 * @return
+	 */
 	public int getMaxYear(){
-		return maxYear;
+		return 10000;
 	}
 
 }
