@@ -24,10 +24,11 @@ public class Map {
 	 * Found this page helpful:
 	 * http://www.w3schools.com/tags/ref_colorpicker.asp
 	 */
-	private static final String lightestAxisColor = "5CD65C";
-	private static final String darkestAxisColor = "0A290A";
+	private static final String lightestAxisColor = "#FFCB96";
+	private static final String darkestAxisColor = "#E62E00";
 	private static final String datalessRegionColor = "white";
-	private static final String backgroundColor = "3514CC";
+
+	private static final String backgroundColor = "#E5F7FF";
 			
 			
 	// create constructor
@@ -48,8 +49,7 @@ public class Map {
 		GeoChartColorAxis geoChartColorAxis = GeoChartColorAxis.create();
 		// required to make a JsArrayString
 		@SuppressWarnings("deprecation")
-//		JsArrayString colorAxisHelper = ArrayHelper.createJsArray(new String[]{lightestAxisColor,darkestAxisColor });
-		JsArrayString colorAxisHelper = ArrayHelper.createJsArray(new String[]{"FFE9AD", "B2E097", "B2E097","008E74","1A222F"}); 
+		JsArrayString colorAxisHelper = ArrayHelper.createJsArray(new String[]{lightestAxisColor,darkestAxisColor });
 
 		geoChartColorAxis.setColors(colorAxisHelper);
 		// values higher than MaxValue are displayed in the darkest color. The gradient stops at this value
