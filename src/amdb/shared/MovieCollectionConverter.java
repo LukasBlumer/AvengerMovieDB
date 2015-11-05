@@ -26,27 +26,12 @@ public class MovieCollectionConverter {
 	 * @return movies as a <tt>DataTable</tt>
 	 */
 	public static DataTable toDataTableCountryAmount(MovieCollection movies){
-		HashMap<String, Integer> tally = new HashMap<>(); // key: Country name, value: Movies per country
-		ArrayList<Movie> movieList = movies.getMovies();
-		String[] countries; // holds movie.getCountries() for a single movie
+		HashMap<String, Integer> tally = numberOfMoviesPerCountry(movies);
 		String nameOfCountry; // holds movie.getName() for a single movie
-		for (int i = 0; i < movieList.size(); i++) { // for all movies
-			countries = movieList.get(i).getCountries();
-			for (int j = 0; j < countries.length; j++) {
-				nameOfCountry = countries[j];
-
-				if(tally.containsKey(nameOfCountry)){ // if the tally already has the country
-					// add 1 to the value of the pair <nameOfCountry, value> in the hash
-					tally.put(nameOfCountry, tally.get(nameOfCountry)+1);
-				} else{ // if the tally does not already contain the country
-					tally.put(nameOfCountry, 1);
-				}
-			}
-		}
-
 
 		DataTable tableCountryAmount = DataTable.create();
 
+		// Format tableCountryAmount
 		// add row for the names of the countries
 		tableCountryAmount.addColumn(ColumnType.STRING, "Country");
 		// add row for the number of movies the country has
@@ -66,6 +51,39 @@ public class MovieCollectionConverter {
 		}
 
 		return tableCountryAmount;
+	}
+	
+	/**
+	 * Creates a hash map where the key is the name of a country occurring in movies 
+	 * and the corresponding value is the number of Movie in movies that contain the country in their list of countries.
+	 * 
+	 * @param movies The collection that is searched for occurrences of country names
+	 * @return HashMap where key = name of a country, value = Movie in movies that contain this country.
+	 * @see MovieCollection
+	 * @see Movie
+	 */
+	public static HashMap<String, Integer> numberOfMoviesPerCountry(MovieCollection movies){
+		HashMap<String, Integer> tally = new HashMap<>(); // key: Country name, value: Movies per country
+		ArrayList<Movie> movieList = movies.getMovies();
+		
+		String[] countries; // holds movie.getCountries() for a single movie
+		String nameOfCountry; // holds movie.getName() for a single movie
+		
+		for (int i = 0; i < movieList.size(); i++) { // for all movies
+			countries = movieList.get(i).getCountries();
+			for (int j = 0; j < countries.length; j++) {
+				nameOfCountry = countries[j];
+
+				if(tally.containsKey(nameOfCountry)){ // if the tally already has the country
+					// add 1 to the value of the pair <nameOfCountry, value> in the hash
+					tally.put(nameOfCountry, tally.get(nameOfCountry)+1);
+				} else{ // if the tally does not already contain the country
+					tally.put(nameOfCountry, 1);
+				}
+			}
+		}
+		
+		return tally;
 	}
 
 }

@@ -187,7 +187,7 @@ public class Moviebase implements EntryPoint {
 				worldmap = new GeoChart();
 				// attatch it to the approriate panel
 				p.add(worldmap);
-//				Map.drawMap(worldmap, dataBase);
+				Map.drawMap(worldmap, dataBase);
 			}
 		});	
 		/*******************************************************************/

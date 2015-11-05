@@ -28,9 +28,10 @@ import amdb.shared.MovieCollection;
 public class Parser {
 	
 	/**
+	 * Takes an input Stream in the same format as the original source file and turns it into a MovieCollection.
 	 * 
 	 * @param in The movie data as an {@link InputStream}
-	 * @return
+	 * @return A movieBase containing Movie elements whose fields are specified in the input stream.
 	 * @throws IOException
 	 * @see {@link MovieCollectionService}
 	 */
@@ -45,6 +46,7 @@ public class Parser {
 		// variable for each value of the Movie class
 		String name;
 		int releaseDate = -1;
+		int length = -1;
 		ArrayList<String> intermediateResult = new ArrayList<String>();
 		String[] genres;
 		String[] languages;
@@ -63,12 +65,17 @@ public class Parser {
 			// split the line by the tabs.
 			lineArray = line.split("\\t", 9);
 			if (lineArray.length != 9) {
-				throw new RuntimeException("invalid line, not enough values: "
+				throw new RuntimeException("invalid line, incorrect amount of values: "
 						+ line);
 			}
 
 			// set name
 			name = lineArray[2];
+			
+			// set length
+			if(lineArray[5] != null){
+				length = (int) Float.parseFloat(lineArray[5]);
+			}
 			
 			// set releaseDate
 			if (lineArray[3] != null && lineArray[3].length() >= 4) {
@@ -99,10 +106,8 @@ public class Parser {
 			}
 			countries = intermediateResult.toArray(new String[0]);
 
-			resultArray.add(new Movie(name, releaseDate, genres, languages,
+			resultArray.add(new Movie(name, length, releaseDate, genres, languages,
 					countries));
-
-
 		}
 		
 		br.close();

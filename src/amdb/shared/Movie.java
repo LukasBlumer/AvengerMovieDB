@@ -18,11 +18,12 @@ public class Movie implements Serializable {
 	private String[] genres;
 	private String[] languages;
 	private String[] countries;
+	private int length;
 
 	/**
 	 * Creates an empty Movie object. 
-	 * Neccessary for seriazability of the class
-	 * s
+	 * Necessary for seriazability of the class
+	 * 
 	 * @pre true
 	 * @post true
 	 */
@@ -33,15 +34,17 @@ public class Movie implements Serializable {
 	/**
 	 * Creates a new instance of Movie with data name, releaseDate, genres, languages and countries.
 	 * @param name The name of the movie.
+	 * @param length The length of the movie.
 	 * @param releaseDate The release date as year. Must be larger than 1900 and smaller than 2100
 	 * @param genres The genres of the movie or void.
 	 * @param languages The languages of the movie or void.
 	 * @pre true
 	 * @post Created object has values specified by the parameters
 	 */
-	public Movie(String name, int releaseDate, String[] genres, String[] languages, String[] countries){
+	public Movie(String name, int length, int releaseDate, String[] genres, String[] languages, String[] countries){
 		this.releaseDate = releaseDate;
 		this.name = name;
+		this.length = length;
 	
 		this.genres = genres;
 		this.languages = languages;
@@ -103,6 +106,16 @@ public class Movie implements Serializable {
 		return countries;
 	}
 
+	/**
+	 * Returns the length of the Movie as an int.
+	 * 
+	 * @pre true
+	 * @post return value == this.length
+	 * @return The length of this Movie.
+	 */
+	public int getLength(){
+		return length;
+	}
 
 
 }

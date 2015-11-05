@@ -9,11 +9,11 @@ import amdb.shared.Movie;
 import amdb.shared.MovieCollection;
 
 public class MovieCollectionTest {
-	static Movie m1 = new Movie("The Happening", 1990,new String[] {"Horror", "Romance", "Adventure"}, new String []{"Urdu", "Polish"}, new String[]{"Pakistan", "Italy"});
-	static Movie m2 = new Movie("That new movie", 2010, new String[] {"Vampire fanfiction"}, new String[] {"English", "Gibberish"}, new String[]{"Monte Carlo", "Spain", "Sweden"});
-	static Movie m3 = new Movie("Fun with knives", 1988, new String[] {"Family", "Educational"}, new String[] {"Spanish"}, new String[]{"United States of America"});
-	static Movie m4 = new Movie("Watching grass", 1973, new String[] {"Documentary"}, new String[] {"English"}, new String[]{"Spain", "Sweden"});
-	static Movie m5 = new Movie("Watching grass grow", 1974, new String[] {"Documentary"}, new String[] {"English"}, new String[]{"Spain", "Sweden"});
+	static Movie m1 = new Movie("The Happening",94, 1990,new String[] {"Horror", "Romance", "Adventure"}, new String []{"Urdu", "Polish"}, new String[]{"Pakistan", "Italy"});
+	static Movie m2 = new Movie("That new movie",102, 2010, new String[] {"Vampire fanfiction"}, new String[] {"English", "Gibberish"}, new String[]{"Monte Carlo", "Spain", "Sweden"});
+	static Movie m3 = new Movie("Fun with knives",47, 1988, new String[] {"Family", "Educational"}, new String[] {"Spanish"}, new String[]{"United States of America"});
+	static Movie m4 = new Movie("Watching grass",304, 1973, new String[] {"Documentary"}, new String[] {"English"}, new String[]{"Spain", "Sweden"});
+	static Movie m5 = new Movie("Watching grass grow",370, 1974, new String[] {"Documentary"}, new String[] {"English"}, new String[]{"Spain", "Sweden"});
 
 	static ArrayList<Movie> movieArrayList = new ArrayList<Movie>(Arrays.asList(m1,m2));
 

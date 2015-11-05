@@ -33,7 +33,7 @@ public class MovieCollection implements Serializable {
 	public MovieCollection(){
 		// initialize the collection that holds the elements of type Movie
 		movies = new ArrayList<Movie>();
-		movies.add(new Movie("The Happening", 1990,new String[] {"Horror", "Romance", "Adventure"}, new String []{"Urdu", "Polish"}, new String[]{"Pakistan", "Italy"}));
+		//		movies.add(new Movie("The Happening", 1990,new String[] {"Horror", "Romance", "Adventure"}, new String []{"Urdu", "Polish"}, new String[]{"Pakistan", "Italy"}));
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class MovieCollection implements Serializable {
 	public MovieCollection(ArrayList<Movie> movies){
 		this.movies = movies;
 	}
-	
+
 	/**
 	 * Adds a movie to the collection of Movies.
 	 * 
@@ -76,7 +76,7 @@ public class MovieCollection implements Serializable {
 	 *  @param end The upper bound for the range of years.
 	 *  @pre this.movies != NULL 
 	 *  @post currentMovies only holds Movies with start <= releaseDate <= end.
-	 *  
+	 *  @return A new movieCollection that only contains movies with start <= releaseDate <= end
 	 */
 	public MovieCollection filterByYear(int start, int end){
 		ArrayList<Movie> filteredMovies = new ArrayList<Movie>();
@@ -120,7 +120,7 @@ public class MovieCollection implements Serializable {
 
 		return new MovieCollection(filteredMovies);		
 	}
-	
+
 	/**
 	 * Returns a new MovieCollection created from elements in movies that contain language in their attribute language
 	 * 
@@ -145,10 +145,10 @@ public class MovieCollection implements Serializable {
 				}
 			}
 		}		
-		
+
 		return new MovieCollection(filteredMovies);
 	}
-	
+
 	/**
 	 * Returns a new MovieCollection created from elements in movies that contain country in their ArrayList of countries.
 	 * 
@@ -159,7 +159,7 @@ public class MovieCollection implements Serializable {
 	 * 
 	 */
 	public MovieCollection filterByCountry(String country){
-		
+
 		ArrayList<Movie> filteredMovies = new ArrayList<Movie>();
 
 		Movie currentMovie;
@@ -175,10 +175,77 @@ public class MovieCollection implements Serializable {
 				}
 			}
 		}		
+
+		return new MovieCollection(filteredMovies);
+	}
+
+	/**
+	 * Returns a new MovieCollection created from movies in movies that
+	 * have a length larger than or equal than minLength and smaller than or equal to the maxLength.
+	 * 
+	 * @param minLength The lower bound for the range of length
+	 * @param maxLength The upper bound for the range of length
+	 * @return A new movieCollection that only contains movies with minLength <= length <= maxLength
+	 */
+	public MovieCollection filterByLength(int minLength, int maxLength){
+		ArrayList<Movie> filteredMovies = new ArrayList<Movie>();
+
+		Movie currentMovie;
+		int length;
+		
+		for (int i = 0; i < movies.size(); i++) {
+			currentMovie = movies.get(i);
+			length = currentMovie.getLength();
+			
+			if(length >= minLength && length <= maxLength){
+				filteredMovies.add(currentMovie);
+			}
+			
+		}
 		
 		return new MovieCollection(filteredMovies);
 	}
 	
+	/**
+	 * Returns a new MovieCollection created from movies in movies that
+	 * have a length smaller than or equal to maxLength.
+	 * 
+	 * @param maxLength The upper bound for the range of length
+	 * @return A new movieCollection that only contains movies with length <= maxLength
+	 */
+	public MovieCollection filterByMaxLength(int maxLength){
+		ArrayList<Movie> filteredMovies = new ArrayList<Movie>();
+
+		Movie currentMovie;
+		int length;
+
+		for (int i = 0; i < movies.size(); i++) {
+			currentMovie = movies.get(i);
+			length = currentMovie.getLength();
+			
+			if(length <= maxLength){
+				filteredMovies.add(currentMovie);
+			}	
+		}
+		return new MovieCollection(filteredMovies);
+	}
+	public MovieCollection filterByMinLength(int minLength){
+		ArrayList<Movie> filteredMovies = new ArrayList<Movie>();
+
+		Movie currentMovie;
+		int length;
+
+		for (int i = 0; i < movies.size(); i++) {
+			currentMovie = movies.get(i);
+			length = currentMovie.getLength();
+			
+			if(length >= minLength){
+				filteredMovies.add(currentMovie);
+			}	
+		}
+		return new MovieCollection(filteredMovies);
+	}
+
 	/**
 	 * @deprecated
 	 * @return
