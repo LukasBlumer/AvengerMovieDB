@@ -18,7 +18,7 @@ public class Movie implements Serializable {
 	private String[] genres;
 	private String[] languages;
 	private String[] countries;
-	private int length;
+	private float length;
 
 	/**
 	 * Creates an empty Movie object. 
@@ -41,7 +41,7 @@ public class Movie implements Serializable {
 	 * @pre true
 	 * @post Created object has values specified by the parameters
 	 */
-	public Movie(String name, int length, int releaseDate, String[] genres, String[] languages, String[] countries){
+	public Movie(String name, float length, int releaseDate, String[] genres, String[] languages, String[] countries){
 		this.releaseDate = releaseDate;
 		this.name = name;
 		this.length = length;
@@ -113,7 +113,7 @@ public class Movie implements Serializable {
 	 * @post return value == this.length
 	 * @return The length of this Movie.
 	 */
-	public int getLength(){
+	public float getLength(){
 		return length;
 	}
 

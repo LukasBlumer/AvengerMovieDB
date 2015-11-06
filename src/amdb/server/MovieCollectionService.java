@@ -5,12 +5,16 @@ import com.google.gwt.sample.moviebase.client.ParserInterface;*/
 
 package amdb.server;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
 import amdb.client.MovieCollectionServiceInterface;
 import amdb.shared.MovieCollection;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -28,7 +32,7 @@ public class MovieCollectionService extends RemoteServiceServlet implements Movi
 	 * Holds the parsed MovieCollection if getMovieCollection has already been called once.
 	 */
 	private static MovieCollection movieCollection;
-	
+
 	/**
 	 * If movieCollection has not yet been set, this method parses the source file for the database and saves the result in movieCollection.
 	 * 
@@ -36,14 +40,21 @@ public class MovieCollectionService extends RemoteServiceServlet implements Movi
 	 * @return the parsed {@link MovieCollection}.
 	 */
 	public MovieCollection getMovieCollection() {
-		if(movieCollection == null) { 
-			InputStream fileStream = getServletContext().getResourceAsStream("/WEB-INF/movies.tsv");
+
+		if(movieCollection == null) {
+			InputStream fileStream;
 			try {
-				movieCollection = Parser.parse(fileStream);
-			} catch (IOException e) {
-				e.printStackTrace();
-				System.err.println("Failed to parse file");
-				throw new RuntimeException(e);
+				fileStream = new FileInputStream(new File("WEB-INF/movies.tsv"));
+
+				try {
+					movieCollection = Parser.parse(fileStream);
+				} catch (IOException e) {
+					e.printStackTrace();
+					System.err.println("Failed to parse file");
+					throw new RuntimeException(e);
+				}
+			}catch (FileNotFoundException e1) {
+				Window.alert("Loading failed");
 			}
 		}
 		return movieCollection;

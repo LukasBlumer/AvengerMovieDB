@@ -71,12 +71,12 @@ public class Parser {
 
 			// set name
 			name = lineArray[2];
-			
+
 			// set length
-			if(lineArray[5] != null){
+			if(!lineArray[5].isEmpty()){
 				length = (int) Float.parseFloat(lineArray[5]);
 			}
-			
+
 			// set releaseDate
 			if (lineArray[3] != null && lineArray[3].length() >= 4) {
 				releaseDate = Integer.parseInt(lineArray[3].substring(0, 4));
@@ -108,8 +108,9 @@ public class Parser {
 
 			resultArray.add(new Movie(name, length, releaseDate, genres, languages,
 					countries));
+
 		}
-		
+
 		br.close();
 		return new MovieCollection(resultArray);
 	}

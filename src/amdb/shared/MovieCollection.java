@@ -22,6 +22,7 @@ public class MovieCollection implements Serializable {
 	 * @see Movie
 	 */
 	private ArrayList<Movie> movies; 
+	private int minYear= 0, maxYear;
 
 
 	/**
@@ -38,17 +39,20 @@ public class MovieCollection implements Serializable {
 
 	/**
 	 * Creates a MovieCollection from an existing ArrayList<Movie>.
+	 * Calculates minYear and maxYear.
 	 * 
 	 * @param movies which contains the movies a new MovieCollection should be created from.
 	 * @pre true
-	 * @post this.movies == movies
+	 * @post this.movies == movies && minYear = smallest value for releaseDate larger than -1 && maxYear = largest value for releaseDate
 	 */
 	public MovieCollection(ArrayList<Movie> movies){
 		this.movies = movies;
+		setMinMaxYear();
 	}
 
 	/**
 	 * Adds a movie to the collection of Movies.
+	 * Updates minYear and maxYear.
 	 * 
 	 * @param movie
 	 * @pre this.movies != null
@@ -56,6 +60,8 @@ public class MovieCollection implements Serializable {
 	 */
 	public void addMovie(Movie movie){
 		movies.add(movie);
+		isNewMaxYear(movie.getReleaseDate());
+		isNewMaxYear(movie.getReleaseDate());
 	}
 
 	/**
@@ -191,7 +197,7 @@ public class MovieCollection implements Serializable {
 		ArrayList<Movie> filteredMovies = new ArrayList<Movie>();
 
 		Movie currentMovie;
-		int length;
+		float length;
 		
 		for (int i = 0; i < movies.size(); i++) {
 			currentMovie = movies.get(i);
@@ -211,13 +217,15 @@ public class MovieCollection implements Serializable {
 	 * have a length smaller than or equal to maxLength.
 	 * 
 	 * @param maxLength The upper bound for the range of length
+	 * @pre this.movies != null
+	 * @post there are no movies in the returned collection with length larger than maxLength
 	 * @return A new movieCollection that only contains movies with length <= maxLength
 	 */
 	public MovieCollection filterByMaxLength(int maxLength){
 		ArrayList<Movie> filteredMovies = new ArrayList<Movie>();
 
 		Movie currentMovie;
-		int length;
+		float length;
 
 		for (int i = 0; i < movies.size(); i++) {
 			currentMovie = movies.get(i);
@@ -229,11 +237,21 @@ public class MovieCollection implements Serializable {
 		}
 		return new MovieCollection(filteredMovies);
 	}
+	
+	/**
+	 * Returns a new MovieCollection created from movies in movies that
+	 * have a length larger than or equal to minLength.
+	 * 
+	 * @param minLength The lower bound for the range of length
+	 * @pre this.movies != null
+	 * @post there are no movies in the returned collection with length smaller than minLength
+	 * @return A new movieCollection that only contains movies with length >= minLength
+	 */
 	public MovieCollection filterByMinLength(int minLength){
 		ArrayList<Movie> filteredMovies = new ArrayList<Movie>();
 
 		Movie currentMovie;
-		int length;
+		float length;
 
 		for (int i = 0; i < movies.size(); i++) {
 			currentMovie = movies.get(i);
@@ -245,20 +263,64 @@ public class MovieCollection implements Serializable {
 		}
 		return new MovieCollection(filteredMovies);
 	}
+	
+	/**
+	 * Traverses movies and finds the smallest value for year larger than -1 and sets it as minYear,
+	 * and finds the largest value for year and sets it as maxYear.
+	 */
+	private void setMinMaxYear(){
+		int year;
+		for (int i = 0; i < movies.size(); i++) {
+			year = movies.get(i).getReleaseDate();
+			isNewMinYear(year);
+			isNewMaxYear(year);
+		}
+	}
+	
+	/**
+	 * Computes whether year is smaller than minYear but larger than -1.
+	 * 
+	 * @param year The value to be compared
+	 * @return True if year < minYear && year > -1 False otherwise
+	 */
+	private boolean isNewMinYear(int year){
+		if(year < minYear && year > -1){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Computes whether year is smaller than minYear but larger than -1.
+	 * 
+	 * @param year The value to be compared
+	 * @return True if year < minYear && year > -1 False otherwise
+	 */
+	private boolean isNewMaxYear(int year){
+		if(year > maxYear){
+			return true;
+		}
+		return false;
+	}
 
 	/**
-	 * @deprecated
-	 * @return
+	 * Return minYear.
+	 * 
+	 * @pre movies != null
+	 * @post returned value == minYear
+	 * @return The value minYear.
 	 */
 	public int getMinYear(){
-		return 0;
+		return minYear;
 	}
 	/**
-	 * @deprecated
-	 * @return
+	 * Return maxYear.
+	 * @pre 
+	 * @post
+	 * @return The value maxYear.
 	 */
 	public int getMaxYear(){
-		return 10000;
+		return maxYear;
 	}
 
 }
