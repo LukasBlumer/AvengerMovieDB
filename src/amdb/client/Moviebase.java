@@ -141,11 +141,11 @@ public class Moviebase implements EntryPoint {
 		/*******************************************************************/
 
 		//Defines the Panel for Menu Sidebar
-		slp.add(filterTree, new HTML("Filter Options"), 10);
-	    slp.add(worldmapTree, new HTML("Worldmap View"), 10);
-	    slp.add(new HTML("Table view"), new HTML("Table View"), 10);
-	    slp.add(new HTML("Pie Chart Button"), new HTML("Pie Chart View"), 10);
-	    slp.add(new HTML("Bar Diagram button"), new HTML("Bar Diagram View"), 10);
+		slp.add(filterTree, new HTML("Filter Options"), 5);
+	    slp.add(worldmapTree, new HTML("Worldmap View"), 5);
+	    slp.add(new HTML("Table view"), new HTML("Table View"), 5);
+	    slp.add(new HTML("Pie Chart Button"), new HTML("Pie Chart View"), 5);
+	    slp.add(new HTML("Bar Diagram button"), new HTML("Bar Diagram View"), 5);
 	    slp.getHeaderWidget(filterTree).addStyleName("filteroptionsheader");
 	    slp.setStyleName("sidebar",false);
 	    
