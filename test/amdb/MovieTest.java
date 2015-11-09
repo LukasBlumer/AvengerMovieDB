@@ -11,15 +11,27 @@ public class MovieTest {
 	@Test
 	public void testConstructor() {
 		// simple movie
-		m1 = new Movie("Retrospection",170, 1968, new String[]{"Science Fiction"}, new String[]{"English"}, new String[]{"United States"});
+		String name1 = "Retrospection";
+		int length1 = 170;
+		int releaseDate1 = 1968;
+		String[] genres1 = new String[]{"Science Fiction"};
+		String[] languages1 = new String[]{"English"};
+		String[] countries1 = new String[]{"United States"};
+		
+		m1 = new Movie(name1,length1, releaseDate1, genres1, languages1, countries1);
 		// more than one elements in countries, genres, languages
-		m2 = new Movie("The doctor",210, 2011, new String[]{"Documentary", "Family"}, new String[]{"English", "Spanish"}, new String[]{"United States", "Mexico", "Italy"});
-		// invalid release date
-		m3 = new Movie("The time machinist",87, 1399, new String[]{"Period"}, new String[]{"Osmanic empire"}, new String[]{"Turkish"});
+		
+		String name2 ="The doctor";
+		int length2 = 210;
+		int releaseDate2 = 2011;
+		String[] genres2 = new String[]{"Documentary", "Family"};
+		String[] languages2 = new String[]{"English", "Spanish"};
+		String[] countries2 = new String[]{"United States", "Mexico", "Italy"};
+			
+		m2 = new Movie(name2, length2, releaseDate2, genres2, languages2, countries2);
 		
 		assertNotEquals(null, m1);
 		assertNotEquals(null, m2);
-		assertNotEquals(null, m3);
 	}
 
 	@Test
@@ -59,8 +71,8 @@ public class MovieTest {
 	
 	@Test
 	public void testGetLength(){
-		int testLength = 210;
+		float testLength = 210;
 		m2 = new Movie("The doctor",210, 2011, new String[]{"Documentary", "Family"}, new String[]{"English", "Spanish"}, new String[]{"United States", "Mexico", "Italy"});
-		assertEquals(testLength, m2.getLength());
+		assertEquals(testLength, m2.getLength(), 0);
 	}
 }

@@ -107,7 +107,7 @@ public class Movie implements Serializable {
 	}
 
 	/**
-	 * Returns the length of the Movie as an int.
+	 * Returns the length of the Movie as a float.
 	 * 
 	 * @pre true
 	 * @post return value == this.length

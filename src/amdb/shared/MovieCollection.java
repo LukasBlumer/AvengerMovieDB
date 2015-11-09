@@ -22,7 +22,7 @@ public class MovieCollection implements Serializable {
 	 * @see Movie
 	 */
 	private ArrayList<Movie> movies; 
-	private int minYear= 0, maxYear;
+	private int minYear= Integer.MAX_VALUE, maxYear = Integer.MIN_VALUE;
 
 
 	/**
@@ -60,8 +60,12 @@ public class MovieCollection implements Serializable {
 	 */
 	public void addMovie(Movie movie){
 		movies.add(movie);
-		isNewMaxYear(movie.getReleaseDate());
-		isNewMaxYear(movie.getReleaseDate());
+		if(isNewMaxYear(movie.getReleaseDate())){
+			maxYear = movie.getReleaseDate();
+		}
+		if(isNewMinYear(movie.getReleaseDate())){
+			minYear = movie.getReleaseDate();
+		}
 	}
 
 	/**
@@ -193,7 +197,7 @@ public class MovieCollection implements Serializable {
 	 * @param maxLength The upper bound for the range of length
 	 * @return A new movieCollection that only contains movies with minLength <= length <= maxLength
 	 */
-	public MovieCollection filterByLength(int minLength, int maxLength){
+	public MovieCollection filterByLengthRange(int minLength, int maxLength){
 		ArrayList<Movie> filteredMovies = new ArrayList<Movie>();
 
 		Movie currentMovie;

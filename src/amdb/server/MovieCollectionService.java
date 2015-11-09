@@ -44,7 +44,7 @@ public class MovieCollectionService extends RemoteServiceServlet implements Movi
 		if(movieCollection == null) {
 			InputStream fileStream;
 			try {
-				fileStream = new FileInputStream(new File("WEB-INF/movies.tsv"));
+				fileStream = new FileInputStream(new File("WEB-INF/movies_40000.tsv"));
 
 				try {
 					movieCollection = Parser.parse(fileStream);
