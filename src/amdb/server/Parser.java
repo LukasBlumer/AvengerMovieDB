@@ -37,7 +37,7 @@ public class Parser {
 	 */
 	public static MovieCollection parse(InputStream in) throws IOException {
 
-		BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
 
 		ArrayList<Movie> resultArray = new ArrayList<Movie>();
 
@@ -45,8 +45,6 @@ public class Parser {
 
 		// variable for each value of the Movie class
 		String name;
-		int releaseDate = -1;
-		int length = -1;
 		ArrayList<String> intermediateResult = new ArrayList<String>();
 		String[] genres;
 		String[] languages;
@@ -61,6 +59,8 @@ public class Parser {
 
 		String line;
 		while ((line = br.readLine()) != null) {
+			int releaseDate = -1;
+			int length = -1;
 
 			// split the line by the tabs.
 			lineArray = line.split("\\t", 9);
