@@ -51,7 +51,7 @@ public class Map {
 
 		geoChartColorAxis.setColors(colorAxisHelper);
 		// values higher than MaxValue are displayed in the darkest color. The gradient stops at this value
-		geoChartColorAxis.setMaxValue(33500);
+//		geoChartColorAxis.setMaxValue(33500);
 		// options.hideLegend();
 		
 		options.setColorAxis(geoChartColorAxis);

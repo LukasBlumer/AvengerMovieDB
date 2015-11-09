@@ -49,7 +49,9 @@ public class Parser {
 		String[] genres;
 		String[] languages;
 		String[] countries;
-
+		int releaseDate = -1;
+		int length = -1;
+		
 		// Pattern to match all the expressions of the form {"someTag":
 		// "actualValue", "someTag": "actualValue" ...}
 		// the actualValue is always at the index [1] of the returned array
@@ -59,8 +61,8 @@ public class Parser {
 
 		String line;
 		while ((line = br.readLine()) != null) {
-			int releaseDate = -1;
-			int length = -1;
+			releaseDate = -1;
+			length = -1;
 
 			// split the line by the tabs.
 			lineArray = line.split("\\t", 9);
