@@ -3,46 +3,47 @@ package amdb.client;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.Window;
 import com.googlecode.gwt.charts.client.DataTable;
-import com.googlecode.gwt.charts.client.corechart.PieChart;
-import com.googlecode.gwt.charts.client.corechart.PieChartOptions;
+import com.googlecode.gwt.charts.client.corechart.ColumnChart;
+import com.googlecode.gwt.charts.client.corechart.ColumnChartOptions;
 import com.googlecode.gwt.charts.client.event.SelectEvent;
 import com.googlecode.gwt.charts.client.event.SelectHandler;
+import com.googlecode.gwt.charts.client.options.HAxis;
+import com.googlecode.gwt.charts.client.options.VAxis;
 
 import amdb.shared.MovieCollection;
 import amdb.shared.MovieCollectionConverter;
 
-public class PieChartComponent {
+public class ColumnChartComponent {
 	
-	public static void drawPieChart(PieChart pieChart, MovieCollection collection) {
+	public static void drawColumnChart(ColumnChart columnChart, MovieCollection collection) {
 		
 		// Conversion of MovieCollection to DataTable
 		GWT.log("creating dataTable for piechart.");
 		DataTable dataTable = MovieCollectionConverter.toDataTableCountryAmount(collection);
 		GWT.log("creating dataTable for piechart finished.");
-		
+
 		// onClick event listener (might go into another file)
-		pieChart.addSelectHandler(new SelectHandler() {
+		columnChart.addSelectHandler(new SelectHandler() {
 			public void onSelect(SelectEvent select) {
 				// addFilter();
 				GWT.log(select.NAME);
 				GWT.log(select.getProperties().toString());
-				Window.alert("You clicked on a slice");
+				Window.alert("You clicked on a column");
 			}
 		});
 		
-		GWT.log("drawing piechart.");
+		GWT.log("drawing columnchart.");
 
-		// Customising piechart appearance
-		PieChartOptions options = PieChartOptions.create();
-		options.setBackgroundColor("#f0f0f0");
-		options.setPieResidueSliceColor("#000000");
-		options.setPieResidueSliceLabel("Others");
-		options.setSliceVisibilityThreshold(0.1);
-		options.setTitle("This is the breakdown");
-
+		// Customising column chart appearance
+		ColumnChartOptions options = ColumnChartOptions.create();
+		options.setTitle("Here's the stuff");
+		options.setHAxis(HAxis.create("Year"));
+		options.setVAxis(VAxis.create("Movies"));
+		
+		
 		// Actually draw the chart.
-		pieChart.draw(dataTable, options);
-		GWT.log("drawing piechart finished.");
+		columnChart.draw(dataTable, options);
+		GWT.log("drawing columnchart finished.");
 	}
 
 }

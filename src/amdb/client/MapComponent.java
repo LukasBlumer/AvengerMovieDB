@@ -1,8 +1,5 @@
 package amdb.client;
 
-import amdb.shared.MovieCollection;
-import amdb.shared.MovieCollectionConverter;
-
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.Window;
@@ -14,6 +11,9 @@ import com.googlecode.gwt.charts.client.geochart.GeoChart;
 import com.googlecode.gwt.charts.client.geochart.GeoChartColorAxis;
 import com.googlecode.gwt.charts.client.geochart.GeoChartOptions;
 import com.googlecode.gwt.charts.client.geochart.MagnifyingGlass;
+
+import amdb.shared.MovieCollection;
+import amdb.shared.MovieCollectionConverter;
 
 public class MapComponent {
 	/*
