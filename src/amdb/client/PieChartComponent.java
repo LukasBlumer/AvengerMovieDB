@@ -13,6 +13,13 @@ import amdb.shared.MovieCollectionConverter;
 
 public class PieChartComponent {
 	
+	/*
+	 * The pie chart displays the total movie count on a per-country basis.
+	 * This is limited by time frame selection in the timeline.
+	 * It displays the x countries with the most movies in that timeframe and summarises all remaining into a "others" slice.
+	 * Clicking on a slice applies the filter for the selected country to the collection and switches to table view.
+	 * What happens if the user clicks on the "others" slice?
+	 */
 	public static void drawPieChart(PieChart pieChart, MovieCollection collection) {
 		
 		// Conversion of MovieCollection to DataTable

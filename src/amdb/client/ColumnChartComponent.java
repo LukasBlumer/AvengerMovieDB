@@ -15,6 +15,13 @@ import amdb.shared.MovieCollectionConverter;
 
 public class ColumnChartComponent {
 	
+	/*
+	 * The way this is supposed to work is that it displays movies on the y axis and years on the x axis.
+	 * Countries are displayed as the columns.
+	 * The user can select a number of countries to display (to be implemented) - there should probably also be a max number of selectable countries.
+	 * Default should probably be the x countries with the most movies registered.
+	 * When the user clicks on a column, ideally, it should add a filter for only that country and show the table.
+	 */
 	public static void drawColumnChart(ColumnChart columnChart, MovieCollection collection) {
 		
 		// Conversion of MovieCollection to DataTable
