@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.googlecode.gwt.charts.client.ChartLoader;
 import com.googlecode.gwt.charts.client.ChartPackage;
 import com.googlecode.gwt.charts.client.geochart.GeoChart;
+import com.googlecode.gwt.charts.client.table.Table;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -48,6 +49,7 @@ public class Moviebase implements EntryPoint {
 	private Tree worldmapTree = new Tree();
 	private MovieCollection dataBase; // should not be changed
 	private GeoChart worldmap;
+	private Table movieTable;
 
 	private final MovieCollectionServiceInterfaceAsync movieCollectionService = GWT.create(MovieCollectionServiceInterface.class);
 	
@@ -192,6 +194,22 @@ public class Moviebase implements EntryPoint {
 			}
 		});	
 		/*******************************************************************/
+		/*
+		 * @author selinfabel
+		 * 
+		 * to execute this mehod, comment map-codesection above and change line in onSuccess from map to table 
+		 */
+		 //create table and put it into the central panel
+//		ChartLoader tableLoader = new ChartLoader(ChartPackage.TABLE);
+//		tableLoader.loadApi(new Runnable() {
+//			@Override
+//			public void run() {
+//				movieTable = new Table();
+//				p.add(movieTable);
+//				TableComponent.draw(movieTable, dataBase);
+//			}
+//		});
+		/**********************************************************************/
 	}
 
 	/**
@@ -208,6 +226,7 @@ public class Moviebase implements EntryPoint {
 				GWT.log("fetched "+result.getMovies().size()+" movies");
 				dataBase = result;
 				MapComponent.drawMap(worldmap, dataBase);
+//				TableComponent.draw(movieTable, dataBase);
 			}
 
 			@Override
@@ -220,3 +239,4 @@ public class Moviebase implements EntryPoint {
 	}
 
 }
+

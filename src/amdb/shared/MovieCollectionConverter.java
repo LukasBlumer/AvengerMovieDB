@@ -54,6 +54,66 @@ public class MovieCollectionConverter {
 	}
 	
 	/**
+	 * Convert <tt>MovieCollection</tt> collection to a <tt>DataTable</tt> with the columns "Name", "Erscheinungsjahr",
+	 * "Filmdauer", "Genre", "Sprache" and "Land".
+	 * For each entry of the collection such a row will be created. 
+	 * 
+	 * @param collection The <tt>MovieCollection</tt> that will be converted.
+	 * @return collection as a <tt>DataTable</tt>
+	 */
+	
+	public static DataTable toDataTableForTableComponent(MovieCollection collection){
+		
+		DataTable dataTable = DataTable.create();
+		
+		dataTable.addColumn(ColumnType.STRING, "Name");
+		dataTable.addColumn(ColumnType.NUMBER, "Erscheinungsjahr");
+		dataTable.addColumn(ColumnType.NUMBER, "Filmdauer");
+		dataTable.addColumn(ColumnType.STRING, "Genre");
+		dataTable.addColumn(ColumnType.STRING, "Sprache");
+		dataTable.addColumn(ColumnType.STRING, "Land");
+		dataTable.addRows(100);
+		
+		// fill in the data in each row
+		for(int i=0; i<100; i++){
+			dataTable.setCell(i, 0, collection.getMovies().get(i).getName());
+			
+			if(collection.getMovies().get(i).getReleaseDate() == -1){
+				dataTable.setCell(i, 1, -1, "unknown");		}
+			else {
+			dataTable.setCell(i, 1, collection.getMovies().get(i).getReleaseDate());	}
+			
+			if(collection.getMovies().get(i).getLength() == -1){
+				dataTable.setCell(i, 2, -1, "unknown"); }
+			else {
+			dataTable.setCell(i, 2, collection.getMovies().get(i).getLength());	}
+
+			String[] gen = collection.getMovies().get(i).getGenres();
+			String g = gen[0];
+			for(int j=1; j< gen.length; j++){
+					g = g + ", " + gen[j];
+				}
+
+			dataTable.setCell(i, 3, g);
+			
+			String[] lan = collection.getMovies().get(i).getLanguages();
+			String l = lan[0];
+			for(int j=1; j< lan.length; j++){
+					l = l + ", " + lan[j];
+				}
+			dataTable.setCell(i, 4, l);
+			
+			String[] arr = collection.getMovies().get(i).getCountries();
+			String c = arr[0];
+			for(int j=1; j< arr.length; j++){
+					c = c + ", " + arr[j];
+				}
+				dataTable.setCell(i, 5, c); 
+		}
+		return dataTable;
+	}
+	
+	/**
 	 * Creates a hash map where the key is the name of a country occurring in movies 
 	 * and the corresponding value is the number of Movie in movies that contain the country in their list of countries.
 	 * 
