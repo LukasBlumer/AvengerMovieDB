@@ -79,9 +79,10 @@ public class Moviebase implements EntryPoint {
 	    MovieCollection movieCollection = new MovieCollection();
 	    int startYear = movieCollection.getMinYear();
 	    int endYear = movieCollection.getMaxYear();
-	    for(int i = startYear ; i <= endYear ; i++){
-	    	sortListBox.addItem(Integer.toString(i));
-	    }
+	    sortListBox.addItem(new String(Integer.toString(startYear)));
+	   /* for(int i = startYear ; i <= endYear ; i++){
+	    	sortListBox.addItem(new String(Integer.toString(i)));
+	    }*/
 	    sortListBox.setVisibleItemCount(1);
 	    filterTree.add(sortListBox);
 
