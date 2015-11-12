@@ -188,7 +188,7 @@ public class Moviebase implements EntryPoint {
 				worldmap = new GeoChart();
 				// attatch it to the approriate panel
 				p.add(worldmap);
-				Map.drawMap(worldmap, dataBase);
+				MapComponent.drawMap(worldmap, dataBase);
 			}
 		});	
 		/*******************************************************************/
@@ -207,7 +207,7 @@ public class Moviebase implements EntryPoint {
 			public void onSuccess(MovieCollection result){
 				GWT.log("fetched "+result.getMovies().size()+" movies");
 				dataBase = result;
-				Map.drawMap(worldmap, dataBase);
+				MapComponent.drawMap(worldmap, dataBase);
 			}
 
 			@Override
