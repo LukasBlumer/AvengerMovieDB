@@ -28,6 +28,8 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.googlecode.gwt.charts.client.ChartLoader;
 import com.googlecode.gwt.charts.client.ChartPackage;
+import com.googlecode.gwt.charts.client.corechart.ColumnChart;
+import com.googlecode.gwt.charts.client.corechart.PieChart;
 import com.googlecode.gwt.charts.client.geochart.GeoChart;
 import com.googlecode.gwt.charts.client.table.Table;
 
@@ -36,105 +38,155 @@ import com.googlecode.gwt.charts.client.table.Table;
  */
 public class Moviebase implements EntryPoint {
 
-	final StackLayoutPanel slp = new StackLayoutPanel(Unit.EM);
-	final StackLayoutPanel slp2 = new StackLayoutPanel(Unit.EM);
+	final DockLayoutPanel dockLayoutPanel = new DockLayoutPanel(Unit.EM);
+	final MenuBar headerMenu = new MenuBar();
+	final StackLayoutPanel splitLayoutPanel = new StackLayoutPanel(Unit.EM);
+	final StackLayoutPanel splitLayoutPanel2 = new StackLayoutPanel(Unit.EM);
 	private PushButton export = new PushButton("Export this view");
-	private Button home = new Button("Home");
-	private Button Database = new Button("Database");
-	private Button About = new Button("About");
-	private HorizontalPanel headerPanel = new HorizontalPanel();
-	private HorizontalPanel southPanel = new HorizontalPanel();
-	private VerticalPanel verticalPanel	= new VerticalPanel();
-	private Tree filterTree = new Tree();
-	private Tree worldmapTree = new Tree();
+	private PushButton acceptForMap = new PushButton("Accept this choice for Map");
+	private PushButton acceptForPieChart = new PushButton("Accept this choice for Pie Chart");
+	private PushButton acceptForTableChart = new PushButton("Accept this choice for Table Chart");
+	private PushButton acceptForBarDiagram = new PushButton("Accept this choice for Bar Diagram");
+	private PushButton delete = new PushButton("Delete the chosen filter");
+	private Tree filterTreeForMap = new Tree();
 	private MovieCollection dataBase; // should not be changed
 	private GeoChart worldmap;
 	private Table movieTable;
-
+	private PieChart pieChart;
+	private ColumnChart columnChart;
+	private ListBox listBoxForCountries;
+	private ListBox listBoxForLanguages;
+	private String[] countries;
+	private String[] languages;
 	private final MovieCollectionServiceInterfaceAsync movieCollectionService = GWT.create(MovieCollectionServiceInterface.class);
 	
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-
-		/*******************************************************************/
-
-		//Builds the Tree for the Global Sort Options part
-		TreeItem sort1 = new TreeItem(new CheckBox("Nach Jahr filtern"));
-		TreeItem sort2 = new TreeItem(new CheckBox("Nach Land filtern"));
-		TreeItem sort3 = new TreeItem(new CheckBox("Nach Sprache filtern"));
-		TreeItem exportButtonSort = new TreeItem(new PushButton("Export this view"));
-
-		filterTree.addItem(sort1);
-		filterTree.addItem(sort2);
-		filterTree.addItem(sort3);
-
-		filterTree.addItem(exportButtonSort);
+		countries = new String[270];
+		String [] countries = {"Argentina","Brazil","Canada","Denmark","France","German Democratic Republic","Germany",
+				"Hong Kong","India","Italy","Japan","Mexico","Netherlands","New Zealand","Norway","South Africa",
+				"Soviet Union","Switzerland","Turkey","United Kingdom","United States of America"};
 		
-		sort1.setStyleName("sort1",false);
-		sort2.setStyleName("sort2",false);
-		sort3.setStyleName("sort3",false);
+		languages = new String[100];
+		String [] languages = {"Afrikaans Language","Cantonese","Danish Language","Dutch Language","Englisch Language",
+				"German Language","Hindi Language","Italian Language","Japanese Language","Malayalam Language",
+				"Norwegian Language","Portugese Language","Russian Language","Silent film","Spanish Language",
+				"Standard Cantonese","Standard Mandarin","Tamil Language","Turkish Language"};
+		/*******************************************************************/
+		//Builds the Tree for the Global Sort Options part
+		
+		//Fill the two listBoxes for the sidebar
+		listBoxForCountries = new ListBox();
+		for(int i = 0; i < countries.length; i++){
+			listBoxForCountries.addItem(countries[i]);
+		}
+		listBoxForLanguages = new ListBox();
+		for(int i = 0; i < languages.length; i++){
+			listBoxForLanguages.addItem(languages[i]);
+		}
+		
+		//Build filterTree for country sorting
+		TreeItem countrySort = new TreeItem();
+		countrySort.setText("Filter By Country");
+		countrySort.addItem(listBoxForCountries);
+		countrySort.addItem(acceptForMap);
+		countrySort.addItem(acceptForPieChart);
+		countrySort.addItem(acceptForTableChart);
+		countrySort.addItem(acceptForBarDiagram);
+		
+		//Build filterTree for language sorting
+		TreeItem languageSort = new TreeItem();
+		languageSort.setText("Filter By Language");
+		languageSort.addItem(listBoxForLanguages);
+		
+		TreeItem exportButtonSort = new TreeItem(new PushButton("Export this view"));
+		
+		//Add everything to the rootTree
+		filterTreeForMap.addItem(countrySort);
+		filterTreeForMap.addItem(languageSort);
+		filterTreeForMap.add(delete);
+		filterTreeForMap.addItem(exportButtonSort);
+		
+		countrySort.setStyleName("sort2",false);
+		languageSort.setStyleName("sort3",false);
 		exportButtonSort.setStyleName("exportButtonSort",false);
 		
-		ListBox sortListBox = new ListBox();
-	    MovieCollection movieCollection = new MovieCollection();
-	    int startYear = movieCollection.getMinYear();
-	    int endYear = movieCollection.getMaxYear();
-	    sortListBox.addItem(new String(Integer.toString(startYear)));
-	   /* for(int i = startYear ; i <= endYear ; i++){
-	    	sortListBox.addItem(new String(Integer.toString(i)));
-	    }*/
-	    sortListBox.setVisibleItemCount(1);
-	    filterTree.add(sortListBox);
-
-		/*******************************************************************/
-
-		//Builds the Tree for the Worldmap Sort Options part
-	    TreeItem wmsort1 = new TreeItem(new CheckBox("Nach Jahr filtern"));
-		TreeItem wmsort2 = new TreeItem(new CheckBox("Nach Land filtern"));
-		TreeItem wmsort3 = new TreeItem(new CheckBox("Nach Sprache filtern"));
-		TreeItem wmExportButton = new TreeItem(new PushButton("Export this view"));
-
-		worldmapTree.addItem(wmsort1);
-		worldmapTree.addItem(wmsort2);
-		worldmapTree.addItem(wmsort3);
-
-		worldmapTree.addItem(wmExportButton);
+		//All clickevents for the buttons in the sidebar
+		acceptForMap.addClickHandler(new ClickHandler(){
+	    	public void onClick(ClickEvent event) {
+	    		changeVisibleCountriesForMap(dockLayoutPanel, listBoxForCountries.getSelectedItemText());
+	    	}
+	    });
 		
-		wmsort1.setStyleName("wmsort1",false);
-		wmsort2.setStyleName("wmsort2",false);
-		wmsort3.setStyleName("wmsort3",false);
-		wmExportButton.setStyleName("wmExportButton", false);
+		acceptForPieChart.addClickHandler(new ClickHandler(){
+	    	public void onClick(ClickEvent event) {
+	    		changeVisibleCountriesForPieChart(dockLayoutPanel, listBoxForCountries.getSelectedItemText());
+	    	}
+	    });
 		
+		acceptForTableChart.addClickHandler(new ClickHandler(){
+	    	public void onClick(ClickEvent event) {
+	    		changeVisibleCountriesForTable(dockLayoutPanel, listBoxForCountries.getSelectedItemText());
+	    	}
+	    });
+		
+		acceptForBarDiagram.addClickHandler(new ClickHandler(){
+	    	public void onClick(ClickEvent event) {
+	    		changeVisibleCountriesForBarDiagram(dockLayoutPanel, listBoxForCountries.getSelectedItemText());
+	    	}
+	    });
+		
+		delete.addClickHandler(new ClickHandler(){
+	    	public void onClick(ClickEvent event) {
+	    		deleteFilter(dockLayoutPanel,worldmap,pieChart,movieTable,columnChart);
+	    	}
+	    });
 		
 		/*******************************************************************/
-
-		//Build up the HeaderPanel
-		//headerPanel.add(minimize);
-		//headerPanel.add(maximize);
-		headerPanel.add(home);
-		headerPanel.add(Database);
-		headerPanel.add(About);
-		headerPanel.add(export);
-
-		/*******************************************************************/
-
-		Command cmd = new Command() {
+		//command to change to table view
+		Command tableViewCmd = new Command() {
 			public void execute() {
-				Window.alert("You selected a menu item!");
+				setTable(dockLayoutPanel);
+			}
+		};
+		//command to change to home menu
+		Command homeMenuCmd = new Command(){
+			public void execute() {
+				setHomeMenu(dockLayoutPanel);
+			}
+		};
+		//command to change to pie chart
+		Command pieChartCmd = new Command(){
+			public void execute() {
+				setPieChart(dockLayoutPanel);
+			}
+		};
+		//command to change to bar diagram
+		Command barDiagramCmd = new Command(){
+			public void execute() {
+				setColumnChart(dockLayoutPanel);
 			}
 		};
 
 		//Menu Bar for the header and names for stylechanges
-		MenuBar headerMenu = new MenuBar();
 		MenuBar homeMenu = new MenuBar(true);
-		MenuBar databaseMenu = new MenuBar(true);
 		MenuBar aboutUsMenu	= new MenuBar(true);
+		MenuBar pieChartViewMenu = new MenuBar(true);
+		MenuBar tableViewMenu = new MenuBar(true);
+		MenuBar barDiagramViewMenu = new MenuBar(true);
 		headerMenu.addItem("Home",homeMenu);
-		headerMenu.addItem("Database",databaseMenu);
+		headerMenu.addItem("Pie Chart", pieChartViewMenu);
+		headerMenu.addItem("Table", tableViewMenu);
+		headerMenu.addItem("Bar Diagram",barDiagramViewMenu);
 		headerMenu.addItem("About Us", aboutUsMenu);
-
+		
+		//Add commands to MenuItems
+		tableViewMenu.addItem("Change to Table", tableViewCmd);
+		homeMenu.addItem("Change to Home Menu",homeMenuCmd);
+		pieChartViewMenu.addItem("Change to Pie Chart", pieChartCmd);
+		barDiagramViewMenu.addItem("Change to Bar Diagram", barDiagramCmd);
 
 		headerMenu.setStyleName("headerMenu",false);
 		headerMenu.setStyleName("homeMenu",false);
@@ -144,37 +196,21 @@ public class Moviebase implements EntryPoint {
 		/*******************************************************************/
 
 		//Defines the Panel for Menu Sidebar
-		slp.add(filterTree, new HTML("Filter Options"), 5);
-	    slp.add(worldmapTree, new HTML("Worldmap View"), 5);
-	    slp.add(new HTML("Table view"), new HTML("Table View"), 5);
-	    slp.add(new HTML("Pie Chart Button"), new HTML("Pie Chart View"), 5);
-	    slp.add(new HTML("Bar Diagram button"), new HTML("Bar Diagram View"), 5);
-	    slp.getHeaderWidget(filterTree).addStyleName("filteroptionsheader");
-	    slp.setStyleName("sidebar",false);
+		splitLayoutPanel.add(filterTreeForMap, new HTML("Filter Options"), 5);
+		splitLayoutPanel.getHeaderWidget(filterTreeForMap).addStyleName("filteroptionsheader");
+		splitLayoutPanel.setStyleName("sidebar",false);
 	    
 	    /*******************************************************************/
 		
 	    //Rootpanel where anything else is include
-		final DockLayoutPanel p = new DockLayoutPanel(Unit.EM);
-		p.addNorth(headerMenu, 3);
-		p.addSouth(new HTML("South"), 5);
-		p.addWest(slp,20);
-//        p.add(new HTML("Center")); // can't add two widgets to p	
+		dockLayoutPanel.addNorth(headerMenu, 3);
+		dockLayoutPanel.addSouth(new HTML("South"), 5);
+		dockLayoutPanel.addWest(splitLayoutPanel,20);	
 		
-	    
 	    /*******************************************************************/
-	    
-	    //builds the rootPanel where all the other widgets and panels are included
-	  /*SplitLayoutPanel sl = new SplitLayoutPanel();
-	    sl.addNorth(headerMenu, 40);
-	    sl.insertSouth(new HTML("south"), 2, null);
-	    sl.insertWest(slp, 18, null);
-	    sl.setWidgetMinSize(headerMenu, 40);
-	    sl.add(new HTML("center"));*/
 		
-		RootLayoutPanel rp = RootLayoutPanel.get();
-		//rp.add(sl);
-		rp.add(p);
+		RootLayoutPanel rootPanel = RootLayoutPanel.get();
+		rootPanel.add(dockLayoutPanel);
 		
 		/*******************************************************************/
 		// set a value for MovieCollection database if possible
@@ -189,27 +225,11 @@ public class Moviebase implements EntryPoint {
 				// Create and attach the chart
 				worldmap = new GeoChart();
 				// attatch it to the approriate panel
-				p.add(worldmap);
+				dockLayoutPanel.add(worldmap);
 				MapComponent.drawMap(worldmap, dataBase);
 			}
 		});	
 		/*******************************************************************/
-		/*
-		 * @author selinfabel
-		 * 
-		 * to execute this mehod, comment map-codesection above and change line in onSuccess from map to table 
-		 */
-		 //create table and put it into the central panel
-//		ChartLoader tableLoader = new ChartLoader(ChartPackage.TABLE);
-//		tableLoader.loadApi(new Runnable() {
-//			@Override
-//			public void run() {
-//				movieTable = new Table();
-//				p.add(movieTable);
-//				TableComponent.draw(movieTable, dataBase);
-//			}
-//		});
-		/**********************************************************************/
 	}
 
 	/**
@@ -237,6 +257,169 @@ public class Moviebase implements EntryPoint {
 
 		});
 	}
-
+	
+	//create HomeMenu, remove the current center, add HomeMenu to center
+	public void setHomeMenu(final DockLayoutPanel dockLayoutPanel){
+		ChartLoader chartLoader = new ChartLoader(ChartPackage.GEOCHART);
+		chartLoader.loadApi(new Runnable() {
+			@Override
+			public void run() {
+				worldmap = new GeoChart();
+				dockLayoutPanel.remove(3);
+				dockLayoutPanel.add(worldmap);
+				MapComponent.drawMap(worldmap, dataBase);
+			}
+		});	
+	}
+	
+	//create Table, remove the current center, add Table to center
+	public void setTable(final DockLayoutPanel dockLayoutPanel){
+		ChartLoader tableLoader = new ChartLoader(ChartPackage.TABLE);
+		tableLoader.loadApi(new Runnable() {
+			@Override
+			public void run() {
+				movieTable = new Table();
+				dockLayoutPanel.remove(3);
+				dockLayoutPanel.add(movieTable);
+				TableComponent.draw(movieTable, dataBase);
+			}
+		});
+	}
+	
+	//create Pie Chart, remove the current center, add Pie Chart to center
+	public void setPieChart(final DockLayoutPanel dockLayoutPanel){
+		ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+		chartLoader.loadApi(new Runnable() {
+			@Override
+			public void run() {
+				pieChart = new PieChart();
+				dockLayoutPanel.remove(3);
+				dockLayoutPanel.add(pieChart);
+				PieChartComponent.drawPieChart(pieChart, dataBase);
+			}
+		});	
+	}
+	
+	//create Column Chart, remove the current center, add Column Chart to center
+	public void setColumnChart(final DockLayoutPanel dockLayoutPanel){
+		ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+		chartLoader.loadApi(new Runnable() {
+			@Override
+			public void run() {
+				columnChart = new ColumnChart();
+				dockLayoutPanel.remove(3);
+				dockLayoutPanel.add(columnChart);
+				ColumnChartComponent.drawColumnChart(columnChart, dataBase);
+			}
+		});	
+	}
+	
+	//Filters the Worldmap with the selected country
+	public void changeVisibleCountriesForMap(final DockLayoutPanel dockLayoutPanel, final String country){
+		ChartLoader chartLoader = new ChartLoader(ChartPackage.GEOCHART);
+		chartLoader.loadApi(new Runnable() {
+			@Override
+			public void run() {
+				worldmap = new GeoChart();
+				dockLayoutPanel.remove(3);
+				dockLayoutPanel.add(worldmap);
+				MapComponent.drawMap(worldmap, dataBase.filterByCountry(country));
+			}
+		});	
+	}
+	
+	//Filters the Pie Chart View with the selected country
+	public void changeVisibleCountriesForPieChart(final DockLayoutPanel dockLayoutPanel, final String country){
+		ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+		chartLoader.loadApi(new Runnable() {
+			@Override
+			public void run() {
+				pieChart = new PieChart();
+				dockLayoutPanel.remove(3);
+				dockLayoutPanel.add(pieChart);
+				PieChartComponent.drawPieChart(pieChart, dataBase.filterByCountry(country));
+			}
+		});	
+	}
+	
+	//Filters the Table View with the selected country
+	public void changeVisibleCountriesForTable(final DockLayoutPanel dockLayoutPanel, final String country){
+		ChartLoader tableLoader = new ChartLoader(ChartPackage.TABLE);
+		tableLoader.loadApi(new Runnable() {
+			@Override
+			public void run() {
+				movieTable = new Table();
+				dockLayoutPanel.remove(3);
+				dockLayoutPanel.add(movieTable);
+				TableComponent.draw(movieTable, dataBase.filterByCountry(country));
+			}
+		});	
+	}
+	
+	//Filters the Bar Diagram View with the selected country
+	public void changeVisibleCountriesForBarDiagram(final DockLayoutPanel dockLayoutPanel, final String country){
+		ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+		chartLoader.loadApi(new Runnable() {
+			@Override
+			public void run() {
+				columnChart = new ColumnChart();
+				dockLayoutPanel.remove(3);
+				dockLayoutPanel.add(columnChart);
+				ColumnChartComponent.drawColumnChart(columnChart, dataBase.filterByCountry(country));
+			}
+		});	
+	}
+	
+	//Delets the chosen filter depending on the current Center
+	public void deleteFilter(final DockLayoutPanel dockLayoutPanel,GeoChart geoChart,PieChart piesChart,Table moviesTable, ColumnChart column){
+		if(dockLayoutPanel.getWidget(3) == geoChart){
+			ChartLoader chartLoader = new ChartLoader(ChartPackage.GEOCHART);
+			chartLoader.loadApi(new Runnable() {
+				@Override
+				public void run() {
+					worldmap = new GeoChart();
+					dockLayoutPanel.remove(3);
+					dockLayoutPanel.add(worldmap);
+					MapComponent.drawMap(worldmap, dataBase);
+				}
+			});	
+		}
+		if(dockLayoutPanel.getWidget(3) == moviesTable){
+			ChartLoader tableLoader = new ChartLoader(ChartPackage.TABLE);
+			tableLoader.loadApi(new Runnable() {
+				@Override
+				public void run() {
+					movieTable = new Table();
+					dockLayoutPanel.remove(3);
+					dockLayoutPanel.add(movieTable);
+					TableComponent.draw(movieTable, dataBase);
+				}
+			});
+		}
+		if(dockLayoutPanel.getWidget(3) == piesChart){
+			ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+			chartLoader.loadApi(new Runnable() {
+				@Override
+				public void run() {
+					pieChart = new PieChart();
+					dockLayoutPanel.remove(3);
+					dockLayoutPanel.add(pieChart);
+					PieChartComponent.drawPieChart(pieChart, dataBase);
+				}
+			});	
+		}
+		if(dockLayoutPanel.getWidget(3) == column){
+			ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+			chartLoader.loadApi(new Runnable() {
+				@Override
+				public void run() {
+					columnChart = new ColumnChart();
+					dockLayoutPanel.remove(3);
+					dockLayoutPanel.add(columnChart);
+					ColumnChartComponent.drawColumnChart(columnChart, dataBase);
+				}
+			});	
+		}
+		}
 }
 
