@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.gwt.core.shared.GWT;
+import com.google.gwt.user.client.Window;
 import com.googlecode.gwt.charts.client.ColumnType;
 import com.googlecode.gwt.charts.client.DataTable;
 import com.googlecode.gwt.charts.client.table.Table;
@@ -26,8 +28,14 @@ import amdb.shared.MovieCollectionConverter;
 public class TableComponent {
 	
 	public static void draw(Table table, MovieCollection collection){
-		// Create a data table
+		
+		GWT.log("creating dataTable for table component.");
+		
+		// Conversion of MovieCollection to DataTable, creating a dataTable
 		DataTable dataTable = MovieCollectionConverter.toDataTableForTableComponent(collection);
+		
+		GWT.log("creating dataTable for table component finished.");
+		GWT.log("drawing table component.");
 		
 		// set options
 		TableOptions options = TableOptions.create();
@@ -35,12 +43,22 @@ public class TableComponent {
 		options.setAlternatingRowStyle(true);
 		options.setShowRowNumber(true);
 //		options.setPage(1);	// ??
-		options.setSort("enable");
+		// enables to let table be sorted for just 10000 entries 
+		if (dataTable.getNumberOfRows() > 15) {
+			options.setSort("disable");
+		}
+		else {
+			Window.alert("By clicking on a row it will be alphabetically sorted.");
+			options.setSort("enable");
+		}
 //		options.setPageSize(20);
 
 		
 		// draw the table
 		table.draw(dataTable, options);
+
+		GWT.log("drawing table component finished.");
+
 		
 	}
 }
