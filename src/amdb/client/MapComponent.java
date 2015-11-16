@@ -1,15 +1,10 @@
 package amdb.client;
 
-import amdb.shared.MovieCollection;
-import amdb.shared.MovieCollectionConverter;
-
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.Window;
 import com.googlecode.gwt.charts.client.DataTable;
 import com.googlecode.gwt.charts.client.ajaxloader.ArrayHelper;
-import com.googlecode.gwt.charts.client.event.RegionClickEvent;
-import com.googlecode.gwt.charts.client.event.RegionClickHandler;
 import com.googlecode.gwt.charts.client.event.SelectEvent;
 import com.googlecode.gwt.charts.client.event.SelectHandler;
 import com.googlecode.gwt.charts.client.geochart.GeoChart;
@@ -17,7 +12,10 @@ import com.googlecode.gwt.charts.client.geochart.GeoChartColorAxis;
 import com.googlecode.gwt.charts.client.geochart.GeoChartOptions;
 import com.googlecode.gwt.charts.client.geochart.MagnifyingGlass;
 
-public class Map {
+import amdb.shared.MovieCollection;
+import amdb.shared.MovieCollectionConverter;
+
+public class MapComponent {
 	/*
 	 * Colors for the map as Hex or html color names.
 	 * More than two axis colors can be defined, but have to be added in the definition of colorAxisHelper
@@ -51,14 +49,14 @@ public class Map {
 
 		geoChartColorAxis.setColors(colorAxisHelper);
 		// values higher than MaxValue are displayed in the darkest color. The gradient stops at this value
-//		geoChartColorAxis.setMaxValue(33500);
+		// geoChartColorAxis.setMaxValue(33500);
 		// options.hideLegend();
 		
 		options.setColorAxis(geoChartColorAxis);
 		options.setDatalessRegionColor(datalessRegionColor);
 		options.setBackgroundColor(backgroundColor);
 		
-//		onClick event listener (might go into another file)
+		// onClick event listener (might go into another file)
 		geoChart.addSelectHandler(new SelectHandler() {
 			public void onSelect(SelectEvent select) {
 				// addFilter();

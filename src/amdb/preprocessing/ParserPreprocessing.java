@@ -42,7 +42,7 @@ public class ParserPreprocessing {
 	 * @param in The movie data as an {@link InputStream}
 	 * @return A movieBase containing Movie elements whose fields are specified in the input stream.
 	 * @throws IOException
-	 * @see {@link MovieCollectionService}
+	 * @see {@link MovieCollection}
 	 */
 	private static MovieCollection parse(InputStream in) throws IOException {
 

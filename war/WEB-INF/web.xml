@@ -5,16 +5,6 @@
          version="2.5"
          xmlns="http://java.sun.com/xml/ns/javaee">
 
-  <!-- Servlets -->
-  <servlet>
-    <servlet-name>movieServlet</servlet-name>
-    <servlet-class>amdb.server.MovieCollectionService</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>movieServlet</servlet-name>
-    <url-pattern>/avengermoviedb/movies</url-pattern>
-  </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>
