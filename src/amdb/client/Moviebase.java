@@ -1,17 +1,17 @@
 package amdb.client;
 
-import amdb.client.MovieCollectionServiceInterface;
-import amdb.client.MovieCollectionServiceInterfaceAsync;
 import amdb.shared.MovieCollection;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -43,14 +42,12 @@ public class Moviebase implements EntryPoint {
 	private Button About = new Button("About");
 	private HorizontalPanel headerPanel = new HorizontalPanel();
 	private HorizontalPanel southPanel = new HorizontalPanel();
-	private VerticalPanel verticalPanel	= new VerticalPanel();
+	private VerticalPanel verticalPanel = new VerticalPanel();
 	private Tree filterTree = new Tree();
 	private Tree worldmapTree = new Tree();
 	private MovieCollection dataBase; // should not be changed
 	private GeoChart worldmap;
 
-	private final MovieCollectionServiceInterfaceAsync movieCollectionService = GWT.create(MovieCollectionServiceInterface.class);
-	
 	/**
 	 * This is the entry point method.
 	 */
@@ -58,58 +55,59 @@ public class Moviebase implements EntryPoint {
 
 		/*******************************************************************/
 
-		//Builds the Tree for the Global Sort Options part
+		// Builds the Tree for the Global Sort Options part
 		TreeItem sort1 = new TreeItem(new CheckBox("Nach Jahr filtern"));
 		TreeItem sort2 = new TreeItem(new CheckBox("Nach Land filtern"));
 		TreeItem sort3 = new TreeItem(new CheckBox("Nach Sprache filtern"));
-		TreeItem exportButtonSort = new TreeItem(new PushButton("Export this view"));
+		TreeItem exportButtonSort = new TreeItem(new PushButton(
+				"Export this view"));
 
 		filterTree.addItem(sort1);
 		filterTree.addItem(sort2);
 		filterTree.addItem(sort3);
 
 		filterTree.addItem(exportButtonSort);
-		
-		sort1.setStyleName("sort1",false);
-		sort2.setStyleName("sort2",false);
-		sort3.setStyleName("sort3",false);
-		exportButtonSort.setStyleName("exportButtonSort",false);
-		
+
+		sort1.setStyleName("sort1", false);
+		sort2.setStyleName("sort2", false);
+		sort3.setStyleName("sort3", false);
+		exportButtonSort.setStyleName("exportButtonSort", false);
+
 		ListBox sortListBox = new ListBox();
-	    MovieCollection movieCollection = new MovieCollection();
-	    int startYear = movieCollection.getMinYear();
-	    int endYear = movieCollection.getMaxYear();
-	    for(int i = startYear ; i <= endYear ; i++){
-	    	sortListBox.addItem(Integer.toString(i));
-	    }
-	    sortListBox.setVisibleItemCount(1);
-	    filterTree.add(sortListBox);
+		MovieCollection movieCollection = new MovieCollection();
+		int startYear = movieCollection.getMinYear();
+		int endYear = movieCollection.getMaxYear();
+		for (int i = startYear; i <= endYear; i++) {
+			sortListBox.addItem(Integer.toString(i));
+		}
+		sortListBox.setVisibleItemCount(1);
+		filterTree.add(sortListBox);
 
 		/*******************************************************************/
 
-		//Builds the Tree for the Worldmap Sort Options part
-	    TreeItem wmsort1 = new TreeItem(new CheckBox("Nach Jahr filtern"));
+		// Builds the Tree for the Worldmap Sort Options part
+		TreeItem wmsort1 = new TreeItem(new CheckBox("Nach Jahr filtern"));
 		TreeItem wmsort2 = new TreeItem(new CheckBox("Nach Land filtern"));
 		TreeItem wmsort3 = new TreeItem(new CheckBox("Nach Sprache filtern"));
-		TreeItem wmExportButton = new TreeItem(new PushButton("Export this view"));
+		TreeItem wmExportButton = new TreeItem(new PushButton(
+				"Export this view"));
 
 		worldmapTree.addItem(wmsort1);
 		worldmapTree.addItem(wmsort2);
 		worldmapTree.addItem(wmsort3);
 
 		worldmapTree.addItem(wmExportButton);
-		
-		wmsort1.setStyleName("wmsort1",false);
-		wmsort2.setStyleName("wmsort2",false);
-		wmsort3.setStyleName("wmsort3",false);
+
+		wmsort1.setStyleName("wmsort1", false);
+		wmsort2.setStyleName("wmsort2", false);
+		wmsort3.setStyleName("wmsort3", false);
 		wmExportButton.setStyleName("wmExportButton", false);
-		
-		
+
 		/*******************************************************************/
 
-		//Build up the HeaderPanel
-		//headerPanel.add(minimize);
-		//headerPanel.add(maximize);
+		// Build up the HeaderPanel
+		// headerPanel.add(minimize);
+		// headerPanel.add(maximize);
 		headerPanel.add(home);
 		headerPanel.add(Database);
 		headerPanel.add(About);
@@ -123,60 +121,60 @@ public class Moviebase implements EntryPoint {
 			}
 		};
 
-		//Menu Bar for the header and names for stylechanges
+		// Menu Bar for the header and names for stylechanges
 		MenuBar headerMenu = new MenuBar();
 		MenuBar homeMenu = new MenuBar(true);
 		MenuBar databaseMenu = new MenuBar(true);
-		MenuBar aboutUsMenu	= new MenuBar(true);
-		headerMenu.addItem("Home",homeMenu);
-		headerMenu.addItem("Database",databaseMenu);
+		MenuBar aboutUsMenu = new MenuBar(true);
+		headerMenu.addItem("Home", homeMenu);
+		headerMenu.addItem("Database", databaseMenu);
 		headerMenu.addItem("About Us", aboutUsMenu);
 
-
-		headerMenu.setStyleName("headerMenu",false);
-		headerMenu.setStyleName("homeMenu",false);
-		headerMenu.setStyleName("databaseMenu",false);
-		headerMenu.setStyleName("aboutUsMenu",false);
+		headerMenu.setStyleName("headerMenu", false);
+		headerMenu.setStyleName("homeMenu", false);
+		headerMenu.setStyleName("databaseMenu", false);
+		headerMenu.setStyleName("aboutUsMenu", false);
 
 		/*******************************************************************/
 
-		//Defines the Panel for Menu Sidebar
+		// Defines the Panel for Menu Sidebar
 		slp.add(filterTree, new HTML("Filter Options"), 5);
-	    slp.add(worldmapTree, new HTML("Worldmap View"), 5);
-	    slp.add(new HTML("Table view"), new HTML("Table View"), 5);
-	    slp.add(new HTML("Pie Chart Button"), new HTML("Pie Chart View"), 5);
-	    slp.add(new HTML("Bar Diagram button"), new HTML("Bar Diagram View"), 5);
-	    slp.getHeaderWidget(filterTree).addStyleName("filteroptionsheader");
-	    slp.setStyleName("sidebar",false);
-	    
-	    /*******************************************************************/
-		
-	    //Rootpanel where anything else is include
+		slp.add(worldmapTree, new HTML("Worldmap View"), 5);
+		slp.add(new HTML("Table view"), new HTML("Table View"), 5);
+		slp.add(new HTML("Pie Chart Button"), new HTML("Pie Chart View"), 5);
+		slp.add(new HTML("Bar Diagram button"), new HTML("Bar Diagram View"), 5);
+		slp.getHeaderWidget(filterTree).addStyleName("filteroptionsheader");
+		slp.setStyleName("sidebar", false);
+
+		/*******************************************************************/
+
+		// Rootpanel where anything else is include
 		final DockLayoutPanel p = new DockLayoutPanel(Unit.EM);
 		p.addNorth(headerMenu, 3);
 		p.addSouth(new HTML("South"), 5);
-		p.addWest(slp,20);
-//        p.add(new HTML("Center")); // can't add two widgets to p	
-		
-	    
-	    /*******************************************************************/
-	    
-	    //builds the rootPanel where all the other widgets and panels are included
-	  /*SplitLayoutPanel sl = new SplitLayoutPanel();
-	    sl.addNorth(headerMenu, 40);
-	    sl.insertSouth(new HTML("south"), 2, null);
-	    sl.insertWest(slp, 18, null);
-	    sl.setWidgetMinSize(headerMenu, 40);
-	    sl.add(new HTML("center"));*/
-		
+		p.addWest(slp, 20);
+		// p.add(new HTML("Center")); // can't add two widgets to p
+
+		/*******************************************************************/
+
+		// builds the rootPanel where all the other widgets and panels are
+		// included
+		/*
+		 * SplitLayoutPanel sl = new SplitLayoutPanel(); sl.addNorth(headerMenu,
+		 * 40); sl.insertSouth(new HTML("south"), 2, null); sl.insertWest(slp,
+		 * 18, null); sl.setWidgetMinSize(headerMenu, 40); sl.add(new
+		 * HTML("center"));
+		 */
+
 		RootLayoutPanel rp = RootLayoutPanel.get();
-		//rp.add(sl);
+		// rp.add(sl);
 		rp.add(p);
-		
+
 		/*******************************************************************/
 		// set a value for MovieCollection database if possible
+
 		setDatabase();
-		
+
 		/*******************************************************************/
 		// create map and hang it into the central panel
 		ChartLoader chartLoader = new ChartLoader(ChartPackage.GEOCHART);
@@ -189,33 +187,42 @@ public class Moviebase implements EntryPoint {
 				p.add(worldmap);
 				Map.drawMap(worldmap, dataBase);
 			}
-		});	
+		});
 		/*******************************************************************/
 	}
 
 	/**
-	 * Calls on the server to send (and if neccessary parse from file) the Movie Database and assigns the received value to database.
+	 * Calls on the server to send a file preprocessed by <code>ParserPreprocessing.parse(InputStream in)</code>
+	 * and then uses it to create a <code>MovieCollection</code>.
+	 * This <code>MovieCollection</code> is stored in the field <code>database</code>.
 	 * 
 	 * @pre true
-	 * @post database != null || alert given
+	 * @post database != null || error logged
 	 */
 	public void setDatabase() {
 		GWT.log("Fetching movies");
-		movieCollectionService.getMovieCollection(new AsyncCallback<MovieCollection>() {
+		try {
+			// call on server to request the file in the specified path
+			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, "PreprocessedData/movies_preprocessed.tsv");
+			builder.sendRequest(null, new RequestCallback() {
+				public void onError(Request request, Throwable exception) {
+					GWT.log("Request failed.");
+				}
+				public void onResponseReceived(Request request,	Response response) {
+					if (200 == response.getStatusCode()) {
+						GWT.log("Response successfull.");
+						// convert the received file to a MovieCollection
+						dataBase = ParserClientside.stringToMovieCollection(response.getText());
+						GWT.log("Movies loaded.");
+					} else {
+						GWT.log("Response failed.");
+					}
+				}
+			});
+		} catch (RequestException e) {
+			GWT.log("Request failed.");
+		}
 
-			public void onSuccess(MovieCollection result){
-				GWT.log("fetched "+result.getMovies().size()+" movies");
-				dataBase = result;
-				Map.drawMap(worldmap, dataBase);
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				GWT.log("Failed to load movies");
-				Window.alert("Failed to load movies");
-			}
-
-		});
 	}
 
 }

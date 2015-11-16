@@ -7,16 +7,6 @@
 
   <!-- Servlets -->
   <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>amdb.server.GreetingServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/avengermoviedb/greet</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
     <servlet-name>movieServlet</servlet-name>
     <servlet-class>amdb.server.MovieCollectionService</servlet-class>
   </servlet>
