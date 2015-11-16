@@ -47,6 +47,10 @@ public class Moviebase implements EntryPoint {
 	private PushButton acceptForPieChart = new PushButton("Accept this choice for Pie Chart");
 	private PushButton acceptForTableChart = new PushButton("Accept this choice for Table Chart");
 	private PushButton acceptForBarDiagram = new PushButton("Accept this choice for Bar Diagram");
+	private PushButton acceptLanguageForTableChart = new PushButton("Accept this choice for Table Chart");
+	private PushButton acceptLanguageForMap = new PushButton("Accept this choice for Map");
+	private PushButton acceptLanguageForPieChart = new PushButton("Accept this choice for Pie Chart");
+	private PushButton acceptLanguageForBarDiagram = new PushButton("Accept this choice for Bar Diagram");
 	private PushButton delete = new PushButton("Delete the chosen filter");
 	private Tree filterTreeForMap = new Tree();
 	private MovieCollection dataBase; // should not be changed
@@ -100,6 +104,10 @@ public class Moviebase implements EntryPoint {
 		TreeItem languageSort = new TreeItem();
 		languageSort.setText("Filter By Language");
 		languageSort.addItem(listBoxForLanguages);
+		languageSort.addItem(acceptLanguageForMap);
+		languageSort.addItem(acceptLanguageForTableChart);
+		languageSort.addItem(acceptLanguageForPieChart);
+		languageSort.addItem(acceptLanguageForBarDiagram);
 		
 		TreeItem exportButtonSort = new TreeItem(new PushButton("Export this view"));
 		
@@ -137,6 +145,30 @@ public class Moviebase implements EntryPoint {
 	    		changeVisibleCountriesForBarDiagram(dockLayoutPanel, listBoxForCountries.getSelectedItemText());
 	    	}
 	    });
+		
+		acceptLanguageForMap.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				changeVisibleLanguageForMap(dockLayoutPanel, listBoxForLanguages.getSelectedItemText());
+			}
+		});
+		
+		acceptLanguageForTableChart.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				changeVisibleLanguageForTableChart(dockLayoutPanel, listBoxForLanguages.getSelectedItemText());
+			}
+		});
+		
+		acceptLanguageForPieChart.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				changeVisibleLanguageForPieChart(dockLayoutPanel, listBoxForLanguages.getSelectedItemText());
+			}
+		});
+		
+		acceptLanguageForBarDiagram.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				changeVisibleLanguageForBarDiagram(dockLayoutPanel, listBoxForLanguages.getSelectedItemText());
+			}
+		});
 		
 		delete.addClickHandler(new ClickHandler(){
 	    	public void onClick(ClickEvent event) {
@@ -366,6 +398,58 @@ public class Moviebase implements EntryPoint {
 				dockLayoutPanel.remove(3);
 				dockLayoutPanel.add(columnChart);
 				ColumnChartComponent.drawColumnChart(columnChart, dataBase.filterByCountry(country));
+			}
+		});	
+	}
+	
+	public void changeVisibleLanguageForMap(final DockLayoutPanel dockLayoutPanel, final String language){
+		ChartLoader chartLoader = new ChartLoader(ChartPackage.GEOCHART);
+		chartLoader.loadApi(new Runnable() {
+			@Override
+			public void run() {
+				worldmap = new GeoChart();
+				dockLayoutPanel.remove(3);
+				dockLayoutPanel.add(worldmap);
+				MapComponent.drawMap(worldmap, dataBase.filterByLanguage(language));
+			}
+		});	
+	}
+	
+	public void changeVisibleLanguageForTableChart(final DockLayoutPanel dockLayoutPanel, final String language){
+		ChartLoader tableLoader = new ChartLoader(ChartPackage.TABLE);
+		tableLoader.loadApi(new Runnable() {
+			@Override
+			public void run() {
+				movieTable = new Table();
+				dockLayoutPanel.remove(3);
+				dockLayoutPanel.add(movieTable);
+				TableComponent.draw(movieTable, dataBase.filterByLanguage(language));
+			}
+		});	
+	}
+	
+	public void changeVisibleLanguageForPieChart(final DockLayoutPanel dockLayoutPanel, final String language){
+		ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+		chartLoader.loadApi(new Runnable() {
+			@Override
+			public void run() {
+				pieChart = new PieChart();
+				dockLayoutPanel.remove(3);
+				dockLayoutPanel.add(pieChart);
+				PieChartComponent.drawPieChart(pieChart, dataBase.filterByCountry(language));
+			}
+		});	
+	}
+	
+	public void changeVisibleLanguageForBarDiagram(final DockLayoutPanel dockLayoutPanel, final String language){
+		ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+		chartLoader.loadApi(new Runnable() {
+			@Override
+			public void run() {
+				columnChart = new ColumnChart();
+				dockLayoutPanel.remove(3);
+				dockLayoutPanel.add(columnChart);
+				ColumnChartComponent.drawColumnChart(columnChart, dataBase.filterByCountry(language));
 			}
 		});	
 	}
