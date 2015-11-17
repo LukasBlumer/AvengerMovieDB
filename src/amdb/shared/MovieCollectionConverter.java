@@ -70,7 +70,7 @@ public class MovieCollectionConverter {
 		
 		int timeframeInYears = movies.getMaxYear() - movies.getMinYear();
 		
-		HashMap<String, Integer> tally = numberOfMoviesPerCountry(movies);
+		HashMap<String, ArrayList<Integer>> tally = numberOfMoviesPerCountryPerYear(movies);
 		String nameOfCountry; // holds movie.getName() for a single movie
 
 		DataTable tableYearCountryAmount = DataTable.create();
@@ -94,7 +94,7 @@ public class MovieCollectionConverter {
 			
 			// add the movies released in every year in the timeframe as values
 			for (int rowCounter = movies.getMinYear(); rowCounter <= movies.getMaxYear(); rowCounter++) {
-				// tableYearCountryAmount.setValue(rowCounter, columnCounter, tally.get(nameOfCountry)[rowCounter]); // IMPORTANT: Need to get movies released in specific year here!
+				tableYearCountryAmount.setValue(rowCounter, columnCounter, tally.get(nameOfCountry).get(rowCounter)); // IMPORTANT: Need to get movies released in specific year here!
 			}
 			columnCounter++;
 		}
@@ -121,10 +121,10 @@ public class MovieCollectionConverter {
 		dataTable.addColumn(ColumnType.STRING, "Genre");
 		dataTable.addColumn(ColumnType.STRING, "Sprache");
 		dataTable.addColumn(ColumnType.STRING, "Land");
-		dataTable.addRows(10);
+		dataTable.addRows(100);
 		
 		// fill in the data in each row
-		for(int i=0; i<10; i++){
+		for(int i=0; i<100; i++){
 			dataTable.setCell(i, 0, collection.getMovies().get(i).getName());
 			
 			if(collection.getMovies().get(i).getReleaseDate() == -1){
@@ -209,18 +209,20 @@ public class MovieCollectionConverter {
 			countries = movieList.get(i).getCountries();
 			for (int j = 0; j < countries.length; j++) {
 				nameOfCountry = countries[j];
+				int index = movieList.get(i).getReleaseDate() - movies.getMinYear();
 
 				if(tally.containsKey(nameOfCountry)){
 					// add 1 to the value of the movie release year of the country.
 					// need to get the release year of a movie somehow
-					// tally.put(nameOfCountry, tally.get(nameOfCountry).get(movieList.get(i).getReleaseDate() - movies.getMinYear()) + 1);
+					tally.get(nameOfCountry).set(index, (int)tally.get(nameOfCountry).get(index) + 1);
 				} else{
 					//  fill the arraylist with zeroes and add one for the release year
 					ArrayList list = new ArrayList(timeframeInYears); // doesn't that save multiple arrayLists to the same variable?
 					for (int k = 0; k < timeframeInYears; k++) {
 						list.add(k, 0);
 					}
-					// tally.put(nameOfCountry, 1);
+					list.set(index, (int)list.get(index) + 1);
+					tally.put(nameOfCountry, list);
 				}
 			}
 		}
