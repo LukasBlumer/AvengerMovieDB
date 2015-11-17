@@ -1,7 +1,5 @@
 package amdb.client;
 
-import amdb.client.MovieCollectionServiceInterface;
-import amdb.client.MovieCollectionServiceInterfaceAsync;
 import amdb.shared.MovieCollection;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -56,7 +54,7 @@ public class Moviebase implements EntryPoint {
 	private ListBox listBoxForLanguages;
 	private String[] countries;
 	private String[] languages;
-	private final MovieCollectionServiceInterfaceAsync movieCollectionService = GWT.create(MovieCollectionServiceInterface.class);
+	
 	
 	/**
 	 * This is the entry point method.
