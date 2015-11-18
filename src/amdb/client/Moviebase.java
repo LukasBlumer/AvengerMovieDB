@@ -7,6 +7,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -21,6 +23,7 @@ import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -43,17 +46,23 @@ public class Moviebase implements EntryPoint {
 	private PushButton export = new PushButton("Export this view");
 	private PushButton updateCountry = new PushButton("Update Chart");
 	private PushButton updateLanguage = new PushButton("Update Chart");
+	private PushButton updateGenre = new PushButton("Update Chart");
+	private PushButton updateMinLength = new PushButton("Update Chart");
 	private PushButton delete = new PushButton("Delete the chosen filter");
 	private Tree filterTreeForMap = new Tree();
 	private MovieCollection dataBase; // should not be changed
+	private MovieCollection currentDataBase;
 	private GeoChart worldmap;
 	private Table movieTable;
 	private PieChart pieChart;
 	private ColumnChart columnChart;
 	private ListBox listBoxForCountries;
 	private ListBox listBoxForLanguages;
+	private ListBox listBoxForGenres;
+	private TextBox textBoxForMinLength;
 	private String[] countries;
 	private String[] languages;
+	private String[] genres;
 	
 	
 	/**
@@ -70,18 +79,38 @@ public class Moviebase implements EntryPoint {
 				"German Language","Hindi Language","Italian Language","Japanese Language","Malayalam Language",
 				"Norwegian Language","Portugese Language","Russian Language","Silent film","Spanish Language",
 				"Standard Cantonese","Standard Mandarin","Tamil Language","Turkish Language"};
+		
+		genres = new String[50];
+		String [] genres ={};
 		/*******************************************************************/
 		//Builds the Tree for the Global Sort Options part
 		
-		//Fill the two listBoxes for the sidebar
+		//Fill the listBoxes for the sidebar
 		listBoxForCountries = new ListBox();
 		for(int i = 0; i < countries.length; i++){
 			listBoxForCountries.addItem(countries[i]);
 		}
+		
 		listBoxForLanguages = new ListBox();
 		for(int i = 0; i < languages.length; i++){
 			listBoxForLanguages.addItem(languages[i]);
 		}
+		
+		listBoxForGenres = new ListBox();
+		for(int i = 0; i < genres.length; i++){
+			listBoxForGenres.addItem(genres[i]);
+		}
+		
+		
+		//Create a handler for keyboard events in the textbox
+		textBoxForMinLength.addKeyPressHandler(new KeyPressHandler(){
+			public void onKeyPress(KeyPressEvent event){
+				if(!Character.isDigit(event.getCharCode())){
+					((TextBox)event.getSource()).cancelKey();
+				}
+			}
+		});
+		
 		
 		//Build filterTree for country sorting
 		TreeItem countrySort = new TreeItem();
@@ -95,16 +124,32 @@ public class Moviebase implements EntryPoint {
 		languageSort.addItem(listBoxForLanguages);
 		languageSort.addItem(updateLanguage);
 		
+		//Build filterTree for genre sorting
+		TreeItem genreSort = new TreeItem();
+		genreSort.setText("Filter By Genre");
+		genreSort.addItem(listBoxForGenres);
+		genreSort.addItem(updateGenre);
+		
+		//Build filterTree for minLength sorting
+		TreeItem minLengthSort = new TreeItem();
+		minLengthSort.setText("Filter By minimum Length");
+		minLengthSort.addItem(textBoxForMinLength);
+		minLengthSort.addItem(updateMinLength);
+		
 		TreeItem exportButtonSort = new TreeItem(new PushButton("Export this view"));
 		
 		//Add everything to the rootTree
 		filterTreeForMap.addItem(countrySort);
 		filterTreeForMap.addItem(languageSort);
+		filterTreeForMap.addItem(genreSort);
+		filterTreeForMap.addItem(minLengthSort);
 		filterTreeForMap.addItem(delete);
 		filterTreeForMap.addItem(exportButtonSort);
 		
 		countrySort.setStyleName("countrySort",false);
 		languageSort.setStyleName("languageSort",false);
+		genreSort.setStyleName("genreSort",false);
+		minLengthSort.setStyleName("minLengthSort",false);
 		exportButtonSort.setStyleName("exportButtonSort",false);
 		
 		//All clickevents for the buttons in the sidebar
@@ -124,6 +169,18 @@ public class Moviebase implements EntryPoint {
 		updateLanguage.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event){
 				updateLanguageChart(dockLayoutPanel,worldmap,pieChart,movieTable,columnChart,listBoxForLanguages.getSelectedItemText());
+			}
+		});
+		
+		updateGenre.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event){
+				updateGenreChart(dockLayoutPanel,worldmap,pieChart,movieTable,columnChart,listBoxForGenres.getSelectedItemText());
+			}
+		});
+		
+		updateMinLength.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event){
+				updateMinLengthChart(dockLayoutPanel,worldmap,pieChart,movieTable,columnChart,textBoxForMinLength.getSelectedText());
 			}
 		});
 		
@@ -449,6 +506,112 @@ public class Moviebase implements EntryPoint {
 						dockLayoutPanel.remove(3);
 						dockLayoutPanel.add(columnChart);
 						ColumnChartComponent.drawColumnChart(columnChart, dataBase.filterByLanguage(language));
+					}
+				});	
+			}
+		}
+		
+		public void updateGenreChart(final DockLayoutPanel dockLayoutPanel,GeoChart geoChart,PieChart piesChart,Table moviesTable, ColumnChart column,final String genre){
+			if(dockLayoutPanel.getWidget(3) == geoChart){
+				ChartLoader chartLoader = new ChartLoader(ChartPackage.GEOCHART);
+				chartLoader.loadApi(new Runnable() {
+					@Override
+					public void run() {
+						worldmap = new GeoChart();
+						dockLayoutPanel.remove(3);
+						dockLayoutPanel.add(worldmap);
+						MapComponent.drawMap(worldmap, dataBase.filterByGenre(genre));
+					}
+				});	
+			}
+			if(dockLayoutPanel.getWidget(3) == moviesTable){
+				ChartLoader tableLoader = new ChartLoader(ChartPackage.TABLE);
+				tableLoader.loadApi(new Runnable() {
+					@Override
+					public void run() {
+						movieTable = new Table();
+						dockLayoutPanel.remove(3);
+						dockLayoutPanel.add(movieTable);
+						TableComponent.draw(movieTable, dataBase.filterByGenre(genre));
+					}
+				});
+			}
+			if(dockLayoutPanel.getWidget(3) == piesChart){
+				ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+				chartLoader.loadApi(new Runnable() {
+					@Override
+					public void run() {
+						pieChart = new PieChart();
+						dockLayoutPanel.remove(3);
+						dockLayoutPanel.add(pieChart);
+						PieChartComponent.drawPieChart(pieChart, dataBase.filterByGenre(genre));
+					}
+				});	
+			}
+			if(dockLayoutPanel.getWidget(3) == column){
+				ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+				chartLoader.loadApi(new Runnable() {
+					@Override
+					public void run() {
+						columnChart = new ColumnChart();
+						dockLayoutPanel.remove(3);
+						dockLayoutPanel.add(columnChart);
+						ColumnChartComponent.drawColumnChart(columnChart, dataBase.filterByGenre(genre));
+					}
+				});	
+			}
+		}
+		
+		public void updateMinLengthChart(final DockLayoutPanel dockLayoutPanel,GeoChart geoChart,PieChart piesChart,Table moviesTable, ColumnChart column,final String minLength){
+			if(dockLayoutPanel.getWidget(3) == geoChart){
+				ChartLoader chartLoader = new ChartLoader(ChartPackage.GEOCHART);
+				chartLoader.loadApi(new Runnable() {
+					@Override
+					public void run() {
+						worldmap = new GeoChart();
+						dockLayoutPanel.remove(3);
+						dockLayoutPanel.add(worldmap);
+						int intMinLength = Integer.parseInt(minLength);
+						MapComponent.drawMap(worldmap, dataBase.filterByMinLength(intMinLength));
+					}
+				});	
+			}
+			if(dockLayoutPanel.getWidget(3) == moviesTable){
+				ChartLoader tableLoader = new ChartLoader(ChartPackage.TABLE);
+				tableLoader.loadApi(new Runnable() {
+					@Override
+					public void run() {
+						movieTable = new Table();
+						dockLayoutPanel.remove(3);
+						dockLayoutPanel.add(movieTable);
+						int intMinLength = Integer.parseInt(minLength);
+						TableComponent.draw(movieTable, dataBase.filterByMinLength(intMinLength));
+					}
+				});
+			}
+			if(dockLayoutPanel.getWidget(3) == piesChart){
+				ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+				chartLoader.loadApi(new Runnable() {
+					@Override
+					public void run() {
+						pieChart = new PieChart();
+						dockLayoutPanel.remove(3);
+						dockLayoutPanel.add(pieChart);
+						int intMinLength = Integer.parseInt(minLength);
+						PieChartComponent.drawPieChart(pieChart, dataBase.filterByMinLength(intMinLength));
+					}
+				});	
+			}
+			if(dockLayoutPanel.getWidget(3) == column){
+				ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+				chartLoader.loadApi(new Runnable() {
+					@Override
+					public void run() {
+						columnChart = new ColumnChart();
+						dockLayoutPanel.remove(3);
+						dockLayoutPanel.add(columnChart);
+						int intMinLength = Integer.parseInt(minLength);
+						ColumnChartComponent.drawColumnChart(columnChart, dataBase.filterByMinLength(intMinLength));
 					}
 				});	
 			}
