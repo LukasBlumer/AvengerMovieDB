@@ -2,6 +2,11 @@ package amdb.client;
 
 import amdb.shared.MovieCollection;
 
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
@@ -59,7 +64,7 @@ public class Moviebase implements EntryPoint {
 	private ListBox listBoxForCountries;
 	private ListBox listBoxForLanguages;
 	private ListBox listBoxForGenres;
-	private TextBox textBoxForMinLength;
+	//private TextBox textBoxForMinLength;
 	private String[] countries;
 	private String[] languages;
 	private String[] genres;
@@ -81,7 +86,7 @@ public class Moviebase implements EntryPoint {
 				"Standard Cantonese","Standard Mandarin","Tamil Language","Turkish Language"};
 		
 		genres = new String[50];
-		String [] genres ={};
+		String [] genres ={"Drama","Action"};
 		/*******************************************************************/
 		//Builds the Tree for the Global Sort Options part
 		
@@ -102,14 +107,14 @@ public class Moviebase implements EntryPoint {
 		}
 		
 		
-		//Create a handler for keyboard events in the textbox
+		/*/Create a handler for keyboard events in the textbox
 		textBoxForMinLength.addKeyPressHandler(new KeyPressHandler(){
 			public void onKeyPress(KeyPressEvent event){
 				if(!Character.isDigit(event.getCharCode())){
 					((TextBox)event.getSource()).cancelKey();
 				}
 			}
-		});
+		});*/
 		
 		
 		//Build filterTree for country sorting
@@ -133,7 +138,7 @@ public class Moviebase implements EntryPoint {
 		//Build filterTree for minLength sorting
 		TreeItem minLengthSort = new TreeItem();
 		minLengthSort.setText("Filter By minimum Length");
-		minLengthSort.addItem(textBoxForMinLength);
+		//minLengthSort.addItem(textBoxForMinLength);
 		minLengthSort.addItem(updateMinLength);
 		
 		TreeItem exportButtonSort = new TreeItem(new PushButton("Export this view"));
@@ -180,7 +185,7 @@ public class Moviebase implements EntryPoint {
 		
 		updateMinLength.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event){
-				updateMinLengthChart(dockLayoutPanel,worldmap,pieChart,movieTable,columnChart,textBoxForMinLength.getSelectedText());
+				//updateMinLengthChart(dockLayoutPanel,worldmap,pieChart,movieTable,columnChart,textBoxForMinLength.getSelectedText());
 			}
 		});
 		
@@ -282,23 +287,28 @@ public class Moviebase implements EntryPoint {
 	 */
 	public void setDatabase() {
 		GWT.log("Fetching movies");
-		movieCollectionService.getMovieCollection(new AsyncCallback<MovieCollection>() {
-
-			public void onSuccess(MovieCollection result){
-				GWT.log("fetched "+result.getMovies().size()+" movies");
-				dataBase = result;
-				MapComponent.drawMap(worldmap, dataBase);
-//				TableComponent.draw(movieTable, dataBase);
+		try {
+		// call on server to request the file in the specified path
+			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, "PreprocessedData/movies_preprocessed.tsv");
+			builder.sendRequest(null, new RequestCallback() {
+			public void onError(Request request, Throwable exception) {
+				GWT.log("Request failed.");
 			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				GWT.log("Failed to load movies");
-				Window.alert("Failed to load movies");
-			}
-
-		});
-	}
+			public void onResponseReceived(Request request,	Response response) {
+				if (200 == response.getStatusCode()) {
+					GWT.log("Response successfull.");
+					// convert the received file to a MovieCollection
+					dataBase = ParserClientside.stringToMovieCollection(response.getText());
+					GWT.log("Movies loaded.");
+					} else {
+						GWT.log("Response failed.");
+						}
+					}
+				});
+			} catch (RequestException e) {
+				GWT.log("Request failed.");
+				}
+		}
 	
 	//create HomeMenu, remove the current center, add HomeMenu to center
 	public void setHomeMenu(final DockLayoutPanel dockLayoutPanel){
