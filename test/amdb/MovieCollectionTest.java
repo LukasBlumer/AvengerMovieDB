@@ -210,5 +210,33 @@ public class MovieCollectionTest {
 		assertEquals(2010, testCollection.getMaxYear());
 		
 	}
+	
+	@Test
+	public void testGetAllLanguages(){
+		MovieCollection testCollection = new MovieCollection(movieArrayList);
+		String[] result = testCollection.getAllLanguages();
+		assertNotEquals(result, null);
+		assertEquals(4, result.length);
+		assertArrayEquals(new String[]{"English", "Gibberish", "Polish", "Urdu"}, result);
+	}
+	
+	@Test
+	public void testGetAllGenres(){
+		MovieCollection testCollection = new MovieCollection(movieArrayList);
+		String[] result = testCollection.getAllGenres();
+		assertNotEquals(result, null);
+		assertEquals(4, result.length);
+		assertArrayEquals(new String[]{"Adventure", "Horror", "Romance", "Vampire fanfiction"}, result);
+	}
+	
+	@Test
+	public void testgetAllCountries(){
+		MovieCollection testCollection = new MovieCollection(movieArrayList);
+		String[] result = testCollection.getAllCountries();
+		assertNotEquals(result, null);
+		assertEquals(5, result.length);
+		assertArrayEquals(new String[]{"Italy", "Monte Carlo", "Pakistan", "Spain", "Sweden"}, result);
+		
+	}
 
 }

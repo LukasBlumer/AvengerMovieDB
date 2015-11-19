@@ -12,7 +12,7 @@ import com.google.gwt.core.shared.GWT;
  * @history 2015-11-16 PW first version
  * @version 2015-11-16 PW 1.0
  * @responsibilities This class is responsible for creating a <code>MovieCollection</code> from a given <code>String</code>
- * 						that was preprocessed by <code>ParserPreprocessing.parse()</code>.
+ * 						that was preprocessed by <code>ParserPreprocessing.parse(InputStream in)</code>.
  */
 public class ParserClientside {
 

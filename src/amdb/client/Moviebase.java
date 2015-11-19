@@ -13,12 +13,8 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.PushButton;
@@ -26,7 +22,6 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.googlecode.gwt.charts.client.ChartLoader;
 import com.googlecode.gwt.charts.client.ChartPackage;
 import com.googlecode.gwt.charts.client.corechart.ColumnChart;
@@ -56,6 +51,7 @@ public class Moviebase implements EntryPoint {
 	private PushButton delete = new PushButton("Delete the chosen filter");
 	private Tree filterTreeForMap = new Tree();
 	private MovieCollection dataBase; // should not be changed
+	private MovieCollection currentMovies;
 	private GeoChart worldmap;
 	private Table movieTable;
 	private PieChart pieChart;
@@ -69,29 +65,17 @@ public class Moviebase implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		countries = new String[270];
-		String [] countries = {"Argentina","Brazil","Canada","Denmark","France","German Democratic Republic","Germany",
-				"Hong Kong","India","Italy","Japan","Mexico","Netherlands","New Zealand","Norway","South Africa",
-				"Soviet Union","Switzerland","Turkey","United Kingdom","United States of America"};
-		
-		languages = new String[100];
-		String [] languages = {"Afrikaans Language","Cantonese","Danish Language","Dutch Language","Englisch Language",
-				"German Language","Hindi Language","Italian Language","Japanese Language","Malayalam Language",
-				"Norwegian Language","Portugese Language","Russian Language","Silent film","Spanish Language",
-				"Standard Cantonese","Standard Mandarin","Tamil Language","Turkish Language"};
+		// set a value for MovieCollection database if possible
+
+		setDatabase();		
 		/*******************************************************************/
 		//Builds the Tree for the Global Sort Options part
 		
 		//Fill the two listBoxes for the sidebar
 		listBoxForCountries = new ListBox();
-		for(int i = 0; i < countries.length; i++){
-			listBoxForCountries.addItem(countries[i]);
-		}
+
 		listBoxForLanguages = new ListBox();
-		for(int i = 0; i < languages.length; i++){
-			listBoxForLanguages.addItem(languages[i]);
-		}
-		
+
 		//Build filterTree for country sorting
 		TreeItem countrySort = new TreeItem();
 		countrySort.setText("Filter By Country");
@@ -245,10 +229,7 @@ public class Moviebase implements EntryPoint {
 		RootLayoutPanel rootPanel = RootLayoutPanel.get();
 		rootPanel.add(dockLayoutPanel);
 		
-		/*******************************************************************/
-		// set a value for MovieCollection database if possible
 
-		setDatabase();
 
 		/*******************************************************************/
 		// create map and hang it into the central panel
@@ -288,7 +269,9 @@ public class Moviebase implements EntryPoint {
 						GWT.log("Response successfull.");
 						// convert the received file to a MovieCollection
 						dataBase = ParserClientside.stringToMovieCollection(response.getText());
+						currentMovies = dataBase;
 						GWT.log("Movies loaded.");
+						onDatabaseReady();
 					} else {
 						GWT.log("Response failed.");
 					}
@@ -297,7 +280,25 @@ public class Moviebase implements EntryPoint {
 		} catch (RequestException e) {
 			GWT.log("Request failed.");
 		}
-
+		
+	}
+	
+	/**
+	 * This method is executed after setting the database finished.
+	 * It contains code that depends on the database being fully loaded.
+	 */
+	public void onDatabaseReady(){
+		
+		countries = dataBase.getAllCountries();
+		languages = dataBase.getAllLanguages();
+		
+		//Fill the two listBoxes for the sidebar
+		for(int i = 0; i < countries.length; i++){
+			listBoxForCountries.addItem(countries[i]);
+		}
+		for(int i = 0; i < languages.length; i++){
+			listBoxForLanguages.addItem(languages[i]);
+		}
 	}
 	
 	//create HomeMenu, remove the current center, add HomeMenu to center
@@ -365,7 +366,8 @@ public class Moviebase implements EntryPoint {
 				worldmap = new GeoChart();
 				dockLayoutPanel.remove(3);
 				dockLayoutPanel.add(worldmap);
-				MapComponent.drawMap(worldmap, dataBase.filterByCountry(country));
+				currentMovies = currentMovies.filterByCountry(country);
+				MapComponent.drawMap(worldmap, currentMovies);
 			}
 		});	
 	}
@@ -379,7 +381,8 @@ public class Moviebase implements EntryPoint {
 				pieChart = new PieChart();
 				dockLayoutPanel.remove(3);
 				dockLayoutPanel.add(pieChart);
-				PieChartComponent.drawPieChart(pieChart, dataBase.filterByCountry(country));
+				currentMovies = currentMovies.filterByCountry(country);
+				PieChartComponent.drawPieChart(pieChart, currentMovies);
 			}
 		});	
 	}
@@ -393,7 +396,8 @@ public class Moviebase implements EntryPoint {
 				movieTable = new Table();
 				dockLayoutPanel.remove(3);
 				dockLayoutPanel.add(movieTable);
-				TableComponent.draw(movieTable, dataBase.filterByCountry(country));
+				currentMovies = currentMovies.filterByCountry(country);
+				TableComponent.draw(movieTable, currentMovies);
 			}
 		});	
 	}
@@ -407,7 +411,8 @@ public class Moviebase implements EntryPoint {
 				columnChart = new ColumnChart();
 				dockLayoutPanel.remove(3);
 				dockLayoutPanel.add(columnChart);
-				ColumnChartComponent.drawColumnChart(columnChart, dataBase.filterByCountry(country));
+				currentMovies = currentMovies.filterByCountry(country);
+				ColumnChartComponent.drawColumnChart(columnChart, currentMovies);
 			}
 		});	
 	}
@@ -420,7 +425,8 @@ public class Moviebase implements EntryPoint {
 				worldmap = new GeoChart();
 				dockLayoutPanel.remove(3);
 				dockLayoutPanel.add(worldmap);
-				MapComponent.drawMap(worldmap, dataBase.filterByLanguage(language));
+				currentMovies = currentMovies.filterByLanguage(language);
+				MapComponent.drawMap(worldmap, currentMovies);
 			}
 		});	
 	}
@@ -433,7 +439,8 @@ public class Moviebase implements EntryPoint {
 				movieTable = new Table();
 				dockLayoutPanel.remove(3);
 				dockLayoutPanel.add(movieTable);
-				TableComponent.draw(movieTable, dataBase.filterByLanguage(language));
+				currentMovies = currentMovies.filterByLanguage(language);
+				TableComponent.draw(movieTable, currentMovies);
 			}
 		});	
 	}
@@ -446,7 +453,8 @@ public class Moviebase implements EntryPoint {
 				pieChart = new PieChart();
 				dockLayoutPanel.remove(3);
 				dockLayoutPanel.add(pieChart);
-				PieChartComponent.drawPieChart(pieChart, dataBase.filterByCountry(language));
+				currentMovies = currentMovies.filterByLanguage(language);
+				PieChartComponent.drawPieChart(pieChart, currentMovies);
 			}
 		});	
 	}
@@ -459,13 +467,15 @@ public class Moviebase implements EntryPoint {
 				columnChart = new ColumnChart();
 				dockLayoutPanel.remove(3);
 				dockLayoutPanel.add(columnChart);
-				ColumnChartComponent.drawColumnChart(columnChart, dataBase.filterByCountry(language));
+				currentMovies = currentMovies.filterByLanguage(language);
+				ColumnChartComponent.drawColumnChart(columnChart, currentMovies);
 			}
 		});	
 	}
 	
 	//Deletes the chosen filter depending on the current Center
 	public void deleteFilter(final DockLayoutPanel dockLayoutPanel,GeoChart geoChart,PieChart piesChart,Table moviesTable, ColumnChart column){
+		currentMovies = dataBase;
 		if(dockLayoutPanel.getWidget(3) == geoChart){
 			ChartLoader chartLoader = new ChartLoader(ChartPackage.GEOCHART);
 			chartLoader.loadApi(new Runnable() {

@@ -2,6 +2,11 @@ package amdb.shared;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 
 /**
@@ -23,6 +28,7 @@ public class MovieCollection implements Serializable {
 	 */
 	private ArrayList<Movie> movies; 
 	private int minYear= Integer.MAX_VALUE, maxYear = Integer.MIN_VALUE;
+	private TreeMap<String, String> countries, genres, languages;
 
 
 	/**
@@ -35,6 +41,9 @@ public class MovieCollection implements Serializable {
 		// initialize the collection that holds the elements of type Movie
 		movies = new ArrayList<Movie>();
 		//		movies.add(new Movie("The Happening", 1990,new String[] {"Horror", "Romance", "Adventure"}, new String []{"Urdu", "Polish"}, new String[]{"Pakistan", "Italy"}));
+		countries = new TreeMap<String, String>();
+		genres = new TreeMap<String, String>();
+		languages = new TreeMap<>();
 	}
 
 	/**
@@ -48,6 +57,7 @@ public class MovieCollection implements Serializable {
 	public MovieCollection(ArrayList<Movie> movies){
 		this.movies = movies;
 		setMinMaxYear();
+		setCountriesGenresLanguages();
 	}
 
 	/**
@@ -65,6 +75,15 @@ public class MovieCollection implements Serializable {
 		}
 		if(isNewMinYear(movie.getReleaseDate())){
 			minYear = movie.getReleaseDate();
+		}
+		for (String country : movie.getCountries()) {
+			countries.put(country, country);
+		}
+		for (String genre : movie.getGenres()) {
+			genres.put(genre, genre);
+		}
+		for (String language : movie.getLanguages()) {
+			languages.put(language, language);
 		}
 	}
 
@@ -202,20 +221,20 @@ public class MovieCollection implements Serializable {
 
 		Movie currentMovie;
 		float length;
-		
+
 		for (int i = 0; i < movies.size(); i++) {
 			currentMovie = movies.get(i);
 			length = currentMovie.getLength();
-			
+
 			if(length >= minLength && length <= maxLength){
 				filteredMovies.add(currentMovie);
 			}
-			
+
 		}
-		
+
 		return new MovieCollection(filteredMovies);
 	}
-	
+
 	/**
 	 * Returns a new MovieCollection created from movies in movies that
 	 * have a length smaller than or equal to maxLength.
@@ -234,14 +253,14 @@ public class MovieCollection implements Serializable {
 		for (int i = 0; i < movies.size(); i++) {
 			currentMovie = movies.get(i);
 			length = currentMovie.getLength();
-			
+
 			if(length <= maxLength){
 				filteredMovies.add(currentMovie);
 			}	
 		}
 		return new MovieCollection(filteredMovies);
 	}
-	
+
 	/**
 	 * Returns a new MovieCollection created from movies in movies that
 	 * have a length larger than or equal to minLength.
@@ -260,14 +279,14 @@ public class MovieCollection implements Serializable {
 		for (int i = 0; i < movies.size(); i++) {
 			currentMovie = movies.get(i);
 			length = currentMovie.getLength();
-			
+
 			if(length >= minLength){
 				filteredMovies.add(currentMovie);
 			}	
 		}
 		return new MovieCollection(filteredMovies);
 	}
-	
+
 	/**
 	 * Traverses movies and finds the smallest value for year larger than -1 and sets it as minYear,
 	 * and finds the largest value for year and sets it as maxYear.
@@ -280,7 +299,7 @@ public class MovieCollection implements Serializable {
 			isNewMaxYear(year);
 		}
 	}
-	
+
 	/**
 	 * Computes whether year is smaller than minYear but larger than -1.
 	 * 
@@ -293,7 +312,7 @@ public class MovieCollection implements Serializable {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Computes whether year is smaller than minYear but larger than -1.
 	 * 
@@ -327,5 +346,75 @@ public class MovieCollection implements Serializable {
 		return maxYear;
 	}
 
+	/**
+	 * This method traverses <code>movies</code> and puts all 
+	 * values for language, genre and country occurring in any
+	 * <code>Movie</code> in <code>movies</code> in it's 
+	 * respective <code>TreeMap</code>.
+	 */
+	private void setCountriesGenresLanguages(){
+		countries = new TreeMap<String, String>();
+		genres = new TreeMap<String, String>();
+		languages = new TreeMap<>();
+
+		for (Movie movie : movies) {
+			for (String country : movie.getCountries()) {
+				countries.put(country, country);
+			}
+			for (String genre : movie.getGenres()) {
+				genres.put(genre, genre);
+			}
+			for (String language : movie.getLanguages()) {
+				languages.put(language, language);
+			}
+		}
+	}
+
+	/**
+	 * Returns all values that occur as country
+	 * in <code>movies</code>.
+	 * @return All values that occur as country
+	 * in <code>movies</code>.
+	 */
+	public String[] getAllCountries(){
+		return hashMapToStringArray(countries);
+	}
+
+	/**
+	 * Returns all values that occur as genre
+	 * in <code>movies</code>.
+	 * @return All values that occur as genre
+	 * in <code>movies</code>.
+	 */
+	public String[] getAllGenres(){
+		return hashMapToStringArray(genres);
+
+	}
+
+	/**
+	 * Returns all values that occur as language
+	 * in <code>movies</code>.
+	 * @return All values that occur as language
+	 * in <code>movies</code>.
+	 */
+	public String[] getAllLanguages(){
+		return hashMapToStringArray(languages);
+	}
+
+	/**
+	 * Helper method that converts a <code>Map<String,String></code> or a class that
+	 * implements <code>Map</code> to a String[].
+	 * @param map The map whose values are supposed to be converted
+	 * @return A String[] containing the values <code>map</code>.
+	 */
+	private String[] hashMapToStringArray(Map<String, String> map){
+		String[] result = new String[map.size()];
+		int index = 0;
+		for (String value : map.values()) {
+			result[index++] = value;
+		}
+		return result;
+
+	}
 }
 
