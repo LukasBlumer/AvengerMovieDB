@@ -64,7 +64,7 @@ public class Moviebase implements EntryPoint {
 	private ListBox listBoxForCountries;
 	private ListBox listBoxForLanguages;
 	private ListBox listBoxForGenres;
-	//private TextBox textBoxForMinLength;
+	private TextBox textBoxForMinLength = new TextBox();
 	private String[] countries;
 	private String[] languages;
 	private String[] genres;
@@ -85,8 +85,18 @@ public class Moviebase implements EntryPoint {
 				"Norwegian Language","Portugese Language","Russian Language","Silent film","Spanish Language",
 				"Standard Cantonese","Standard Mandarin","Tamil Language","Turkish Language"};
 		
-		genres = new String[50];
-		String [] genres ={"Drama","Action"};
+		genres = new String[150];
+		String [] genres ={"Drama","Action","Thriller","Science Fiction","Horror","Adventure","Supernatural","Space western",
+				"Mistery","Biographical film","Crime Drama","Crime Fiction","Erotic thriller","Psychological thriller","Short Film",
+				"Silent film","Indie","Black-and-white", "Comedy","Family Film","Fantasy","World cinema","Musical","Japanese Movies",
+				"Romantic comedy","Action/Adventure","Ensemble Film","Comedy-drama","Romantic drama","Romance Film","Costume drama",
+				"War film","Epic","Period piece","Film adaption","Children's/Family","Children's Fantasy","Future noir","Coming of age",
+				"Suspense","Black comedy","World cinema","Bollywood","Marriage Drama","Wuxia","Martial Arts Film","Chinese Movies",
+				"Western","Parody","Mockumentary","Fan film","Cult","Adventure Comedy","Slapstick","Biopic","Historical Epic",
+				"Sports","Political drama","Courtroom Drama","Culture & Society","Documentary","Christmas movie","Television movie",
+				"Malayalam Cinema","Blaxploitation","Erotica","Sci-Fi Horror","Satire","Gangster Film","Softcore Porn","Sexploitation",
+				"B-Movie","Zombie Film"};
+		
 		/*******************************************************************/
 		//Builds the Tree for the Global Sort Options part
 		
@@ -106,16 +116,14 @@ public class Moviebase implements EntryPoint {
 			listBoxForGenres.addItem(genres[i]);
 		}
 		
-		
-		/*/Create a handler for keyboard events in the textbox
-		textBoxForMinLength.addKeyPressHandler(new KeyPressHandler(){
-			public void onKeyPress(KeyPressEvent event){
-				if(!Character.isDigit(event.getCharCode())){
-					((TextBox)event.getSource()).cancelKey();
-				}
-			}
-		});*/
-		
+		textBoxForMinLength.addKeyPressHandler(new KeyPressHandler() {
+
+		     public void onKeyPress(KeyPressEvent event) {
+		       if (!Character.isDigit(event.getCharCode())) {
+		         ((TextBox) event.getSource()).cancelKey();
+		       }
+		     }
+		 });
 		
 		//Build filterTree for country sorting
 		TreeItem countrySort = new TreeItem();
@@ -138,11 +146,11 @@ public class Moviebase implements EntryPoint {
 		//Build filterTree for minLength sorting
 		TreeItem minLengthSort = new TreeItem();
 		minLengthSort.setText("Filter By minimum Length");
-		//minLengthSort.addItem(textBoxForMinLength);
+		minLengthSort.addItem(textBoxForMinLength);
 		minLengthSort.addItem(updateMinLength);
 		
 		TreeItem exportButtonSort = new TreeItem(new PushButton("Export this view"));
-		
+
 		//Add everything to the rootTree
 		filterTreeForMap.addItem(countrySort);
 		filterTreeForMap.addItem(languageSort);
@@ -185,7 +193,7 @@ public class Moviebase implements EntryPoint {
 		
 		updateMinLength.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event){
-				//updateMinLengthChart(dockLayoutPanel,worldmap,pieChart,movieTable,columnChart,textBoxForMinLength.getSelectedText());
+				updateMinLengthChart(dockLayoutPanel,worldmap,pieChart,movieTable,columnChart,textBoxForMinLength.getValue());
 			}
 		});
 		

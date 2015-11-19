@@ -42,7 +42,7 @@ public class TableComponent {
 		// odd rows are set to white, even to grey
 		options.setAlternatingRowStyle(true);
 		options.setShowRowNumber(true);
-//		options.setPage(1);	// ??
+		//options.setPage(1);	// ??
 		// enables to let table be sorted for just 10000 entries 
 		if (dataTable.getNumberOfRows() > 15) {
 			options.setSort("disable");
