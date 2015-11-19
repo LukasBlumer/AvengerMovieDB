@@ -35,16 +35,16 @@ public class TableComponent {
 		// odd rows are set to white, even to grey
 		options.setAlternatingRowStyle(true);
 		options.setShowRowNumber(true);
-//		options.setPage(1);	// ??
+		options.setPage(10);	// ??
 		// enables to let table be sorted for just 10000 entries 
-		if (dataTable.getNumberOfRows() > 15) {
+		if (dataTable.getNumberOfRows() > 10000) {
 			options.setSort("disable");
 		}
 		else {
 			Window.alert("By clicking on a row it will be alphabetically sorted.");
 			options.setSort("enable");
 		}
-//		options.setPageSize(20);
+		options.setPageSize(100);
 
 		
 		// draw the table
