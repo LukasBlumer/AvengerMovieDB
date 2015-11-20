@@ -37,6 +37,7 @@ public class MovieCollectionConverter {
 			tableCountryAmount.addColumn(ColumnType.NUMBER, "Number of movies");
 			return tableCountryAmount;
 		}
+		
 		HashMap<String, Integer> tally = numberOfMoviesPerCountry(movies);
 		String nameOfCountry; // holds movie.getName() for a single movie
 
@@ -114,8 +115,8 @@ public class MovieCollectionConverter {
 	}
 	
 	/**
-	 * Convert <tt>MovieCollection</tt> collection to a <tt>DataTable</tt> with the columns "Name", "Erscheinungsjahr",
-	 * "Filmdauer", "Genre", "Sprache" and "Land".
+	 * Convert <tt>MovieCollection</tt> collection to a <tt>DataTable</tt> with the columns "Name", "Release Date",
+	 * "Length", "Genre", "Language" and "Country".
 	 * For each entry of the collection such a row will be created. 
 	 * 
 	 * @param collection The <tt>MovieCollection</tt> that will be converted.
@@ -132,10 +133,10 @@ public class MovieCollectionConverter {
 		dataTable.addColumn(ColumnType.STRING, "Genre");
 		dataTable.addColumn(ColumnType.STRING, "Language");
 		dataTable.addColumn(ColumnType.STRING, "Country");
-		dataTable.addRows(80000);
+		dataTable.addRows(collection.getMovies().size());
 		
 		// fill in the data in each row
-		for(int i=0; i<80000; i++){
+		for(int i=0; i<collection.getMovies().size(); i++){
 			dataTable.setCell(i, 0, collection.getMovies().get(i).getName());
 			
 			if(collection.getMovies().get(i).getReleaseDate() == -1){
@@ -189,6 +190,10 @@ public class MovieCollectionConverter {
 		String[] countries; // holds movie.getCountries() for a single movie
 		String nameOfCountry; // holds movie.getName() for a single movie
 		
+		for (int i = 0; i < ALL_COUNTRIES.length; i++) {
+			tally.put(ALL_COUNTRIES[i], 0);
+		}
+		
 		for (int i = 0; i < movieList.size(); i++) { // for all movies
 			countries = movieList.get(i).getCountries();
 			for (int j = 0; j < countries.length; j++) {
@@ -199,6 +204,7 @@ public class MovieCollectionConverter {
 					tally.put(nameOfCountry, tally.get(nameOfCountry)+1);
 				} else{ // if the tally does not already contain the country
 					tally.put(nameOfCountry, 1);
+					GWT.log("Could not find "+ nameOfCountry);
 				}
 			}
 		}
@@ -228,7 +234,7 @@ public class MovieCollectionConverter {
 					tally.get(nameOfCountry).set(index, (int)tally.get(nameOfCountry).get(index) + 1);
 				} else{
 					//  fill the arraylist with zeroes and add one for the release year
-					ArrayList list = new ArrayList(timeframeInYears); // doesn't that save multiple arrayLists to the same variable?
+					ArrayList<Integer> list = new ArrayList<Integer>(Integer.valueOf(timeframeInYears)); // doesn't that save multiple arrayLists to the same variable?
 					for (int k = 0; k < timeframeInYears; k++) {
 						list.add(k, 0);
 					}
@@ -240,5 +246,282 @@ public class MovieCollectionConverter {
 		
 		return tally;
 	}
+	
+
+	/**
+	 * List of all countries according to ISO 3166-2 standard. Slightly changed to accomodate the source file.
+	 */
+	private static final String[] ALL_COUNTRIES = new String[] {
+			"Afghanistan",
+			"Albania",
+			"Algeria",
+			"Andorra",
+			"Angola",
+			"Antigua and Barbuda",
+			"Argentina",
+			"Armenia",
+			"Australia",
+			"Austria",
+			"Azerbaijan",
+			"Bahamas",
+			"Bahrain",
+			"Bangladesh",
+			"Barbados",
+			"Belarus",
+			"Belgium",
+			"Belize",
+			"Benin",
+			"Bhutan",
+			"Bolivia",
+			"Bosnia and Herzegovina",
+			"Botswana",
+			"Brazil",
+			"Brunei",
+			"Bulgaria",
+			"Burkina Faso",
+			"Burundi",
+			"Cambodia",
+			"Cameroon",
+			"Canada",
+			"Cape Verde",
+			"Central African Republic",
+			"Chad",
+			"Chile",
+			"China",
+			"Colombia",
+			"Congo",
+			"Comoros",
+			"Costa Rica",
+			"Cote d'Ivoire",
+			"Croatia",
+			"Cuba",
+			"Cyprus",
+			"Czech Republic",
+			"Denmark",
+			"Democratic Republic of the Congo",
+			"Djibouti",
+			"Dominica",
+			"Dominican Republic",
+			"Ecuador",
+			"Egypt",
+			"El Salvador",
+			"Equatorial Guinea",
+			"Eritrea",
+			"Estonia",
+			"Ethiopia",
+			"Fiji",
+			"Finland",
+			"France",
+			"Gabon",
+			"Gambia",
+			"Georgia",
+			"Germany",
+			"Ghana",
+			"Greece",
+			"Grenada",
+			"Guatemala",
+			"Guinea",
+			"Guinea-Bissau",
+			"Guyana",
+			"Haiti",
+			"Honduras",
+			"Hungary",
+			"Iceland",
+			"India",
+			"Indonesia",
+			"Iran",
+			"Iraq",
+			"Ireland",
+			"Israel",
+			"Italy",
+			"Jamaica",
+			"Japan",
+			"Jordan",
+			"Kazakhstan",
+			"Kenya",
+			"Kiribati",
+			"North Korea",
+			"South Korea",
+			"Kuwait",
+			"Kyrgyzstan",
+			"Laos",
+			"Latvia",
+			"Lebanon",
+			"Lesotho",
+			"Liberia",
+			"Libya",
+			"Liechtenstein",
+			"Lithuania",
+			"Luxembourg",
+			"Macedonia",
+			"Madagascar",
+			"Malawi",
+			"Malaysia",
+			"Maldives",
+			"Mali",
+			"Malta",
+			"Marshall Islands",
+			"Mauritania",
+			"Mauritius",
+			"Mexico",
+			"Micronesia",
+			"Moldova",
+			"Monaco",
+			"Mongolia",
+			"Montenegro",
+			"Morocco",
+			"Mozambique",
+			"Myanmar (Burma)",
+			"Namibia",
+			"Nauru",
+			"Nepal",
+			"Netherlands",
+			"New Zealand",
+			"Nicaragua",
+			"Niger",
+			"Nigeria",
+			"Norway",
+			"Oman",
+			"Pakistan",
+			"Palau",
+			"Panama",
+			"Papua New Guinea",
+			"Paraguay",
+			"Peru",
+			"Philippines",
+			"Poland",
+			"Portugal",
+			"Qatar",
+			"Romania",
+			"Russia",
+			"Rwanda",
+			"Saint Kitts and Nevis",
+			"Saint Lucia",
+			"Saint Vincent and the Grenadines",
+			"Samoa",
+			"San Marino",
+			"Sao Tome and Principe",
+			"Saudi Arabia",
+			"Senegal",
+			"Serbia",
+			"Seychelles",
+			"Sierra Leone",
+			"Singapore",
+			"Slovakia",
+			"Slovenia",
+			"Solomon Islands",
+			"Somalia",
+			"South Africa",
+			"Spain",
+			"Sri Lanka",
+			"Sudan",
+			"South Sudan",
+			"Suriname",
+			"Swaziland",
+			"Sweden",
+			"Switzerland",
+			"Syria",
+			"Tajikistan",
+			"Tanzania",
+			"Thailand",
+			"Timor-Leste (East Timor)",
+			"Togo",
+			"Tonga",
+			"Trinidad and Tobago",
+			"Tunisia",
+			"Turkey",
+			"Turkmenistan",
+			"Tuvalu",
+			"Uganda",
+			"Ukraine",
+			"United Arab Emirates",
+			"United Kingdom",
+			"United States of America",
+			"Uruguay",
+			"Uzbekistan",
+			"Vanuatu",
+			"Vatican City",
+			"Venezuela",
+			"Vietnam",
+			"Yemen",
+			"Zambia",
+			"Zimbabwe",
+			"Abkhazia",
+			"Taiwan",
+			"Nagorno-Karabakh",
+			"Northern Cyprus",
+			"Pridnestrovie (Transnistria)",
+			"Somaliland",
+			"South Ossetia",
+			"Ashmore and Cartier Islands",
+			"Christmas Island",
+			"Cocos (Keeling) Islands",
+			"Coral Sea Islands",
+			"Heard Island and McDonald Islands",
+			"Norfolk Island",
+			"New Caledonia",
+			"French Polynesia",
+			"Mayotte",
+			"Saint Barthelemy",
+			"Saint Martin",
+			"Saint Pierre and Miquelon",
+			"Wallis and Futuna",
+			"French Southern and Antarctic Lands",
+			"Clipperton Island",
+			"Bouvet Island",
+			"Cook Islands",
+			"Niue",
+			"Tokelau",
+			"Guernsey",
+			"Isle of Man",
+			"Jersey",
+			"Anguilla",
+			"Bermuda",
+			"British Indian Ocean Territory",
+			"British Sovereign Base Areas",
+			"British Virgin Islands",
+			"Cayman Islands",
+			"Falkland Islands (Islas Malvinas)",
+			"Gibraltar",
+			"Montserrat",
+			"Pitcairn Islands",
+			"Saint Helena",
+			"South Georgia & South Sandwich Islands",
+			"Turks and Caicos Islands",
+			"Northern Mariana Islands",
+			"Puerto Rico",
+			"American Samoa",
+			"Baker Island",
+			"Guam",
+			"Howland Island",
+			"Jarvis Island",
+			"Johnston Atoll",
+			"Kingman Reef",
+			"Midway Islands",
+			"Navassa Island",
+			"Palmyra Atoll",
+			"U.S. Virgin Islands",
+			"Wake Island",
+			"Hong Kong",
+			"Macau",
+			"Faroe Islands",
+			"Greenland",
+			"French Guiana",
+			"Guadeloupe",
+			"Martinique",
+			"Reunion",
+			"Aland",
+			"Aruba",
+			"Netherlands Antilles",
+			"Svalbard",
+			"Ascension",
+			"Tristan da Cunha",
+			"Australian Antarctic Territory",
+			"Ross Dependency",
+			"Peter I Island",
+			"Queen Maud Land",
+			"British Antarctic Territory"
+		};
+
 
 }

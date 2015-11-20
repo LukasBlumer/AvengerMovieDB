@@ -1,19 +1,15 @@
 package amdb.client;
 
+import amdb.shared.MovieCollection;
+import amdb.shared.MovieCollectionConverter;
+
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.user.client.Window;
 import com.googlecode.gwt.charts.client.DataTable;
 import com.googlecode.gwt.charts.client.ajaxloader.ArrayHelper;
-import com.googlecode.gwt.charts.client.event.SelectEvent;
-import com.googlecode.gwt.charts.client.event.SelectHandler;
 import com.googlecode.gwt.charts.client.geochart.GeoChart;
 import com.googlecode.gwt.charts.client.geochart.GeoChartColorAxis;
 import com.googlecode.gwt.charts.client.geochart.GeoChartOptions;
-import com.googlecode.gwt.charts.client.geochart.MagnifyingGlass;
-
-import amdb.shared.MovieCollection;
-import amdb.shared.MovieCollectionConverter;
 
 public class MapComponent {
 	/*
@@ -50,12 +46,13 @@ public class MapComponent {
 		geoChartColorAxis.setColors(colorAxisHelper);
 		// values higher than MaxValue are displayed in the darkest color. The gradient stops at this value
 		// geoChartColorAxis.setMaxValue(33500);
+		geoChartColorAxis.setMinValue(1);
 		// options.hideLegend();
 		
 		options.setColorAxis(geoChartColorAxis);
 		options.setDatalessRegionColor(datalessRegionColor);
 		options.setBackgroundColor(backgroundColor);
-		
+				
 		// onClick event listener (might go into another file)
 //		geoChart.addSelectHandler(new SelectHandler() {
 //			public void onSelect(SelectEvent select) {
@@ -81,4 +78,6 @@ public class MapComponent {
 		GWT.log("drawing worldmap finished.");
 
 	}
+	
+	
 }

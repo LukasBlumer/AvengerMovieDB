@@ -1,12 +1,13 @@
 package amdb;
 
-import static org.junit.Assert.*;
-import static amdb.preprocessing.ParserPreprocessing.preprocessFile;
 import static amdb.client.ParserClientside.stringToMovieCollection;
+import static amdb.preprocessing.ParserPreprocessing.preprocessFile;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import org.junit.Test;
