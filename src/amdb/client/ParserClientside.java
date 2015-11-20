@@ -31,13 +31,30 @@ public class ParserClientside {
 
 		for (String line : source.split("\n")) {
 			movieAttributes = line.split("\t");
+			
+			String[] languages, genres, countries;
+			languages = movieAttributes[3].split("\\|");
+			countries = movieAttributes[4].split("\\|");
+			genres = movieAttributes[5].split("\\|");
+			
+			/* 
+			 * check if any of the arrays are empty
+			 * here we undo adding a space if array is empty
+			 */
+ 			if(languages[0].equals(" ")){
+ 				languages = new String[0];
+ 			}if(countries[0].equals(" ")){
+ 				countries = new String[0];
+ 			}if(genres[0].equals(" ")){
+ 				genres = new String[0];
+ 			}
 			// Create Movie from name, length, releaseDate, genres, languages, countries
 			movies.addMovie(new Movie(movieAttributes[0], 
 					Float.parseFloat(movieAttributes[2]), 
 					Integer.parseInt(movieAttributes[1]), 
-					movieAttributes[5].split("\\|") , 
-					movieAttributes[3].split("\\|"), 
-					movieAttributes[4].split("\\|")));			
+					genres , 
+					languages, 
+					countries));			
 		}
 		GWT.log("parsed "+movies.getMovies().size()+" movies");
 

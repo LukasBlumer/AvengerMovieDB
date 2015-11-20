@@ -2,9 +2,6 @@ package amdb.shared;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -70,12 +67,14 @@ public class MovieCollection implements Serializable {
 	 */
 	public void addMovie(Movie movie){
 		movies.add(movie);
+		
 		if(isNewMaxYear(movie.getReleaseDate())){
 			maxYear = movie.getReleaseDate();
 		}
 		if(isNewMinYear(movie.getReleaseDate())){
 			minYear = movie.getReleaseDate();
 		}
+		
 		for (String country : movie.getCountries()) {
 			countries.put(country, country);
 		}

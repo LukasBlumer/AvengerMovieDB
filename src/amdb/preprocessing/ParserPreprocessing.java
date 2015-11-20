@@ -28,6 +28,9 @@ import amdb.shared.MovieCollection;
  *name	releaseDate	length	lang1|...|langN	country1|...|countryN	genre1|...|genreN
  * </pre></blockquote>
  * 
+ * <p>
+ * If a language, country or genre block is empty a space character is inserted in it's place.
+ * 
  * @author petrawittwer
  * @history 2015-11-16 PW first version
  * @version 2015-11-16 PW 1.0
@@ -196,6 +199,7 @@ public class ParserPreprocessing {
 			builder.append(intermediateArray[intermediateArray.length-1]);
 			builder.append('\t');
 		} else {
+			builder.append(' ');
 			builder.append('\t');			
 		}
 
@@ -210,11 +214,14 @@ public class ParserPreprocessing {
 			builder.append(intermediateArray[intermediateArray.length-1]);
 			builder.append('\t');
 		} else {
+			builder.append(' ');
+
 			builder.append('\t');			
 		}
 
 		// add genres
 
+		// It is crucial to append a space here because otherwise the split during reading doesn't work.
 		intermediateArray = m.getGenres();
 		if(intermediateArray.length > 0) {
 			for (int i = 0; i < intermediateArray.length-1; i++) {
