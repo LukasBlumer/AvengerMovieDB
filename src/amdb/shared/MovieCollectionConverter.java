@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import com.google.gwt.core.shared.GWT;
 import com.googlecode.gwt.charts.client.ColumnType;
 import com.googlecode.gwt.charts.client.DataTable; 
 
@@ -26,6 +27,16 @@ public class MovieCollectionConverter {
 	 * @return movies as a <tt>DataTable</tt>
 	 */
 	public static DataTable toDataTableCountryAmount(MovieCollection movies){
+		
+		if(movies == null){
+			GWT.log("created empty DataTable for map component.");
+			DataTable tableCountryAmount = DataTable.create();
+			// add row for the names of the countries
+			tableCountryAmount.addColumn(ColumnType.STRING, "Country");
+			// add row for the number of movies the country has
+			tableCountryAmount.addColumn(ColumnType.NUMBER, "Number of movies");
+			return tableCountryAmount;
+		}
 		HashMap<String, Integer> tally = numberOfMoviesPerCountry(movies);
 		String nameOfCountry; // holds movie.getName() for a single movie
 

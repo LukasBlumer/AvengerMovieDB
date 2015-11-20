@@ -15,6 +15,8 @@ public class MovieCollectionTest {
 	static Movie m4 = new Movie("Watching grass",304, 1973, new String[] {"Documentary"}, new String[] {"English"}, new String[]{"Spain", "Sweden"});
 	static Movie m5 = new Movie("Watching grass grow",370, 1974, new String[] {"Documentary"}, new String[] {"English"}, new String[]{"Spain", "Sweden"});
 
+	static Movie m6 = new Movie("Blandest movie ever", 200, -1, new String[0],  new String[0],  new String[0]);
+	
 	static ArrayList<Movie> movieArrayList = new ArrayList<Movie>(Arrays.asList(m1,m2));
 
 
@@ -197,7 +199,7 @@ public class MovieCollectionTest {
 		MovieCollection testCollection = new MovieCollection();
 		testCollection.addMovie(m1);
 		testCollection.addMovie(m2);
-		
+		testCollection.addMovie(m6);
 		assertEquals(1990, testCollection.getMinYear());
 	}
 	

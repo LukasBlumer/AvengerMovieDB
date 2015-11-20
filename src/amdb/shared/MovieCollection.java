@@ -37,7 +37,7 @@ public class MovieCollection implements Serializable {
 	public MovieCollection(){
 		// initialize the collection that holds the elements of type Movie
 		movies = new ArrayList<Movie>();
-		//		movies.add(new Movie("The Happening", 1990,new String[] {"Horror", "Romance", "Adventure"}, new String []{"Urdu", "Polish"}, new String[]{"Pakistan", "Italy"}));
+
 		countries = new TreeMap<String, String>();
 		genres = new TreeMap<String, String>();
 		languages = new TreeMap<>();
@@ -294,8 +294,12 @@ public class MovieCollection implements Serializable {
 		int year;
 		for (int i = 0; i < movies.size(); i++) {
 			year = movies.get(i).getReleaseDate();
-			isNewMinYear(year);
-			isNewMaxYear(year);
+			if(isNewMaxYear(year)){
+				maxYear = year;
+			}
+			if(isNewMinYear(year)){
+				minYear = year;
+			}
 		}
 	}
 
