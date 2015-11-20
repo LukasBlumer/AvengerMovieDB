@@ -77,8 +77,11 @@ public class Moviebase implements EntryPoint {
 		
 		//Create the listBoxes for the sidebar
 		listBoxForCountries = new ListBox();
+		listBoxForCountries.setWidth("215px");
 		listBoxForLanguages = new ListBox();
+		listBoxForLanguages.setWidth("215px");
 		listBoxForGenres = new ListBox();
+		listBoxForGenres.setWidth("215px");
 		//listBoxes are filled in onDatabaseReady()
 		/*******************************************************************/
 
@@ -195,11 +198,13 @@ public class Moviebase implements EntryPoint {
 		MenuBar pieChartViewMenu = new MenuBar(true);
 		MenuBar tableViewMenu = new MenuBar(true);
 		MenuBar barDiagramViewMenu = new MenuBar(true);
+		MenuBar informationBackground = new MenuBar(true);
 		headerMenu.addItem("Home/Worldmap",homeMenu);
 		headerMenu.addItem("Pie Chart", pieChartViewMenu);
 		headerMenu.addItem("Table", tableViewMenu);
 		headerMenu.addItem("Bar Diagram",barDiagramViewMenu);
 		headerMenu.addItem("About Us", aboutUsMenu);
+		headerMenu.addItem("Where our informations come from", informationBackground);
 		
 		//Add commands to MenuItems
 		tableViewMenu.addItem("Change to Table", tableViewCmd);
@@ -223,7 +228,8 @@ public class Moviebase implements EntryPoint {
 		
 	    //Rootpanel where anything else is include
 		dockLayoutPanel.addNorth(headerMenu, 3);
-		dockLayoutPanel.addSouth(new HTML("South"), 5);
+		dockLayoutPanel.addSouth(new HTML("South"), 4);
+		dockLayoutPanel.addEast(new HTML("East"), 7);
 		dockLayoutPanel.addWest(splitLayoutPanel,20);	
 		
 	    /*******************************************************************/
