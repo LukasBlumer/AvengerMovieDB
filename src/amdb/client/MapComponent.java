@@ -57,14 +57,14 @@ public class MapComponent {
 		options.setBackgroundColor(backgroundColor);
 		
 		// onClick event listener (might go into another file)
-		geoChart.addSelectHandler(new SelectHandler() {
-			public void onSelect(SelectEvent select) {
-				// addFilter();
-				GWT.log(select.NAME);
-				GWT.log(select.getProperties().toString());
-				Window.alert("You clicked on a country");
-			}
-		});
+//		geoChart.addSelectHandler(new SelectHandler() {
+//			public void onSelect(SelectEvent select) {
+//				// addFilter();
+//				GWT.log(select.NAME);
+//				GWT.log(select.getProperties().toString());
+//				Window.alert("You clicked on a country");
+//			}
+//		});
 		
 
 		// zoom does not work

@@ -33,11 +33,11 @@ public class TableComponent {
 		GWT.log("drawing table component.");
 		
 		// set options
-		TableOptions options = TableOptions.create();
+		final TableOptions options = TableOptions.create();
 		// odd rows are set to white, even to grey
 		options.setAlternatingRowStyle(true);
 		options.setShowRowNumber(true);
-//		options.setPage(1);	// ??
+		options.setPage(1);	// This enables pageing in general
 		// enables to let table be sorted for just 10000 entries 
 		if (dataTable.getNumberOfRows() > 10000) {
 			options.setSort("disable");
@@ -46,16 +46,14 @@ public class TableComponent {
 			Window.alert("By clicking on a row it will be alphabetically sorted.");
 			options.setSort("enable");
 		}
-		options.setPageSize(10);
-		
+		options.setPageSize(20);		
 		table.addPageHandler(new PageHandler() {
-			
 			@Override
 			public void onPage(PageEvent event) {
-				TableOptions newOptions = TableOptions.create();
-				
-				newOptions.setPage(event.getPage());
-				table.draw(dataTable, newOptions);
+				// set the page as specified in the event
+				options.setStartPage(event.getPage());
+				// make changes visible
+				table.redraw();
 			}
 		});
 		
