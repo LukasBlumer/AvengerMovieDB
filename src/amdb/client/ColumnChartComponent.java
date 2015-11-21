@@ -25,9 +25,9 @@ public class ColumnChartComponent {
 	public static void drawColumnChart(ColumnChart columnChart, MovieCollection collection) {
 		
 		// Conversion of MovieCollection to DataTable
-		GWT.log("creating dataTable for piechart.");
+		GWT.log("creating dataTable for ColumnChart.");
 		DataTable dataTable = MovieCollectionConverter.toDataTableYearCountryAmount(collection);
-		GWT.log("creating dataTable for piechart finished.");
+		GWT.log("creating dataTable for ColumnChart finished.");
 
 		// onClick event listener (might go into another file)
 		columnChart.addSelectHandler(new SelectHandler() {
@@ -39,9 +39,9 @@ public class ColumnChartComponent {
 			}
 		});
 		
-		GWT.log("drawing columnchart.");
+		GWT.log("drawing ColumnChart.");
 
-		// Customising column chart appearance
+		// Customizing column chart appearance
 		ColumnChartOptions options = ColumnChartOptions.create();
 		options.setTitle("Here's the stuff");
 		options.setHAxis(HAxis.create("Year"));

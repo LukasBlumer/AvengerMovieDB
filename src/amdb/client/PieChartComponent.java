@@ -24,7 +24,7 @@ public class PieChartComponent {
 		
 		// Conversion of MovieCollection to DataTable
 		GWT.log("creating dataTable for piechart.");
-		DataTable dataTable = MovieCollectionConverter.toDataTableCountryAmount(collection);
+		DataTable dataTable = MovieCollectionConverter.toDataTablePerCountry(collection);
 		GWT.log("creating dataTable for piechart finished.");
 		
 		// onClick event listener (might go into another file)

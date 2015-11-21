@@ -30,7 +30,7 @@ public class MapComponent {
 		// Log when the creation of the dataTable starts and ends
 		GWT.log("creating dataTable for worldmap.");
 		// Conversion of MovieCollection to DataTable
-		DataTable dataTable = MovieCollectionConverter.toDataTableCountryAmount(collection);
+		DataTable dataTable = MovieCollectionConverter.toDataTablePerCountry(collection);
 		GWT.log("creating dataTable for worldmap finished.");
 
 		// Log how when the creation of the worldmap starts and finishes
