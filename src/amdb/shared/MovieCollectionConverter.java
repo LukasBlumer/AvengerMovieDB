@@ -89,11 +89,11 @@ public class MovieCollectionConverter {
 
 		// Format tableCountryAmount
 		// add row for the years
-		tableYearCountryAmount.addColumn(ColumnType.NUMBER, "Years");
+		tableYearCountryAmount.addColumn(ColumnType.STRING, "Years");
 
 		tableYearCountryAmount.addRows(timeframeInYears+1);
 		for (int i = 0; i < timeframeInYears+1; i++) {
-			tableYearCountryAmount.setValue(i, 0, movies.getMinYear() + i);
+			tableYearCountryAmount.setValue(i, 0, Integer.toString(movies.getMinYear() + i));
 		}
 
 		// iterate over all keys in tally

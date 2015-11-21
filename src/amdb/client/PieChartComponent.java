@@ -27,7 +27,7 @@ public class PieChartComponent {
 		DataTable dataTable = MovieCollectionConverter.toDataTablePerCountry(collection);
 		GWT.log("creating dataTable for piechart finished.");
 		
-		// onClick event listener (might go into another file)
+		/* onClick event listener (might go into another file)
 		pieChart.addSelectHandler(new SelectHandler() {
 			public void onSelect(SelectEvent select) {
 				// addFilter();
@@ -36,6 +36,7 @@ public class PieChartComponent {
 				Window.alert("You clicked on a slice");
 			}
 		});
+		*/
 		
 		GWT.log("drawing piechart.");
 
@@ -44,8 +45,7 @@ public class PieChartComponent {
 		options.setBackgroundColor("#f0f0f0");
 		options.setPieResidueSliceColor("#000000");
 		options.setPieResidueSliceLabel("Others");
-		options.setSliceVisibilityThreshold(0.1);
-		options.setTitle("This is the breakdown");
+		options.setSliceVisibilityThreshold(0.025);
 
 		// Actually draw the chart.
 		pieChart.draw(dataTable, options);

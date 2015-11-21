@@ -218,20 +218,20 @@ public class Moviebase implements EntryPoint {
 		MenuBar aboutUsMenu	= new MenuBar(true);
 		MenuBar pieChartViewMenu = new MenuBar(true);
 		MenuBar tableViewMenu = new MenuBar(true);
-		MenuBar barDiagramViewMenu = new MenuBar(true);
+		MenuBar columnChartViewMenu = new MenuBar(true);
 		MenuBar informationBackground = new MenuBar(true);
 		headerMenu.addItem("Worldmap",homeMenu);
 		headerMenu.addItem("Pie Chart", pieChartViewMenu);
 		headerMenu.addItem("Table", tableViewMenu);
-		headerMenu.addItem("Bar Diagram",barDiagramViewMenu);
+		headerMenu.addItem("Column Chart",columnChartViewMenu);
 		headerMenu.addItem("About Us", aboutUsMenu);
-		headerMenu.addItem("Where our informations come from", informationBackground);
+		headerMenu.addItem("Sources", informationBackground);
 
 		//Add commands to MenuItems
 		tableViewMenu.addItem("Change to Table", tableViewCmd);
 		homeMenu.addItem("Change to Worldmap",homeMenuCmd);
 		pieChartViewMenu.addItem("Change to Pie Chart", pieChartCmd);
-		barDiagramViewMenu.addItem("Change to Bar Diagram", barDiagramCmd);
+		columnChartViewMenu.addItem("Change to Bar Diagram", barDiagramCmd);
 
 		headerMenu.setStyleName("headerMenu",false);
 		headerMenu.setStyleName("homeMenu",false);
