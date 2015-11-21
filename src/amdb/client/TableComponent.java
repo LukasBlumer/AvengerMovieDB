@@ -43,7 +43,7 @@ public class TableComponent {
 			options.setSort("disable");
 		}
 		else {
-			Window.alert("By clicking on a row it will be alphabetically sorted.");
+			// Window.alert("By clicking on a row it will be alphabetically sorted.");
 			options.setSort("enable");
 		}
 		options.setPageSize(20);		
