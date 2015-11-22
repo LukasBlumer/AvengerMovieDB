@@ -1,6 +1,9 @@
 package amdb.client;
 
+import amdb.shared.Movie;
 import amdb.shared.MovieCollection;
+
+import java.util.ArrayList;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -16,6 +19,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ListBox;
@@ -392,16 +396,26 @@ public class Moviebase implements EntryPoint {
 
 	// create Column Chart, remove the current center, add Column Chart to center
 	public void setColumnChart(){
-		ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
-		chartLoader.loadApi(new Runnable() {
-			@Override
-			public void run() {
-				columnChart = new ColumnChart();
-				dockLayoutPanel.remove(3);
-				dockLayoutPanel.add(columnChart);
-				ColumnChartComponent.drawColumnChart(columnChart, currentMovies);
-			}
-		});	
+		// Conversion of MovieCollection to DataTable
+		ArrayList<Movie> movieList = currentMovies.getMovies();
+		
+		// The view can lock down the whole browser sometimes. Limiting the amount of movies fixes that.
+		if (movieList.size() > 35000) {
+			Window.alert("The chosen data sample is too large to display!");
+			GWT.log("Data sample was too large!");
+		} else {
+			ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
+			chartLoader.loadApi(new Runnable() {
+				@Override
+				public void run() {
+					columnChart = new ColumnChart();
+					dockLayoutPanel.remove(3);
+					dockLayoutPanel.add(columnChart);
+					ColumnChartComponent.drawColumnChart(columnChart, currentMovies);
+				}
+			});	
+		}
+		
 	}
 	
 	/**

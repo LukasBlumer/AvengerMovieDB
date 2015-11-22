@@ -28,42 +28,32 @@ public class ColumnChartComponent {
 	public static void drawColumnChart(ColumnChart columnChart, MovieCollection collection) {
 		
 		// Conversion of MovieCollection to DataTable
-		ArrayList<Movie> movieList = collection.getMovies();
-		
 		GWT.log("creating dataTable for ColumnChart.");
+		DataTable dataTable = MovieCollectionConverter.toDataTableYearCountryAmount(collection);
+		GWT.log("creating dataTable for ColumnChart finished.");
+
+		/* onClick event listener (might go into another file)
+		columnChart.addSelectHandler(new SelectHandler() {
+			public void onSelect(SelectEvent select) {
+				// addFilter();
+				GWT.log(select.NAME);
+				GWT.log(select.getProperties().toString());
+				Window.alert("You clicked on a column");
+			}
+		});
+		*/
 		
-		// The view can lock down the whole browser sometimes. Limiting the amount of movies fixes that.
-		if (movieList.size() > 35000) {
-			Window.alert("The chosen data sample is too large to display!");
-			GWT.log("Data sample was too large!");
-		} else {
-			
-			DataTable dataTable = MovieCollectionConverter.toDataTableYearCountryAmount(collection);
-			GWT.log("creating dataTable for ColumnChart finished.");
+		GWT.log("drawing ColumnChart.");
 
-			/* onClick event listener (might go into another file)
-			columnChart.addSelectHandler(new SelectHandler() {
-				public void onSelect(SelectEvent select) {
-					// addFilter();
-					GWT.log(select.NAME);
-					GWT.log(select.getProperties().toString());
-					Window.alert("You clicked on a column");
-				}
-			});
-			*/
-			
-			GWT.log("drawing ColumnChart.");
-
-			// Customizing column chart appearance
-			ColumnChartOptions options = ColumnChartOptions.create();
-			options.setHAxis(HAxis.create("Year"));
-			options.setVAxis(VAxis.create("Movies"));
-			
-			
-			// Actually draw the chart.
-			columnChart.draw(dataTable, options);
-			GWT.log("drawing columnchart finished.");
-		}
+		// Customizing column chart appearance
+		ColumnChartOptions options = ColumnChartOptions.create();
+		options.setHAxis(HAxis.create("Year"));
+		options.setVAxis(VAxis.create("Movies"));
+		
+		
+		// Actually draw the chart.
+		columnChart.draw(dataTable, options);
+		GWT.log("drawing columnchart finished.");
 	}
 
 }
