@@ -127,16 +127,17 @@ public class MovieCollectionConverter {
 
 		DataTable dataTable = DataTable.create();
 
+		int size = collection.getMovies().size();
 		dataTable.addColumn(ColumnType.STRING, "Name");
 		dataTable.addColumn(ColumnType.NUMBER, "Release Date");
 		dataTable.addColumn(ColumnType.NUMBER, "Length");
 		dataTable.addColumn(ColumnType.STRING, "Genre");
 		dataTable.addColumn(ColumnType.STRING, "Language");
 		dataTable.addColumn(ColumnType.STRING, "Country");
-		dataTable.addRows(collection.getMovies().size());
+		dataTable.addRows(size);
 
 		// fill in the data in each row
-		for(int i=0; i<collection.getMovies().size(); i++){
+		for(int i=0; i < size; i++){
 			dataTable.setCell(i, 0, collection.getMovies().get(i).getName());
 
 			if(collection.getMovies().get(i).getReleaseDate() == -1){
