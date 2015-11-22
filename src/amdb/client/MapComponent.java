@@ -3,11 +3,9 @@ package amdb.client;
 import amdb.shared.MovieCollection;
 import amdb.shared.MovieCollectionConverter;
 
-import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.user.client.Window;
 import com.googlecode.gwt.charts.client.DataTable;
 import com.googlecode.gwt.charts.client.ajaxloader.ArrayHelper;
 import com.googlecode.gwt.charts.client.geochart.GeoChart;
@@ -44,14 +42,18 @@ public class MapComponent {
 		GeoChartColorAxis geoChartColorAxis = GeoChartColorAxis.create();
 		// required to make a JsArrayString
 		@SuppressWarnings("deprecation")
-		JsArrayString colorAxisHelper = ArrayHelper.createJsArray(new String[]{"white", "0000FF",  "0033FF",  "0065FF",  "0099FF",  "00CBFF",  "00FFFF",  "00FFCB",  "00FF99",  "00FF65",  "00FF33",  "00FF00",  "32FF00",  "65FF00",  "99FF00",  "CCFF00",  "FFFF00",  "FFCC00",  "FF9900",  "FF6600",  "FF3200",  "FF0000"});
+//		JsArrayString colorAxisHelper = ArrayHelper.createJsArray(new String[]{"white", "0000FF",  "0033FF",  "0065FF",  "0099FF",  "00CBFF",  "00FFFF",  "00FFCB",  "00FF99",  "00FF65",  "00FF33",  "00FF00",  "32FF00",  "65FF00",  "99FF00",  "CCFF00",  "FFFF00",  "FFCC00",  "FF9900",  "FF6600",  "FF3200",  "FF0000"});
+		JsArrayString colorAxisHelper = ArrayHelper.createJsArray(new String[]{"white", "0000FF","FF0000"});
+
 		
 		double dataTableMax = dataTable.getColumnRange(1).getMaxNumber(); // this gets me the entry in the dataTable with the highest total movie count
 		
 		// in order to make countries with 0 movies white, we associate values with color ranges
 		@SuppressWarnings("deprecation")
-		JsArrayNumber colorAxisValues = ArrayHelper.createJsArray(new double[]{0.0, 1.0, 0.05*dataTableMax, 0.1*dataTableMax, 0.15*dataTableMax, 0.2*dataTableMax, 0.25*dataTableMax, 0.3*dataTableMax, 0.35*dataTableMax, 0.4*dataTableMax, 0.45*dataTableMax, 0.5*dataTableMax, 0.55*dataTableMax, 0.6*dataTableMax, 0.65*dataTableMax, 0.7*dataTableMax, 0.75*dataTableMax, 0.8*dataTableMax, 0.85*dataTableMax, 0.9*dataTableMax, 0.95*dataTableMax, dataTableMax});
+//		JsArrayNumber colorAxisValues = ArrayHelper.createJsArray(new double[]{0.0, 1.0, 0.05*dataTableMax, 0.1*dataTableMax, 0.15*dataTableMax, 0.2*dataTableMax, 0.25*dataTableMax, 0.3*dataTableMax, 0.35*dataTableMax, 0.4*dataTableMax, 0.45*dataTableMax, 0.5*dataTableMax, 0.55*dataTableMax, 0.6*dataTableMax, 0.65*dataTableMax, 0.7*dataTableMax, 0.75*dataTableMax, 0.8*dataTableMax, 0.85*dataTableMax, 0.9*dataTableMax, 0.95*dataTableMax, dataTableMax});
+		JsArrayNumber colorAxisValues = ArrayHelper.createJsArray(new double[]{0.0, 1.0, dataTableMax});
 
+		
 		geoChartColorAxis.setColors(colorAxisHelper);
 		geoChartColorAxis.setValues(colorAxisValues);
 		// options.hideLegend();
