@@ -259,7 +259,7 @@ public class ParserPreprocessing {
 			printWriter.close();
 
 		} catch (FileNotFoundException e) {
-			System.err.println();
+			System.err.println("Sourcefile not found.");
 			e.printStackTrace();
 		} catch (IOException e) {
 			System.err.println("File could not be parsed due to IOException.");
@@ -275,6 +275,8 @@ public class ParserPreprocessing {
 	 */
 	public static void main(String[] args) {
 		preprocessFile("war/WEB-INF/movies.tsv", "war/PreprocessedData/movies_preprocessed.tsv");
+//		preprocessFile("war/WEB-INF/systemtest_file.txt", "war/PreprocessedData/systemtest_file.tsv");
+		System.out.println("Done");
 	}
 
 }

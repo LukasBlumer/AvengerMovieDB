@@ -59,10 +59,6 @@ public class ParserClientsidePreprocessingTest {
 		} catch (FileNotFoundException e) {
 			fail("File "+outPathName+" could not be found.");
 		}
-
-
-
-
 	}
 
 }

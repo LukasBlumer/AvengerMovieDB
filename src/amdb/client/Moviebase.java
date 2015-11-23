@@ -291,7 +291,10 @@ public class Moviebase implements EntryPoint {
 		GWT.log("Fetching movies");
 		try {
 			// call on server to request the file in the specified path
+			// request regular file
 			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, "PreprocessedData/movies_preprocessed.tsv");
+			// request systemtest file 
+//			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, "PreprocessedData/systemtest_file.tsv");
 			builder.sendRequest(null, new RequestCallback() {
 				public void onError(Request request, Throwable exception) {
 					GWT.log("Request failed.");
