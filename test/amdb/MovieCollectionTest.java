@@ -232,7 +232,7 @@ public class MovieCollectionTest {
 	}
 	
 	@Test
-	public void testgetAllCountries(){
+	public void testGetAllCountries(){
 		MovieCollection testCollection = new MovieCollection(movieArrayList);
 		String[] result = testCollection.getAllCountries();
 		assertNotEquals(result, null);

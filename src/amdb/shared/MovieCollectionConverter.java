@@ -176,8 +176,12 @@ public class MovieCollectionConverter {
 	}
 
 	/**
-	 * Creates a hash map where the key is the name of a country occurring in movies 
+	 * <p>
+	 * Creates a hash map where the key is the name of a country occurring in movies
 	 * and the corresponding value is the number of Movie in movies that contain the country in their list of countries.
+	 * <p>
+	 * All countries according to ALL_COUNTRIES are inserted in the hash.
+	 * If a country has no movies, the value will be 0.
 	 * 
 	 * @param movies The collection that is searched for occurrences of country names
 	 * @return HashMap where key = name of a country, value = Movie in movies that contain this country.
@@ -254,7 +258,7 @@ public class MovieCollectionConverter {
 	/**
 	 * List of all countries according to ISO 3166-2 standard. Slightly changed to accomodate the source file.
 	 */
-	private static final String[] ALL_COUNTRIES = new String[] {
+	public static final String[] ALL_COUNTRIES = new String[] {
 		"Afghanistan",
 		"Albania",
 		"Algeria",

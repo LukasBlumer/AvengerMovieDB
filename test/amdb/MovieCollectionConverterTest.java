@@ -28,10 +28,11 @@ public class MovieCollectionConverterTest {
 	public void numberOfMoviesPerCountryTest(){
 		HashMap<String, Integer> testMap = MovieCollectionConverter.numberOfMoviesPerCountry(testMovies);
 		
-		assertEquals(6, testMap.size());
+		// ALL_COUNTRIES.length = 269 but Monte Carlo is not one of them, hence +1
+		assertEquals(MovieCollectionConverter.ALL_COUNTRIES.length+1, testMap.size());
 		assertEquals(3, (int) testMap.get("Sweden"));
 		assertEquals(1, (int) testMap.get("Italy"));
-		assertFalse(testMap.containsKey("Germany"));
+		assertEquals(0, (int) testMap.get("Germany"));
 	}
 
 }
