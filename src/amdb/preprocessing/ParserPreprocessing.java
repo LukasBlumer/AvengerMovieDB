@@ -7,11 +7,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.CharEncoding;
+import org.apache.commons.lang3.CharSet;
 
 import amdb.shared.Movie;
 import amdb.shared.MovieCollection;
@@ -243,20 +248,25 @@ public class ParserPreprocessing {
 	 * @param targetPath The path where the new File is supposed to be saved.
 	 */
 	public static void preprocessFile(String sourcePath, String targetPath){
-		File sourceFile = new File(sourcePath);
+		File[] files = new File(sourcePath).listFiles(); 
+
+//		File sourceFile = new File(sourcePath);
 		try {
-			MovieCollection movieCollection = parse(new FileInputStream(sourceFile));
-			PrintWriter printWriter = new  PrintWriter(targetPath);
-
-			ArrayList<Movie> movies = movieCollection.getMovies();
-
-			// for all movies add the movie as a string to the file
-			for (int i = 0; i < movies.size()-1; i++) {
-				printWriter.println(movieToString(movies.get(i)));
+			PrintWriter printWriter = new PrintWriter (new File(targetPath), "UTF-8");
+			for(File sourceFile : files){
+//				System.out.println(sourceFile);
+				MovieCollection movieCollection = parse(new FileInputStream(sourceFile));
+				
+				ArrayList<Movie> movies = movieCollection.getMovies();
+		
+				// for all movies add the movie as a string to the file
+				for (int i = 0; i < movies.size()-1; i++) {
+					printWriter.println(movieToString(movies.get(i)));
+				}
+				printWriter.print(movieToString(movies.get(movies.size()-1)));
+				printWriter.print("\n");
 			}
-			printWriter.print(movieToString(movies.get(movies.size()-1)));			
-
-			printWriter.close();
+				printWriter.close();
 
 		} catch (FileNotFoundException e) {
 			System.err.println("Sourcefile not found.");
@@ -274,7 +284,8 @@ public class ParserPreprocessing {
 	 * @param args If you don't know what this does you have bigger problems that will not be solved by a single comment.
 	 */
 	public static void main(String[] args) {
-		preprocessFile("war/WEB-INF/movies.tsv", "war/PreprocessedData/movies_preprocessed.tsv");
+		preprocessFile("war/WEB-INF/files", "war/PreprocessedData/movies_preprocessed_dir.tsv");
+//		preprocessFile("war/WEB-INF/movies.tsv", "war/PreprocessedData/movies_preprocessed.tsv");
 //		preprocessFile("war/WEB-INF/systemtest_file.txt", "war/PreprocessedData/systemtest_file.tsv");
 		System.out.println("Done");
 	}
