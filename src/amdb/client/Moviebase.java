@@ -20,6 +20,8 @@ import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ListBox;
@@ -30,6 +32,7 @@ import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
+import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.gwt.charts.client.ChartLoader;
 import com.googlecode.gwt.charts.client.ChartPackage;
 import com.googlecode.gwt.charts.client.corechart.ColumnChart;
@@ -123,7 +126,7 @@ public class Moviebase implements EntryPoint {
 		minLengthSort.addItem(textBoxForMinLength);
 		minLengthSort.addItem(updateMinLength);
 
-		TreeItem exportButtonSort = new TreeItem(new PushButton("Export this view"));
+		TreeItem exportButtonSort = new TreeItem(export);
 
 		//Add everything to the rootTree
 		filterTree.addItem(countrySort);
@@ -135,19 +138,19 @@ public class Moviebase implements EntryPoint {
 
 		countrySort.setStyleName("countrySort",false);
 		countrySort.setState(true);
-		
+
 		languageSort.setStyleName("languageSort",false);
 		languageSort.setState(true);
-		
+
 		genreSort.setStyleName("genreSort",false);
 		genreSort.setState(true);
-		
+
 		minLengthSort.setStyleName("minLengthSort",false);
 		minLengthSort.setState(true);
-		
+
 		exportButtonSort.setStyleName("exportButtonSort",false);
 		countrySort.setState(true);
-		
+
 		//All clickevents for the buttons in the sidebar
 
 		delete.addClickHandler(new ClickHandler(){
@@ -179,9 +182,27 @@ public class Moviebase implements EntryPoint {
 				updateMinLengthChart(textBoxForMinLength.getValue());
 			}
 		});
+
+		export.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				// ensure, that currently displayed window is a chart that contains a SGV
+				if(dockLayoutPanel.getWidget(3) == geoChart || dockLayoutPanel.getWidget(3) == pieChart || dockLayoutPanel.getWidget(3) == columnChart){
+					Export.exportAsSVG();
+				}else{
+					HTML contentOfPopup = new HTML("<div style = \"height: 100px;    background-color: #FF0000; \">"
+							+ "<p>Export for this view is currently not supported."
+							+ "<p>Click anywhere outside this Window to close this message</div>");
+				    final DecoratedPopupPanel simplePopup = new DecoratedPopupPanel(true);
+					simplePopup.setWidget(contentOfPopup);
+					simplePopup.center();
+					simplePopup.show();
+				}
+			}
+		});
+		
 		/*******************************************************************/
 		// have textboxes listen to keyboard events
-		
+
 		textBoxForMinLength.addKeyPressHandler(new KeyPressHandler() {
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
@@ -278,6 +299,11 @@ public class Moviebase implements EntryPoint {
 				MapComponent.drawMap(geoChart, dataBase);
 			}
 		});	
+
+
+
+
+
 		/***********************************************************************************/
 		/*****************************END**OF**ON-MODULE**LOAD******************************/
 		/***********************************************************************************/
@@ -296,7 +322,7 @@ public class Moviebase implements EntryPoint {
 			// request regular file
 			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, "PreprocessedData/movies_preprocessed.tsv");
 			// request systemtest file 
-//			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, "PreprocessedData/systemtest_file.tsv");
+			//			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, "PreprocessedData/systemtest_file.tsv");
 			builder.sendRequest(null, new RequestCallback() {
 				public void onError(Request request, Throwable exception) {
 					GWT.log("Request failed.");
@@ -330,7 +356,7 @@ public class Moviebase implements EntryPoint {
 	public void onDatabaseReady(){
 		updateFilterSelectBox();
 	}
-	
+
 	/**
 	 * This method changes the FilterSelectBoxes to only display possible options.
 	 * 
@@ -370,7 +396,7 @@ public class Moviebase implements EntryPoint {
 			}
 		});	
 	}
-	
+
 	// create Table, remove the current center, add Table to center
 	public void setTable(){
 		ChartLoader tableLoader = new ChartLoader(ChartPackage.TABLE);
@@ -403,7 +429,7 @@ public class Moviebase implements EntryPoint {
 	public void setColumnChart(){
 		// Conversion of MovieCollection to DataTable
 		ArrayList<Movie> movieList = currentMovies.getMovies();
-		
+
 		// The view can lock down the whole browser sometimes. Limiting the amount of movies fixes that.
 		if (movieList.size() > 35000) {
 			Window.alert("The chosen data sample is too large to display!");
@@ -420,9 +446,9 @@ public class Moviebase implements EntryPoint {
 				}
 			});	
 		}
-		
+
 	}
-	
+
 	/**
 	 * This method redraws the component that is currently displayed in the dockLayoutPanel
 	 */
@@ -440,14 +466,14 @@ public class Moviebase implements EntryPoint {
 
 	//Deletes the chosen filter depending on the current Center
 	public void deleteFilter(){
-		
+
 		currentMovies = dataBase;
 		updateFilterSelectBox();
-		
+
 		redrawMainComponent();
-		
+
 	}
-		
+
 	//Update the chosen filter depending on the current Center
 	public void updateCountryChart(String country){
 
@@ -479,12 +505,12 @@ public class Moviebase implements EntryPoint {
 		int intMinLength = Integer.parseInt(minLength);
 		currentMovies = currentMovies.filterByMinLength(intMinLength);
 		updateFilterSelectBox();
-		
+
 		redrawMainComponent();
 	}
-	
 
-	
-	
+
+
+
 }
 
