@@ -35,10 +35,14 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.gwt.charts.client.ChartLoader;
 import com.googlecode.gwt.charts.client.ChartPackage;
+import com.googlecode.gwt.charts.client.ChartType;
+import com.googlecode.gwt.charts.client.ChartWrapper;
+import com.googlecode.gwt.charts.client.controls.Dashboard;
 import com.googlecode.gwt.charts.client.corechart.ColumnChart;
 import com.googlecode.gwt.charts.client.corechart.PieChart;
 import com.googlecode.gwt.charts.client.geochart.GeoChart;
 import com.googlecode.gwt.charts.client.table.Table;
+import com.googlecode.gwt.charts.client.table.TableOptions;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -59,6 +63,9 @@ public class Moviebase implements EntryPoint {
 	private MovieCollection dataBase; // should not be changed
 	private MovieCollection currentMovies;
 
+//	private DateRangeFilter dateRangeFilter;
+	private Dashboard dashboard;
+	private ChartWrapper<TableOptions> tableWrapper; 
 	private GeoChart geoChart;
 	private Table movieTable;
 	private PieChart pieChart;
@@ -322,7 +329,10 @@ public class Moviebase implements EntryPoint {
 			// request regular file
 			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, "PreprocessedData/movies_preprocessed.tsv");
 			// request systemtest file 
-			//			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, "PreprocessedData/systemtest_file.tsv");
+//			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, "PreprocessedData/systemtest_file.tsv");
+			
+			// request files from directory
+//			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, "PreprocessedData/movies_preprocessed_dir.tsv");			
 			builder.sendRequest(null, new RequestCallback() {
 				public void onError(Request request, Throwable exception) {
 					GWT.log("Request failed.");
@@ -382,7 +392,27 @@ public class Moviebase implements EntryPoint {
 			listBoxForGenres.addItem(genres[i]);
 		}
 	}
-
+	
+	// create DateRangeFilter and add it to South-panel
+	/**
+	 * This method creates a <tt>DateRangeFilter</tt> and adds it to the South-panel.
+	 */
+//	public void setDateRangeFilter(){
+//		ChartLoader chartLoader = new ChartLoader(ChartPackage.CONTROLS);
+//		chartLoader.loadApi(new Runnable() {
+//			@Override
+//			public void run() {
+//				dateRangeFilter = new DateRangeFilter();
+//				tableWrapper = new ChartWrapper<TableOptions>();
+//				tableWrapper.setChartType(ChartType.TABLE);		// create one method for each diagram form
+//				dockLayoutPanel.addSouth(dashboard, 100);
+//				dockLayoutPanel.addSouth(dateRangeFilter, 4);
+//				dockLayoutPanel.add(tableWrapper);
+//				DateRangeFilter.draw(dateRangeFilter, currentMovies);
+//			}
+//		});	
+//	}
+//	
 	// create Map, remove the current center, add Map to center
 	public void setMap(){
 		ChartLoader chartLoader = new ChartLoader(ChartPackage.GEOCHART);
@@ -397,7 +427,10 @@ public class Moviebase implements EntryPoint {
 		});	
 	}
 
-	// create Table, remove the current center, add Table to center
+	/**
+	 * This method creates a <tt>Table</tt>, removes the current centre and replaces 
+	 * it by the <tt>Table</tt>.
+	 */
 	public void setTable(){
 		ChartLoader tableLoader = new ChartLoader(ChartPackage.TABLE);
 		tableLoader.loadApi(new Runnable() {
