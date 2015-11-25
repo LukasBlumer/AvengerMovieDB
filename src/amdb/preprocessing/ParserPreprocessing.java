@@ -241,10 +241,10 @@ public class ParserPreprocessing {
 	}
 
 	/**
-	 * Converts the file specified by <tt>sourcePath</tt> to a template used to build a MovieCollection.
+	 * Converts the files specified by the folder at <tt>sourcePath</tt> to a template used to build a MovieCollection.
 	 * Saves the resulting template to a file.
 	 * 
-	 * @param sourcePath The source of the File that is supposed to be converted.
+	 * @param sourcePath The source of the folder containing the Files that are supposed to be converted.
 	 * @param targetPath The path where the new File is supposed to be saved.
 	 */
 	public static void preprocessFile(String sourcePath, String targetPath){
