@@ -59,10 +59,10 @@ public class Moviebase implements EntryPoint {
 	private PushButton updateGenre = new PushButton("Update Chart");
 	private PushButton updateMinLength = new PushButton("Update Chart");
 	private PushButton delete = new PushButton("Delete the chosen filter");
+	private PushButton displayPerCapita = new PushButton("Display per Capita");
 	private Tree filterTree = new Tree();
 	private MovieCollection dataBase; // should not be changed
 	private MovieCollection currentMovies;
-	private Export exportClass;
 
 //	private DateRangeFilter dateRangeFilter;
 	private Dashboard dashboard;
@@ -141,6 +141,7 @@ public class Moviebase implements EntryPoint {
 		filterTree.addItem(languageSort);
 		filterTree.addItem(genreSort);
 		filterTree.addItem(minLengthSort);
+		filterTree.addItem(displayPerCapita);
 		filterTree.addItem(delete);
 		filterTree.addItem(exportButtonSort);
 
@@ -191,9 +192,9 @@ public class Moviebase implements EntryPoint {
 			}
 		});
 		
-		export.addClickHandler(new ClickHandler(){
+		displayPerCapita.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event){
-				exportClass.exportAsSVG();
+				displayMapPerCapita();
 			}
 		});
 
@@ -549,7 +550,15 @@ public class Moviebase implements EntryPoint {
 		redrawMainComponent();
 	}
 
-
+	public void displayMapPerCapita(){
+		
+		if(dockLayoutPanel.getWidget(3) == geoChart){
+			
+		}
+		else{
+			Window.alert("This view is only available for the map!");
+		}
+	}
 
 
 }
