@@ -62,6 +62,7 @@ public class Moviebase implements EntryPoint {
 	private Tree filterTree = new Tree();
 	private MovieCollection dataBase; // should not be changed
 	private MovieCollection currentMovies;
+	private Export exportClass;
 
 //	private DateRangeFilter dateRangeFilter;
 	private Dashboard dashboard;
@@ -187,6 +188,12 @@ public class Moviebase implements EntryPoint {
 		updateMinLength.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event){
 				updateMinLengthChart(textBoxForMinLength.getValue());
+			}
+		});
+		
+		export.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event){
+				exportClass.exportAsSVG();
 			}
 		});
 
