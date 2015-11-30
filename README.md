@@ -29,3 +29,5 @@ This part of the app handles the internal database object, the MovieCollection. 
 * Lukas Blumer
 
 ## Sources
+* David Bamman, Brendan O'Connor and Noah Smith, "Learning Latent Personas of Film Characters," in: Proceedings of the Annual Meeting of the Association for Computational Linguistics (ACL 2013), Sofia, Bulgaria, August 2013.
+** Available under the [Creative Commons Attribution-ShareAlike License](http://creativecommons.org/licenses/by-sa/4.0/)
