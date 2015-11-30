@@ -13,7 +13,7 @@ import com.googlecode.gwt.charts.client.DataTable;
  * The format of the resulting <tt>DataTable</tt> is specified in the comment of each method.
  * @author petrawittwer
  * @history 2015-11-1 First Version
- * @version 2015-11-1 0.1
+ * @version 2015-11-23 1.0
  * @responsibilities Provide methods that convert a {@link MovieCollection} to a {@link DataTable}.
  * @see MovieCollection
  * @see DataTable
@@ -122,7 +122,6 @@ public class MovieCollectionConverter {
 	 * @param collection The <tt>MovieCollection</tt> that will be converted.
 	 * @return collection as a <tt>DataTable</tt>
 	 */
-
 	public static DataTable toDataTableForTableComponent(MovieCollection collection){
 
 		DataTable dataTable = DataTable.create();
@@ -217,6 +216,20 @@ public class MovieCollectionConverter {
 		return tally;
 	}
 
+	/**
+	 * <p>
+	 * Creates a hash map where the key is the name of a country occurring in movies
+	 * and the corresponding value is an ArrayList sorted by release year of movies containing
+	 * the total releases each year in the key country.
+	 * <p>
+	 * All countries according to ALL_COUNTRIES are inserted in the hash.
+	 * If a country has no movies in a year, the value will be 0.
+	 * 
+	 * @param movies The collection that is searched for occurrences of country names
+	 * @return HashMap where key = name of a country, value = ArrayList with values = total movie releases in each year.
+	 * @see MovieCollection
+	 * @see Movie
+	 */
 	public static HashMap<String, ArrayList<Integer>> numberOfMoviesPerCountryPerYear(MovieCollection movies){
 		int timeframeInYears = movies.getMaxYear() - movies.getMinYear();
 
