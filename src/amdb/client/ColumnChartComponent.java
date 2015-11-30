@@ -26,7 +26,7 @@ import amdb.shared.MovieCollectionConverter;
 public class ColumnChartComponent {
 	
 	/**
-	 * This draws the column view with the specified MovieCollection into the specified ColumnChart.
+	 * This draws the column view with the specified <tt>MovieCollection</tt> into the specified <tt>ColumnChart</tt>.
 	 * @param columnChart
 	 * @param collection
 	 */

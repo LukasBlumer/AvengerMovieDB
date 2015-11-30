@@ -31,7 +31,7 @@ public class MapComponent {
 	private static final String backgroundColor = "#E5F7FF";
 			
 	/**
-	 * This draws the worldmap view with the specified MovieCollection into the specified GeoChart.
+	 * This draws the worldmap view with the specified <tt>MovieCollection</tt> into the specified <tt>GeoChart</tt>.
 	 * @param geoChart
 	 * @param collection
 	 */

@@ -21,7 +21,7 @@ import amdb.shared.MovieCollectionConverter;
 public class PieChartComponent {
 	
 	/**
-	 * This draws the pie chart view with the specified MovieCollection into the specified PieChart.
+	 * This draws the pie chart view with the specified <tt>MovieCollection</tt> into the specified <tt>PieChart</tt>.
 	 * @param pieChart
 	 * @param collection
 	 */
