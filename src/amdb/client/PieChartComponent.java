@@ -11,14 +11,19 @@ import com.googlecode.gwt.charts.client.event.SelectHandler;
 import amdb.shared.MovieCollection;
 import amdb.shared.MovieCollectionConverter;
 
+/**
+ * This class contains the method to draw the pie chart view.
+ * @author Lukas Blumer
+ * @history 2015-11-15 LB first version committed
+ * @version 2015-11-21 LB 1.0
+ * @responsibilities This class contains a static method used to draw the pie chart view.
+ */
 public class PieChartComponent {
 	
-	/*
-	 * The pie chart displays the total movie count on a per-country basis.
-	 * This is limited by time frame selection in the timeline.
-	 * It displays the x countries with the most movies in that timeframe and summarises all remaining into a "others" slice.
-	 * Clicking on a slice applies the filter for the selected country to the collection and switches to table view.
-	 * What happens if the user clicks on the "others" slice?
+	/**
+	 * This draws the pie chart view with the specified <tt>MovieCollection</tt> into the specified <tt>PieChart</tt>.
+	 * @param pieChart
+	 * @param collection
 	 */
 	public static void drawPieChart(PieChart pieChart, MovieCollection collection) {
 		

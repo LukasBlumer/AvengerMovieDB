@@ -59,6 +59,7 @@ public class Moviebase implements EntryPoint {
 	private PushButton updateGenre = new PushButton("Update Chart");
 	private PushButton updateMinLength = new PushButton("Update Chart");
 	private PushButton delete = new PushButton("Delete the chosen filter");
+	private PushButton displayPerCapita = new PushButton("Display per Capita");
 	private Tree filterTree = new Tree();
 	private MovieCollection dataBase; // should not be changed
 	private MovieCollection currentMovies;
@@ -140,6 +141,7 @@ public class Moviebase implements EntryPoint {
 		filterTree.addItem(languageSort);
 		filterTree.addItem(genreSort);
 		filterTree.addItem(minLengthSort);
+		filterTree.addItem(displayPerCapita);
 		filterTree.addItem(delete);
 		filterTree.addItem(exportButtonSort);
 
@@ -187,6 +189,12 @@ public class Moviebase implements EntryPoint {
 		updateMinLength.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event){
 				updateMinLengthChart(textBoxForMinLength.getValue());
+			}
+		});
+		
+		displayPerCapita.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event){
+				displayMapPerCapita();
 			}
 		});
 
@@ -239,7 +247,7 @@ public class Moviebase implements EntryPoint {
 			}
 		};
 		//command to change to bar diagram
-		Command barDiagramCmd = new Command(){
+		Command columnChartCmd = new Command(){
 			public void execute() {
 				setColumnChart();
 			}
@@ -247,30 +255,26 @@ public class Moviebase implements EntryPoint {
 
 		//Menu Bar for the header and names for stylechanges
 		MenuBar homeMenu = new MenuBar(true);
-		MenuBar aboutUsMenu	= new MenuBar(true);
+		MenuBar aboutMenu	= new MenuBar(true);
 		MenuBar pieChartViewMenu = new MenuBar(true);
 		MenuBar tableViewMenu = new MenuBar(true);
 		MenuBar columnChartViewMenu = new MenuBar(true);
-		MenuBar informationBackground = new MenuBar(true);
-		MenuBar helpPage = new MenuBar(true);
 		headerMenu.addItem("Worldmap",homeMenu);
 		headerMenu.addItem("Pie Chart", pieChartViewMenu);
-		headerMenu.addItem("Table", tableViewMenu);
 		headerMenu.addItem("Column Chart",columnChartViewMenu);
-		headerMenu.addItem("About Us", aboutUsMenu);
-		headerMenu.addItem("Sources", informationBackground);
-		headerMenu.addItem("Help",helpPage);
+		headerMenu.addItem("Table", tableViewMenu);
+		headerMenu.addItem("About", aboutMenu);
 
 		//Add commands to MenuItems
 		tableViewMenu.addItem("Change to Table", tableViewCmd);
 		homeMenu.addItem("Change to Worldmap",homeMenuCmd);
 		pieChartViewMenu.addItem("Change to Pie Chart", pieChartCmd);
-		columnChartViewMenu.addItem("Change to Column Chart", barDiagramCmd);
+		columnChartViewMenu.addItem("Change to Column Chart", columnChartCmd);
 
 		headerMenu.setStyleName("headerMenu",false);
 		headerMenu.setStyleName("homeMenu",false);
 		headerMenu.setStyleName("databaseMenu",false);
-		headerMenu.setStyleName("aboutUsMenu",false);
+		headerMenu.setStyleName("aboutMenu",false);
 
 		/*******************************************************************/
 
@@ -542,7 +546,15 @@ public class Moviebase implements EntryPoint {
 		redrawMainComponent();
 	}
 
-
+	public void displayMapPerCapita(){
+		
+		if(dockLayoutPanel.getWidget(3) == geoChart){
+			
+		}
+		else{
+			Window.alert("This view is only available for the map!");
+		}
+	}
 
 
 }

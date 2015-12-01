@@ -12,6 +12,13 @@ import com.googlecode.gwt.charts.client.geochart.GeoChart;
 import com.googlecode.gwt.charts.client.geochart.GeoChartColorAxis;
 import com.googlecode.gwt.charts.client.geochart.GeoChartOptions;
 
+/**
+ * This class contains the method to draw the worldmap view.
+ * @author Lukas Blumer
+ * @history 2015-11-01 LB first version committed
+ * @version 2015-11-21 LB 1.0
+ * @responsibilities This class contains a static method used to draw the worldmap view.
+ */
 public class MapComponent {
 	/*
 	 * Colors for the map as Hex or html color names.
@@ -23,9 +30,11 @@ public class MapComponent {
 
 	private static final String backgroundColor = "#E5F7FF";
 			
-			
-	// create constructor
-	
+	/**
+	 * This draws the worldmap view with the specified <tt>MovieCollection</tt> into the specified <tt>GeoChart</tt>.
+	 * @param geoChart
+	 * @param collection
+	 */
 	public static void drawMap(GeoChart geoChart, MovieCollection collection) {
 		
 		// Log when the creation of the dataTable starts and ends

@@ -16,14 +16,19 @@ import amdb.shared.Movie;
 import amdb.shared.MovieCollection;
 import amdb.shared.MovieCollectionConverter;
 
+/**
+ * This class contains the method to draw the column view.
+ * @author Lukas Blumer
+ * @history 2015-11-15 LB first version committed
+ * @version 2015-11-21 LB 1.0
+ * @responsibilities This class contains a static method used to draw the column view.
+ */
 public class ColumnChartComponent {
 	
-	/*
-	 * The way this is supposed to work is that it displays movies on the y axis and years on the x axis.
-	 * Countries are displayed as the columns.
-	 * The user can select a number of countries to display (to be implemented) - there should probably also be a max number of selectable countries.
-	 * Default should probably be the x countries with the most movies registered.
-	 * When the user clicks on a column, ideally, it should add a filter for only that country and show the table.
+	/**
+	 * This draws the column view with the specified <tt>MovieCollection</tt> into the specified <tt>ColumnChart</tt>.
+	 * @param columnChart
+	 * @param collection
 	 */
 	public static void drawColumnChart(ColumnChart columnChart, MovieCollection collection) {
 		
