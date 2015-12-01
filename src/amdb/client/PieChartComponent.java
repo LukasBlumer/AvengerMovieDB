@@ -47,7 +47,7 @@ public class PieChartComponent {
 
 		// Customising piechart appearance
 		PieChartOptions options = PieChartOptions.create();
-		options.setBackgroundColor("#f0f0f0");
+		options.setBackgroundColor("#ffffff");
 		options.setPieResidueSliceColor("#000000");
 		options.setPieResidueSliceLabel("Others");
 		options.setSliceVisibilityThreshold(0.025);

@@ -25,18 +25,30 @@ public class DateRangeFilter {
 	 * @param dateRangeFilter
 	 * @param collection
 	 */
-	public static void draw(DateRangeFilter dateRangeFilter, MovieCollection collection){
+	public static void drawDateRangeFinder(DateRangeFilter dateRangeFilter, MovieCollection collection){
 		
-		//set control options
-//		DateRangeFilterOptions dateRangeFilterOptions = DateRangeFilterOptions.create();
-//		dateRangeFilterOptions.setFilterColumnLabel("Year");
-//		DateRangeFilterUi dateRangeFilterUi = DateRangeFilterUi.create();
-//		dateRangeFilterUi.setFormat(DateFormatOptions.create("yyyy"));
-//		dateRangeFilterOptions.setUi(dateRangeFilterUi);
-//		dateRangeFilter.setOptions(dateRangeFilterOptions);
-//		
+		//setup daterange slider thingy
+		DateRangeFilterOptions dateRangeFilterOptions = DateRangeFilterOptions.create();
+		dateRangeFilterOptions.setFilterColumnLabel("Year");
+		DateRangeFilterUi dateRangeFilterUi = DateRangeFilterUi.create();
+		dateRangeFilterUi.setFormat(DateFormatOptions.create("yyyy"));
+		dateRangeFilterOptions.setUi(dateRangeFilterUi);
+		// dateRangeFilter.setOptions(dateRangeFilterOptions); this doesn't quite work for whatever reason
 		
+		// create fake dataTable with getMinYear() and getMaxYear() from moviecollection (no converter needed)
+		// make an entry for every year inbetween as well
 		
+		// create a fake table chart with the dataTable
+		
+		// connect the daterange slider to the fake table chart
+		
+		// read out the current positions of the sliders via
+		// http://gwt-charts.googlecode.com/svn/site/0.9.10/apidocs/com/googlecode/gwt/charts/client/controls/filter/DateRangeFilterState.html
+		
+		// is there an event for the sliders being moved? Then use that. 
+		// Else just an update chart button to apply those values as filters to the moviecollection
+		
+		// make moviebase redraw current center panel
 
 	}
 }

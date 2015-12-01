@@ -8,6 +8,7 @@ import com.googlecode.gwt.charts.client.DataTable;
 import com.googlecode.gwt.charts.client.geochart.GeoChart;
 import com.googlecode.gwt.charts.client.geochart.GeoChartColorAxis;
 import com.googlecode.gwt.charts.client.geochart.GeoChartOptions;
+import com.googlecode.gwt.charts.client.geochart.MagnifyingGlass;
 
 /**
  * This class contains the method to draw the worldmap view.
@@ -66,15 +67,6 @@ public class MapComponent {
 //				Window.alert("You clicked on a country");
 //			}
 //		});
-		
-
-		// zoom does not work
-		/*
-		MagnifyingGlass zoom = MagnifyingGlass.create();
-		zoom.setEnable(true);
-		zoom.setZoomFactor(1000.0);
-		options.setMagnifyingGlass(zoom);
-		*/
 	
 		// actually draw the map
 		geoChart.draw(dataTable, options);
