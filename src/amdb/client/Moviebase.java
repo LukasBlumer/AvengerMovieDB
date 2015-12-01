@@ -24,6 +24,8 @@ import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.PushButton;
@@ -53,11 +55,13 @@ public class Moviebase implements EntryPoint {
 	final MenuBar headerMenu = new MenuBar();
 	final StackLayoutPanel splitLayoutPanel = new StackLayoutPanel(Unit.EM);
 	final StackLayoutPanel splitLayoutPanel2 = new StackLayoutPanel(Unit.EM);
+	final HorizontalPanel horizontalSouthPanel = new HorizontalPanel();
 	private PushButton export = new PushButton("Export this view");
 	private PushButton updateCountry = new PushButton("Update Chart");
 	private PushButton updateLanguage = new PushButton("Update Chart");
 	private PushButton updateGenre = new PushButton("Update Chart");
 	private PushButton updateMinLength = new PushButton("Update Chart");
+	private PushButton updateMinAndMaxYear = new PushButton("Update Chart");
 	private PushButton delete = new PushButton("Delete the chosen filter");
 	private PushButton displayPerCapita = new PushButton("Display per Capita");
 	private Tree filterTree = new Tree();
@@ -75,6 +79,8 @@ public class Moviebase implements EntryPoint {
 	private ListBox listBoxForLanguages;
 	private ListBox listBoxForGenres;
 	private TextBox textBoxForMinLength = new TextBox();
+	private TextBox textBoxForMinYear = new TextBox();
+	private TextBox textBoxForMaxYear = new TextBox();
 	private String[] countries;
 	private String[] languages;
 	private String[] genres;
@@ -109,6 +115,37 @@ public class Moviebase implements EntryPoint {
 				}
 			}
 		});
+		
+		textBoxForMinYear.addKeyPressHandler(new KeyPressHandler(){
+			
+			public void onKeyPress(KeyPressEvent event){
+				if(!Character.isDigit(event.getCharCode())){
+					((TextBox)event.getSource()).cancelKey();
+				}
+			}
+		});
+		
+		textBoxForMaxYear.addKeyPressHandler(new KeyPressHandler(){
+			
+			public void onKeyPress(KeyPressEvent event){
+				if(!Character.isDigit(event.getCharCode())){
+					((TextBox)event.getSource()).cancelKey();
+				}
+			}
+		});
+		
+		horizontalSouthPanel.add(new HTML("Choose the minimum Year-->"));
+		horizontalSouthPanel.add(textBoxForMinYear);
+		horizontalSouthPanel.add(new HTML("<---Search in a chosen range of years--->"));
+		horizontalSouthPanel.add(textBoxForMaxYear);
+		horizontalSouthPanel.add(new HTML("<--Choose the maximum Year"));
+		horizontalSouthPanel.add(updateMinAndMaxYear);
+		horizontalSouthPanel.setStyleName("horizontalSouthPanel");
+		horizontalSouthPanel.setSpacing(15);
+		
+		Image image = new Image();
+		image.setUrl(GWT.getModuleBaseURL()+"banana.gif");
+		image.setSize("200px", "500px");
 
 		//Build filterTree for country sorting
 		TreeItem countrySort = new TreeItem();
@@ -189,6 +226,12 @@ public class Moviebase implements EntryPoint {
 		updateMinLength.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event){
 				updateMinLengthChart(textBoxForMinLength.getValue());
+			}
+		});
+		
+		updateMinAndMaxYear.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event){
+				updateMinAndMaxYearChart(textBoxForMinYear.getValue(), textBoxForMaxYear.getValue());
 			}
 		});
 		
@@ -287,8 +330,8 @@ public class Moviebase implements EntryPoint {
 
 		//Rootpanel where anything else is include
 		dockLayoutPanel.addNorth(headerMenu, 3);
-		dockLayoutPanel.addSouth(new HTML("South"), 4);
-		//dockLayoutPanel.addEast(new HTML("East"), 7);
+		dockLayoutPanel.addSouth(horizontalSouthPanel,4);
+		dockLayoutPanel.addEast(image, 15);
 		dockLayoutPanel.addWest(splitLayoutPanel,20);	
 
 		/*******************************************************************/
@@ -424,7 +467,7 @@ public class Moviebase implements EntryPoint {
 			@Override
 			public void run() {
 				geoChart = new GeoChart();
-				dockLayoutPanel.remove(3);
+				dockLayoutPanel.remove(4);
 				dockLayoutPanel.add(geoChart);
 				MapComponent.drawMap(geoChart, currentMovies);
 			}
@@ -441,7 +484,7 @@ public class Moviebase implements EntryPoint {
 			@Override
 			public void run() {
 				movieTable = new Table();
-				dockLayoutPanel.remove(3);
+				dockLayoutPanel.remove(4);
 				dockLayoutPanel.add(movieTable);
 				TableComponent.draw(movieTable, currentMovies);
 			}
@@ -455,7 +498,7 @@ public class Moviebase implements EntryPoint {
 			@Override
 			public void run() {
 				pieChart = new PieChart();
-				dockLayoutPanel.remove(3);
+				dockLayoutPanel.remove(4);
 				dockLayoutPanel.add(pieChart);
 				PieChartComponent.drawPieChart(pieChart, currentMovies);
 			}
@@ -477,7 +520,7 @@ public class Moviebase implements EntryPoint {
 				@Override
 				public void run() {
 					columnChart = new ColumnChart();
-					dockLayoutPanel.remove(3);
+					dockLayoutPanel.remove(4);
 					dockLayoutPanel.add(columnChart);
 					ColumnChartComponent.drawColumnChart(columnChart, currentMovies);
 				}
@@ -490,13 +533,13 @@ public class Moviebase implements EntryPoint {
 	 * This method redraws the component that is currently displayed in the dockLayoutPanel
 	 */
 	private void redrawMainComponent(){
-		if(dockLayoutPanel.getWidget(3) == geoChart){
+		if(dockLayoutPanel.getWidget(4) == geoChart){
 			setMap();
-		}else if(dockLayoutPanel.getWidget(3) == movieTable){
+		}else if(dockLayoutPanel.getWidget(4) == movieTable){
 			setTable();
-		}else if(dockLayoutPanel.getWidget(3) == pieChart){
+		}else if(dockLayoutPanel.getWidget(4) == pieChart){
 			setPieChart();
-		}else if(dockLayoutPanel.getWidget(3) == columnChart){
+		}else if(dockLayoutPanel.getWidget(4) == columnChart){
 			setColumnChart();
 		}
 	}
@@ -545,10 +588,21 @@ public class Moviebase implements EntryPoint {
 
 		redrawMainComponent();
 	}
+	
+	public void updateMinAndMaxYearChart(String minYear,String maxYear){
+		
+		int intMinYear = Integer.parseInt(minYear);
+		int intMaxYear = Integer.parseInt(maxYear);
+		currentMovies = currentMovies.filterByYear(intMinYear, intMaxYear);
+		updateFilterSelectBox();
+		
+		redrawMainComponent();
+		
+	}
 
 	public void displayMapPerCapita(){
 		
-		if(dockLayoutPanel.getWidget(3) == geoChart){
+		if(dockLayoutPanel.getWidget(4) == geoChart){
 			
 		}
 		else{
