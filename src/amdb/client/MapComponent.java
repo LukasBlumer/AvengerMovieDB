@@ -3,11 +3,8 @@ package amdb.client;
 import amdb.shared.MovieCollection;
 import amdb.shared.MovieCollectionConverter;
 
-import com.google.gwt.core.client.JsArrayNumber;
-import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.shared.GWT;
 import com.googlecode.gwt.charts.client.DataTable;
-import com.googlecode.gwt.charts.client.ajaxloader.ArrayHelper;
 import com.googlecode.gwt.charts.client.geochart.GeoChart;
 import com.googlecode.gwt.charts.client.geochart.GeoChartColorAxis;
 import com.googlecode.gwt.charts.client.geochart.GeoChartOptions;
@@ -49,20 +46,11 @@ public class MapComponent {
 		// Color countries according to number of movies released
 		GeoChartOptions options = GeoChartOptions.create();
 		GeoChartColorAxis geoChartColorAxis = GeoChartColorAxis.create();
-		// required to make a JsArrayString
-		@SuppressWarnings("deprecation")
-		JsArrayString colorAxisHelper = ArrayHelper.createJsArray(new String[]{"white", "0000FF",  "0033FF",  "0065FF",  "0099FF",  "00CBFF",  "00FFFF",  "00FFCB",  "00FF99",  "00FF65",  "00FF33",  "00FF00",  "32FF00",  "65FF00",  "99FF00",  "CCFF00",  "FFFF00",  "FFCC00",  "FF9900",  "FF6600",  "FF3200",  "FF0000"});
 
-		
 		double dataTableMax = dataTable.getColumnRange(1).getMaxNumber(); // this gets me the entry in the dataTable with the highest total movie count
-		
-		// in order to make countries with 0 movies white, we associate values with color ranges
-		@SuppressWarnings("deprecation")
-		JsArrayNumber colorAxisValues = ArrayHelper.createJsArray(new double[]{0.0, 1.0, 1+0.05*dataTableMax, 1+0.1*dataTableMax, 1+0.15*dataTableMax, 1+0.2*dataTableMax, 1+0.25*dataTableMax, 1+0.3*dataTableMax, 1+0.35*dataTableMax, 1+0.4*dataTableMax, 1+0.45*dataTableMax, 1+0.5*dataTableMax, 1+0.55*dataTableMax, 1+0.6*dataTableMax, 1+0.65*dataTableMax, 1+0.7*dataTableMax, 1+0.75*dataTableMax, 1+0.8*dataTableMax, 1+0.85*dataTableMax, 1+0.9*dataTableMax, 1+0.95*dataTableMax, 1+dataTableMax});
 
-		
-		geoChartColorAxis.setColors(colorAxisHelper);
-		geoChartColorAxis.setValues(colorAxisValues);
+		geoChartColorAxis.setColors("white", "0000FF",  "0033FF",  "0065FF",  "0099FF",  "00CBFF",  "00FFFF",  "00FFCB",  "00FF99",  "00FF65",  "00FF33",  "00FF00",  "32FF00",  "65FF00",  "99FF00",  "CCFF00",  "FFFF00",  "FFCC00",  "FF9900",  "FF6600",  "FF3200",  "FF0000");
+		geoChartColorAxis.setValues(0.0, 1.0, 1+0.05*dataTableMax, 1+0.1*dataTableMax, 1+0.15*dataTableMax, 1+0.2*dataTableMax, 1+0.25*dataTableMax, 1+0.3*dataTableMax, 1+0.35*dataTableMax, 1+0.4*dataTableMax, 1+0.45*dataTableMax, 1+0.5*dataTableMax, 1+0.55*dataTableMax, 1+0.6*dataTableMax, 1+0.65*dataTableMax, 1+0.7*dataTableMax, 1+0.75*dataTableMax, 1+0.8*dataTableMax, 1+0.85*dataTableMax, 1+0.9*dataTableMax, 1+0.95*dataTableMax, 1+dataTableMax);
 		// options.hideLegend();
 		
 		options.setColorAxis(geoChartColorAxis);
