@@ -17,7 +17,7 @@ ARCHITECTURE OF THE PARSER
 			src/amdb/preprocessing/ParserPreprocessing.java
 
 		A JUnit test covering these two files is in
-			/test/amdb/ParserClientsidePreprocessingTest.java
+			test/amdb/ParserClientsidePreprocessingTest.java
 
 		The parser reads files from the folder 
 			war/WEB-INF/files
@@ -27,7 +27,7 @@ ARCHITECTURE OF THE PARSER
 		The JUnit test reads from 
 			test/amdb/testData/test_file.txt
 		and writes to 
-			test/amdb/testData/parsertestresult.tsv.
+			test/amdb/testData/parsertestresult.tsv
 
 	How do the files interact?
 		The parsing process consists of two phases: preprocessing and clientside parsing.
@@ -51,9 +51,10 @@ HOW IMPORT A FILE INTO THE APPLICATION
 	To import a new file (formatted like the original files), it has to be added to the folder
 		war/WEB-INF/files
 
-	Changes will only apply if after that, the main-Method of 
+	Changes will only apply if after running the main-Method of 
 		src/amdb/preprocessing/ParserPreprocessing.java
-	is run. After that, the application can be deployed with the new data.
+	
+	After that, the application can be deployed with the new data.
 
 ##################################################################################################
 ##################################################################################################
