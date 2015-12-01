@@ -247,7 +247,7 @@ public class Moviebase implements EntryPoint {
 			}
 		};
 		//command to change to bar diagram
-		Command barDiagramCmd = new Command(){
+		Command columnChartCmd = new Command(){
 			public void execute() {
 				setColumnChart();
 			}
@@ -261,15 +261,15 @@ public class Moviebase implements EntryPoint {
 		MenuBar columnChartViewMenu = new MenuBar(true);
 		headerMenu.addItem("Worldmap",homeMenu);
 		headerMenu.addItem("Pie Chart", pieChartViewMenu);
-		headerMenu.addItem("Table", tableViewMenu);
 		headerMenu.addItem("Column Chart",columnChartViewMenu);
+		headerMenu.addItem("Table", tableViewMenu);
 		headerMenu.addItem("About", aboutMenu);
 
 		//Add commands to MenuItems
 		tableViewMenu.addItem("Change to Table", tableViewCmd);
 		homeMenu.addItem("Change to Worldmap",homeMenuCmd);
 		pieChartViewMenu.addItem("Change to Pie Chart", pieChartCmd);
-		columnChartViewMenu.addItem("Change to Column Chart", barDiagramCmd);
+		columnChartViewMenu.addItem("Change to Column Chart", columnChartCmd);
 
 		headerMenu.setStyleName("headerMenu",false);
 		headerMenu.setStyleName("homeMenu",false);

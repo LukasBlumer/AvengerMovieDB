@@ -1,7 +1,7 @@
 # AvengerMovieDB
 
 ## Overview
-The Avenger Movie Database is a collaborative project for the class Software Engineering at the University of Zurich Institute for Informatics. The aim is to take a provided source file and Stakeholder text and develop an interactable movie database according to their specifications.
+The Avenger Movie Database is a collaborative project for the class Software Engineering at the University of Zurich Institute for Computer Science. The aim is to take a provided source file and Stakeholder text and develop an interactable movie database according to their specifications.
 The complete code for our project is located in this GitHub. As was specified for the exercise, we are using GWT to implement the movie database. In addition we also use Google Charts to visualize most of the data.
 
 ## Architecture
@@ -30,4 +30,4 @@ This part of the app handles the internal database object, the MovieCollection. 
 
 ## Sources
 * David Bamman, Brendan O'Connor and Noah Smith, "Learning Latent Personas of Film Characters," in: Proceedings of the Annual Meeting of the Association for Computational Linguistics (ACL 2013), Sofia, Bulgaria, August 2013.
- * Available under the [Creative Commons Attribution-ShareAlike License](http://creativecommons.org/licenses/by-sa/4.0/) (We have not made any changes beyond parsing it to the dataset.)
+ * Available under the [Creative Commons Attribution-ShareAlike License](http://creativecommons.org/licenses/by-sa/4.0/) (We have not made any changes to the dataset beyond parsing it.)
