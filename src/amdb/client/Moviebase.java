@@ -23,6 +23,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -144,7 +145,7 @@ public class Moviebase implements EntryPoint {
 		horizontalSouthPanel.setSpacing(15);
 		
 		Image image = new Image();
-		image.setUrl(GWT.getModuleBaseURL()+"banana.gif");
+		image.setUrl(GWT.getModuleBaseURL()+"images/banana.gif");
 		image.setSize("200px", "500px");
 
 		//Build filterTree for country sorting
@@ -295,6 +296,13 @@ public class Moviebase implements EntryPoint {
 				setColumnChart();
 			}
 		};
+		
+		//command to change to about page
+		Command aboutPageCmd = new Command() {
+			public void execute() {
+				setAboutPage();
+			}
+		};
 
 		//Menu Bar for the header and names for stylechanges
 		MenuBar homeMenu = new MenuBar(true);
@@ -313,6 +321,7 @@ public class Moviebase implements EntryPoint {
 		homeMenu.addItem("Change to Worldmap",homeMenuCmd);
 		pieChartViewMenu.addItem("Change to Pie Chart", pieChartCmd);
 		columnChartViewMenu.addItem("Change to Column Chart", columnChartCmd);
+		aboutMenu.addItem("Change to About Page", aboutPageCmd);
 
 		headerMenu.setStyleName("headerMenu",false);
 		headerMenu.setStyleName("homeMenu",false);
@@ -527,6 +536,17 @@ public class Moviebase implements EntryPoint {
 			});	
 		}
 
+	}
+	
+	/**
+	 * This method removes the current centre and replaces it with the about page.
+	 */
+	public void setAboutPage(){
+		Frame frame = new Frame();
+		dockLayoutPanel.remove(4);
+		dockLayoutPanel.add(frame);
+		frame.setSize("99.5%", "99.5%");
+		AboutPage.drawAboutPage(frame);
 	}
 
 	/**
