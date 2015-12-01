@@ -545,7 +545,6 @@ public class Moviebase implements EntryPoint {
 		Frame frame = new Frame();
 		dockLayoutPanel.remove(4);
 		dockLayoutPanel.add(frame);
-		frame.setSize("99.5%", "99.5%");
 		AboutPage.drawAboutPage(frame);
 	}
 
