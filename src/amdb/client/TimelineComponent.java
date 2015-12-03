@@ -1,6 +1,6 @@
 package amdb.client;
 
-import java.util.Date;
+import amdb.shared.MovieCollection;
 
 import com.google.gwt.core.client.GWT;
 import com.googlecode.gwt.charts.client.ChartType;
@@ -13,11 +13,7 @@ import com.googlecode.gwt.charts.client.controls.filter.DateRangeFilterOptions;
 import com.googlecode.gwt.charts.client.controls.filter.DateRangeFilterState;
 import com.googlecode.gwt.charts.client.controls.filter.DateRangeFilterUi;
 import com.googlecode.gwt.charts.client.format.DateFormatOptions;
-import com.googlecode.gwt.charts.client.table.Table;
 import com.googlecode.gwt.charts.client.table.TableOptions;
-import com.googlecode.gwt.charts.client.util.ChartHelper;
-
-import amdb.shared.MovieCollection;
 
 /**
  * This class defines a static method to draw a <tt>DateRangeFilter</tt> visualizing a <tt>MovieCollection</tt>.

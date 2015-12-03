@@ -1,20 +1,14 @@
 package amdb.client;
 
-import java.util.ArrayList;
+import amdb.shared.MovieCollection;
+import amdb.shared.MovieCollectionConverter;
 
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.user.client.Window;
 import com.googlecode.gwt.charts.client.DataTable;
 import com.googlecode.gwt.charts.client.corechart.ColumnChart;
 import com.googlecode.gwt.charts.client.corechart.ColumnChartOptions;
-import com.googlecode.gwt.charts.client.event.SelectEvent;
-import com.googlecode.gwt.charts.client.event.SelectHandler;
 import com.googlecode.gwt.charts.client.options.HAxis;
 import com.googlecode.gwt.charts.client.options.VAxis;
-
-import amdb.shared.Movie;
-import amdb.shared.MovieCollection;
-import amdb.shared.MovieCollectionConverter;
 
 /**
  * This class contains the method to draw the column view.

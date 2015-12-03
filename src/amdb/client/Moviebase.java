@@ -39,6 +39,7 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.googlecode.gwt.charts.client.ChartLoader;
 import com.googlecode.gwt.charts.client.ChartPackage;
+
 import com.googlecode.gwt.charts.client.corechart.ColumnChart;
 import com.googlecode.gwt.charts.client.corechart.PieChart;
 import com.googlecode.gwt.charts.client.geochart.GeoChart;
@@ -474,26 +475,27 @@ public class Moviebase implements EntryPoint {
 		}
 	}
 	
-	// create DateRangeFilter and add it to South-panel
-	/**
-	 * This method creates a <tt>DateRangeFilter</tt> and adds it to the South-panel.
-	 */
+	//TODO Decide what to do with this
+//	// create DateRangeFilter and add it to South-panel
+//	/**
+//	 * This method creates a <tt>DateRangeFilter</tt> and adds it to the South-panel.
+//	 */
 //	public void setDateRangeFilter(){
 //		ChartLoader chartLoader = new ChartLoader(ChartPackage.CONTROLS);
 //		chartLoader.loadApi(new Runnable() {
 //			@Override
 //			public void run() {
-//				dateRangeFilter = new DateRangeFilter();
+//				DateRangeFilter dateRangeFilter = new DateRangeFilter();
 //				tableWrapper = new ChartWrapper<TableOptions>();
 //				tableWrapper.setChartType(ChartType.TABLE);		// create one method for each diagram form
 //				dockLayoutPanel.addSouth(dashboard, 100);
 //				dockLayoutPanel.addSouth(dateRangeFilter, 4);
 //				dockLayoutPanel.add(tableWrapper);
-//				DateRangeFilter.draw(dateRangeFilter, currentMovies);
+//				TimelineComponent.drawDateRangeFilter(dateRangeFilter, dataBase, currentMovies);
 //			}
 //		});	
 //	}
-//	
+	
 	// create Map, remove the current center, add Map to center
 	public void setMap(){
 		ChartLoader chartLoader = new ChartLoader(ChartPackage.GEOCHART);
@@ -504,6 +506,12 @@ public class Moviebase implements EntryPoint {
 				dockLayoutPanel.remove(4);
 				dockLayoutPanel.add(geoChart);
 				MapComponent.drawMap(geoChart, currentMovies);
+				// Dashboard dashboard = new Dashboard(); // this breaks everything for some reason.
+				// GWT.log("got to here.");
+				// dockLayoutPanel.remove(4);
+				// dockLayoutPanel.add(dashboard);
+				// TimelineComponent.drawDateRangeFilter(dashboard, dataBase, currentMovies);
+				// GWT.log("Did call the timeline thing.");
 			}
 		});	
 	}
@@ -647,10 +655,13 @@ public class Moviebase implements EntryPoint {
 	public void displayMapPerCapita(){
 		
 		if(dockLayoutPanel.getWidget(4) == geoChart){
-			
+			geoChart = new GeoChart();
+			dockLayoutPanel.remove(4);
+			dockLayoutPanel.add(geoChart);
+			PerCapitaComponent.drawPerCapita(geoChart, currentMovies);
 		}
 		else{
-			Window.alert("This view is only available for the map!");
+			Window.alert("This view is only available for the worldmap!");
 		}
 	}
 

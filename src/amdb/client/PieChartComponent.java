@@ -1,15 +1,12 @@
 package amdb.client;
 
+import amdb.shared.MovieCollection;
+import amdb.shared.MovieCollectionConverter;
+
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.user.client.Window;
 import com.googlecode.gwt.charts.client.DataTable;
 import com.googlecode.gwt.charts.client.corechart.PieChart;
 import com.googlecode.gwt.charts.client.corechart.PieChartOptions;
-import com.googlecode.gwt.charts.client.event.SelectEvent;
-import com.googlecode.gwt.charts.client.event.SelectHandler;
-
-import amdb.shared.MovieCollection;
-import amdb.shared.MovieCollectionConverter;
 
 /**
  * This class contains the method to draw the pie chart view.
