@@ -1,9 +1,12 @@
 package amdb.client;
 
+import java.util.ArrayList;
+
+import amdb.client.slider.RangeSlider;
+import amdb.client.slider.SliderEvent;
+import amdb.client.slider.SliderListener;
 import amdb.shared.Movie;
 import amdb.shared.MovieCollection;
-
-import java.util.ArrayList;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -20,12 +23,10 @@ import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -35,17 +36,13 @@ import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.googlecode.gwt.charts.client.ChartLoader;
 import com.googlecode.gwt.charts.client.ChartPackage;
-import com.googlecode.gwt.charts.client.ChartType;
-import com.googlecode.gwt.charts.client.ChartWrapper;
-import com.googlecode.gwt.charts.client.controls.Dashboard;
 import com.googlecode.gwt.charts.client.corechart.ColumnChart;
 import com.googlecode.gwt.charts.client.corechart.PieChart;
 import com.googlecode.gwt.charts.client.geochart.GeoChart;
 import com.googlecode.gwt.charts.client.table.Table;
-import com.googlecode.gwt.charts.client.table.TableOptions;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -56,7 +53,8 @@ public class Moviebase implements EntryPoint {
 	final MenuBar headerMenu = new MenuBar();
 	final StackLayoutPanel splitLayoutPanel = new StackLayoutPanel(Unit.EM);
 	final StackLayoutPanel splitLayoutPanel2 = new StackLayoutPanel(Unit.EM);
-	final HorizontalPanel horizontalSouthPanel = new HorizontalPanel();
+	final VerticalPanel verticalSouthPanel = new VerticalPanel();
+
 	private PushButton export = new PushButton("Export this view");
 	private PushButton updateCountry = new PushButton("Update Chart");
 	private PushButton updateLanguage = new PushButton("Update Chart");
@@ -69,9 +67,6 @@ public class Moviebase implements EntryPoint {
 	private MovieCollection dataBase; // should not be changed
 	private MovieCollection currentMovies;
 
-//	private DateRangeFilter dateRangeFilter;
-	private Dashboard dashboard;
-	private ChartWrapper<TableOptions> tableWrapper; 
 	private GeoChart geoChart;
 	private Table movieTable;
 	private PieChart pieChart;
@@ -135,14 +130,45 @@ public class Moviebase implements EntryPoint {
 			}
 		});
 		
-		horizontalSouthPanel.add(new HTML("Choose the minimum Year-->"));
-		horizontalSouthPanel.add(textBoxForMinYear);
-		horizontalSouthPanel.add(new HTML("<---Search in a chosen range of years--->"));
-		horizontalSouthPanel.add(textBoxForMaxYear);
-		horizontalSouthPanel.add(new HTML("<--Choose the maximum Year"));
-		horizontalSouthPanel.add(updateMinAndMaxYear);
-		horizontalSouthPanel.setStyleName("horizontalSouthPanel");
-		horizontalSouthPanel.setSpacing(15);
+		
+		RangeSlider s = new RangeSlider("yearSlider",1900,2000,1900,2000);
+		final HTML sliderLabel = new HTML("Chosen Range: [1900, 2000]");
+		s.addListener(new SliderListener() {
+			
+			int currentMin=1900, currentMax = 2000;
+			
+			@Override
+			public void onStop(SliderEvent e) {
+			}
+			
+			@Override
+			public void onStart(SliderEvent e) {
+			}
+			
+			@Override
+			public boolean onSlide(SliderEvent e) {
+				int newcurrentMin=e.getValues()[0];
+				int newcurrentMax=e.getValues()[1];
+				if(newcurrentMin >= currentMin && currentMax >= newcurrentMax) {
+					currentMin=e.getValues()[0];
+					currentMax=e.getValues()[1];
+					sliderLabel.setText("Chosen Range: ["+e.getValues()[0]+", "+e.getValues()[1]+"]");
+					return true;
+				} else return false;
+			}
+			
+			@Override
+			public void onChange(SliderEvent e) {
+				updateMinAndMaxYearChart(""+e.getValues()[0], ""+e.getValues()[1]);
+			}
+			
+		});
+		s.setWidth("200px");
+		verticalSouthPanel.add(s);
+		verticalSouthPanel.add(sliderLabel);
+		verticalSouthPanel.setStyleName("veticalSouthPanel");
+		verticalSouthPanel.setSpacing(15);
+
 		
 		Image image = new Image();
 		image.setUrl(GWT.getModuleBaseURL()+"images/banana.gif");
@@ -339,9 +365,9 @@ public class Moviebase implements EntryPoint {
 
 		//Rootpanel where anything else is include
 		dockLayoutPanel.addNorth(headerMenu, 3);
-		dockLayoutPanel.addSouth(horizontalSouthPanel,4);
+		dockLayoutPanel.addSouth(verticalSouthPanel,6);
 		dockLayoutPanel.addEast(image, 15);
-		dockLayoutPanel.addWest(splitLayoutPanel,20);	
+		dockLayoutPanel.addWest(splitLayoutPanel,20);
 
 		/*******************************************************************/
 
@@ -617,7 +643,7 @@ public class Moviebase implements EntryPoint {
 		redrawMainComponent();
 		
 	}
-
+	
 	public void displayMapPerCapita(){
 		
 		if(dockLayoutPanel.getWidget(4) == geoChart){
