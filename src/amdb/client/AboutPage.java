@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.Frame;
  * This class contains the method to display the about page.
  * @author Lukas Blumer
  * @history 2015-11-30 LB first version committed
- * @version 2015-11-01 LB 1.0
+ * @version 2015-12-01 LB 1.0
  * @responsibilities This class contains a static method used to display the about page.
  */
 public class AboutPage {
