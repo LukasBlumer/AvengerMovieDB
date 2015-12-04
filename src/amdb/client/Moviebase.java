@@ -56,14 +56,14 @@ public class Moviebase implements EntryPoint {
 	final StackLayoutPanel splitLayoutPanel2 = new StackLayoutPanel(Unit.EM);
 	final VerticalPanel verticalSouthPanel = new VerticalPanel();
 
-	private PushButton export = new PushButton("Export this view");
+	private PushButton export = new PushButton("Export This View");
 	private PushButton updateCountry = new PushButton("Update Chart");
 	private PushButton updateLanguage = new PushButton("Update Chart");
 	private PushButton updateGenre = new PushButton("Update Chart");
 	private PushButton updateMinLength = new PushButton("Update Chart");
 	private PushButton updateMinAndMaxYear = new PushButton("Update Chart");
-	private PushButton delete = new PushButton("Delete the chosen filter");
-	private PushButton displayPerCapita = new PushButton("Display per Capita");
+	private PushButton delete = new PushButton("Delete Chosen Filter");
+	private PushButton displayPerCapita = new PushButton("Display Per Capita");
 	private Tree filterTree = new Tree();
 	private MovieCollection dataBase; // should not be changed
 	private MovieCollection currentMovies;
@@ -161,7 +161,7 @@ public class Moviebase implements EntryPoint {
 
 		//Build filterTree for minLength sorting
 		TreeItem minLengthSort = new TreeItem();
-		minLengthSort.setText("Filter By minimum Length");
+		minLengthSort.setText("Filter By Minimum Length");
 		minLengthSort.addItem(textBoxForMinLength);
 		minLengthSort.addItem(updateMinLength);
 
@@ -172,8 +172,8 @@ public class Moviebase implements EntryPoint {
 		filterTree.addItem(languageSort);
 		filterTree.addItem(genreSort);
 		filterTree.addItem(minLengthSort);
-		filterTree.addItem(displayPerCapita);
 		filterTree.addItem(delete);
+		filterTree.addItem(displayPerCapita);
 		filterTree.addItem(exportButtonSort);
 
 		countrySort.setStyleName("countrySort",false);
