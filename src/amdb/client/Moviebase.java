@@ -53,7 +53,6 @@ public class Moviebase implements EntryPoint {
 	final DockLayoutPanel dockLayoutPanel = new DockLayoutPanel(Unit.EM);
 	final MenuBar headerMenu = new MenuBar();
 	final StackLayoutPanel splitLayoutPanel = new StackLayoutPanel(Unit.EM);
-	final StackLayoutPanel splitLayoutPanel2 = new StackLayoutPanel(Unit.EM);
 	final VerticalPanel verticalSouthPanel = new VerticalPanel();
 
 	private PushButton export = new PushButton("Export This View");
