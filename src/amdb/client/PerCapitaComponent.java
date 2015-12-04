@@ -39,11 +39,11 @@ public class PerCapitaComponent {
 		// Conversion of MovieCollection to DataTable
 		DataTable dataTable = MovieCollectionConverter.toDataTablePerCountry(collection);
 		
-		dataTable.setColumnLabel(1, "Movies per capita * 10^5");
+		dataTable.setColumnLabel(1, "Movies per capita");
 		
-		String[] countriesToLookAt = {"United States of America", "Germany", "Japan", "Switzerland", "United Kingdom", "India", "France"};
+		String[] countriesToLookAt = {"United States of America", "Germany", "Japan", "Switzerland", "United Kingdom", "India", "France", "Canada", "Russia"};
 		// source: http://www.worldometers.info/world-population/population-by-country/
-		int[] countryPopulation = {322583006, 82652256, 126999808, 8157896, 63489234, 1267401849, 64641279};
+		int[] countryPopulation = {322583006, 82652256, 126999808, 8157896, 63489234, 1267401849, 64641279, 35524732, 142467651};
 		boolean wipe = true;
 		
 		for (int i = 0; i < dataTable.getNumberOfRows(); i++) {
