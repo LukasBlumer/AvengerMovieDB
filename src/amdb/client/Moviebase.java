@@ -81,6 +81,8 @@ public class Moviebase implements EntryPoint {
 	private String[] countries;
 	private String[] languages;
 	private String[] genres;
+	private RangeSlider s;
+	private final HTML sliderLabel = new HTML("Chosen Range: [1888, 2016]");
 
 
 	/**
@@ -132,43 +134,7 @@ public class Moviebase implements EntryPoint {
 		});
 		
 		
-		RangeSlider s = new RangeSlider("yearSlider",1900,2000,1900,2000);
-		final HTML sliderLabel = new HTML("Chosen Range: [1900, 2000]");
-		s.addListener(new SliderListener() {
-			
-			int currentMin=1900, currentMax = 2000;
-			
-			@Override
-			public void onStop(SliderEvent e) {
-			}
-			
-			@Override
-			public void onStart(SliderEvent e) {
-			}
-			
-			@Override
-			public boolean onSlide(SliderEvent e) {
-				int newcurrentMin=e.getValues()[0];
-				int newcurrentMax=e.getValues()[1];
-				if(newcurrentMin >= currentMin && currentMax >= newcurrentMax) {
-					currentMin=e.getValues()[0];
-					currentMax=e.getValues()[1];
-					sliderLabel.setText("Chosen Range: ["+e.getValues()[0]+", "+e.getValues()[1]+"]");
-					return true;
-				} else return false;
-			}
-			
-			@Override
-			public void onChange(SliderEvent e) {
-				updateMinAndMaxYearChart(""+e.getValues()[0], ""+e.getValues()[1]);
-			}
-			
-		});
-		s.setWidth("200px");
-		verticalSouthPanel.add(s);
-		verticalSouthPanel.add(sliderLabel);
-		verticalSouthPanel.setStyleName("veticalSouthPanel");
-		verticalSouthPanel.setSpacing(15);
+		setRangeSlider();
 
 		
 		Image image = new Image();
@@ -400,6 +366,49 @@ public class Moviebase implements EntryPoint {
 	}
 
 	/**
+	 * This method creates a <tt>RangeSlider</tt> on the vertical south panel to set filters by year.
+	 * 
+	 */
+	public void setRangeSlider() {
+		s = new RangeSlider("yearSlider",1888,2016,1888,2016);
+		s.addListener(new SliderListener() {
+			
+			int currentMin=1888, currentMax = 2016;
+			
+			@Override
+			public void onStop(SliderEvent e) {
+			}
+			
+			@Override
+			public void onStart(SliderEvent e) {
+			}
+			
+			@Override
+			public boolean onSlide(SliderEvent e) {
+				int newcurrentMin=e.getValues()[0];
+				int newcurrentMax=e.getValues()[1];
+				if(newcurrentMin >= currentMin && currentMax >= newcurrentMax) {
+					currentMin=e.getValues()[0];
+					currentMax=e.getValues()[1];
+					sliderLabel.setText("Chosen Range: ["+e.getValues()[0]+", "+e.getValues()[1]+"]");
+					return true;
+				} else return false;
+			}
+			
+			@Override
+			public void onChange(SliderEvent e) {
+				updateMinAndMaxYearChart(""+e.getValues()[0], ""+e.getValues()[1]);
+			}
+			
+		});
+		s.setWidth("1000px");
+		verticalSouthPanel.add(s);
+		verticalSouthPanel.add(sliderLabel);
+		verticalSouthPanel.setStyleName("veticalSouthPanel");
+		verticalSouthPanel.setSpacing(15);
+	}
+
+	/**
 	 * Calls on the server to send (and if necessary parse from file) the Movie Database and assigns the received value to database.
 	 * 
 	 * @pre true
@@ -601,8 +610,10 @@ public class Moviebase implements EntryPoint {
 
 		currentMovies = dataBase;
 		updateFilterSelectBox();
-
+		verticalSouthPanel.remove(s);
+		verticalSouthPanel.remove(sliderLabel);
 		redrawMainComponent();
+		setRangeSlider();
 
 	}
 
