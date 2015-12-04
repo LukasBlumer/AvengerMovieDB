@@ -41,9 +41,9 @@ public class PerCapitaComponent {
 		
 		dataTable.setColumnLabel(1, "Movies per capita");
 		
-		String[] countriesToLookAt = {"United States of America", "Germany", "Japan", "Switzerland", "United Kingdom", "India", "France", "Canada", "Russia"};
+		String[] countriesToLookAt = {"United States of America", "Germany", "Japan", "Switzerland", "United Kingdom", "India", "France", "Canada", "Russia", "China", "South Africa", "Australia", "Brazil"};
 		// source: http://www.worldometers.info/world-population/population-by-country/
-		int[] countryPopulation = {322583006, 82652256, 126999808, 8157896, 63489234, 1267401849, 64641279, 35524732, 142467651};
+		int[] countryPopulation = {322583006, 82652256, 126999808, 8157896, 63489234, 1267401849, 64641279, 35524732, 142467651, 1393783836, 53139528, 23630169, 202033670};
 		boolean wipe = true;
 		
 		for (int i = 0; i < dataTable.getNumberOfRows(); i++) {
