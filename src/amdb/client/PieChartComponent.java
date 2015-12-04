@@ -29,17 +29,6 @@ public class PieChartComponent {
 		DataTable dataTable = MovieCollectionConverter.toDataTablePerCountry(collection);
 		GWT.log("creating dataTable for piechart finished.");
 		
-		/* onClick event listener (might go into another file)
-		pieChart.addSelectHandler(new SelectHandler() {
-			public void onSelect(SelectEvent select) {
-				// addFilter();
-				GWT.log(select.NAME);
-				GWT.log(select.getProperties().toString());
-				Window.alert("You clicked on a slice");
-			}
-		});
-		*/
-		
 		GWT.log("drawing piechart.");
 
 		// Customising piechart appearance

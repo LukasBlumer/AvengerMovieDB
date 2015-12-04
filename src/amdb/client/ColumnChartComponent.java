@@ -30,17 +30,6 @@ public class ColumnChartComponent {
 		GWT.log("creating dataTable for ColumnChart.");
 		DataTable dataTable = MovieCollectionConverter.toDataTableYearCountryAmount(collection);
 		GWT.log("creating dataTable for ColumnChart finished.");
-
-		/* onClick event listener (might go into another file)
-		columnChart.addSelectHandler(new SelectHandler() {
-			public void onSelect(SelectEvent select) {
-				// addFilter();
-				GWT.log(select.NAME);
-				GWT.log(select.getProperties().toString());
-				Window.alert("You clicked on a column");
-			}
-		});
-		*/
 		
 		GWT.log("drawing ColumnChart.");
 

@@ -57,16 +57,6 @@ public class MapComponent {
 		options.setColorAxis(geoChartColorAxis);
 		options.setDatalessRegionColor(datalessRegionColor);
 		options.setBackgroundColor(backgroundColor);
-				
-		// onClick event listener (might go into another file)
-//		geoChart.addSelectHandler(new SelectHandler() {
-//			public void onSelect(SelectEvent select) {
-//				// addFilter();
-//				GWT.log(select.NAME);
-//				GWT.log(select.getProperties().toString());
-//				Window.alert("You clicked on a country");
-//			}
-//		});
 	
 		// actually draw the map
 		geoChart.draw(dataTable, options);
