@@ -16,6 +16,9 @@ The whole thing is inserted into the website by a central file organizing the di
 ### client
 Due to limitations of the appengine memory, most of the processing and general work is done clientside. We handle visualizations here including column, pie, geo and table charts. In addition the parser does its work here as well as the export functionality and the basic website framework.
 
+### slider
+The slider for the timeline is a separate implementation and located in a separate package.
+
 ### preprocessing
 The preprocessing side on the server handles some smaller changes to the data from the source file to then send that to the actual parser located clientside.
 
@@ -25,9 +28,10 @@ This part of the app handles the internal database object, the MovieCollection. 
 ## Contributors
 * Petra Wittwer
 * Selin Fabel
-* Armando M�ller
+* Armando Müller
 * Lukas Blumer
 
 ## Sources
 * David Bamman, Brendan O'Connor and Noah Smith, "Learning Latent Personas of Film Characters," in: Proceedings of the Annual Meeting of the Association for Computational Linguistics (ACL 2013), Sofia, Bulgaria, August 2013.
  * Available under the [Creative Commons Attribution-ShareAlike License](http://creativecommons.org/licenses/by-sa/4.0/) (We have not made any changes to the dataset beyond parsing it.)
+* Population information for Per Capita View: [Worldometers Population: Countries in the world (ranked by 2014 population)](http://www.worldometers.info/world-population/population-by-country/)
