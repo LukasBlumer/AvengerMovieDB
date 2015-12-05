@@ -17,7 +17,7 @@ public class AboutPage {
 	 * @param frame
 	 */
 	public static void drawAboutPage(Frame frame) {
-		frame.setUrl(GWT.getModuleBaseURL() + "files/AboutPage.html");
+		frame.setUrl("files/AboutPage.html");
 		frame.setSize("99.5%", "99.5%");
 	}
 

@@ -245,8 +245,7 @@ public class ParserPreprocessing {
 
 	/**
 	 * Converts the file specified by <tt>sourcePath</tt> to a template used to build a MovieCollection.
-	 * Saves the resulting template to a file. If one wish to read just from one file, comment line 252, 257, 268 and 287 out and 
-	 * take line 253 and line 288 in. Change the corresponding lines in MovieBase.java in setDatabase(). 
+	 * Saves the resulting template to a file. 
 	 * 
 	 * @param sourcePath The source of the File that is supposed to be converted.
 	 * @param targetPath The path where the new File is supposed to be saved.
@@ -254,7 +253,6 @@ public class ParserPreprocessing {
 	public static void preprocessFile(String sourcePath, String targetPath){
 		File[] files = new File(sourcePath).listFiles(); 
 
-//		File sourceFile = new File(sourcePath);
 		try {
 			PrintWriter printWriter = new PrintWriter (new File(targetPath), "UTF-8");
 			for(File sourceFile : files){

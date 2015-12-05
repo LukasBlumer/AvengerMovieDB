@@ -56,6 +56,9 @@ HOW IMPORT A FILE INTO THE APPLICATION
 	
 	After that, the application can be deployed with the new data.
 
+	Please note, that the previously used combination of source files may be cached in a browser
+	and therefore changes may not apply to the website until the cached version is deleted.
+
 ##################################################################################################
 ##################################################################################################
 

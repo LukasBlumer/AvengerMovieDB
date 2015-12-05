@@ -134,7 +134,7 @@ public class Moviebase implements EntryPoint {
 		
 		
 		Image image = new Image();
-		image.setUrl(GWT.getModuleBaseURL()+"images/banana.gif");
+		image.setUrl("images/banana.gif");
 		image.setSize("200px", "500px");
 
 		//Build filterTree for country sorting
