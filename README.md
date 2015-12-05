@@ -35,3 +35,5 @@ This part of the app handles the internal database object, the MovieCollection. 
 * David Bamman, Brendan O'Connor and Noah Smith, "Learning Latent Personas of Film Characters," in: Proceedings of the Annual Meeting of the Association for Computational Linguistics (ACL 2013), Sofia, Bulgaria, August 2013.
  * Available under the [Creative Commons Attribution-ShareAlike License](http://creativecommons.org/licenses/by-sa/4.0/) (We have not made any changes to the dataset beyond parsing it.)
 * Population information for Per Capita View: [Worldometers Population: Countries in the world (ranked by 2014 population)](http://www.worldometers.info/world-population/population-by-country/)
+* Timeline Slider: Based on the [Spiffy UI Framework](https://github.com/spiffyui/spiffyui).
+ * Available under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
