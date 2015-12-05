@@ -133,9 +133,6 @@ public class Moviebase implements EntryPoint {
 		});
 		
 		
-		setRangeSlider();
-
-		
 		Image image = new Image();
 		image.setUrl(GWT.getModuleBaseURL()+"images/banana.gif");
 		image.setSize("200px", "500px");
@@ -369,42 +366,54 @@ public class Moviebase implements EntryPoint {
 	 * 
 	 */
 	public void setRangeSlider() {
-		s = new RangeSlider("yearSlider",1888,2016,1888,2016);
-		s.addListener(new SliderListener() {
-			
-			int currentMin=1888, currentMax = 2016;
-			
-			@Override
-			public void onStop(SliderEvent e) {
-			}
-			
-			@Override
-			public void onStart(SliderEvent e) {
-			}
-			
-			@Override
-			public boolean onSlide(SliderEvent e) {
-				int newcurrentMin=e.getValues()[0];
-				int newcurrentMax=e.getValues()[1];
-				if(newcurrentMin >= currentMin && currentMax >= newcurrentMax) {
-					currentMin=e.getValues()[0];
-					currentMax=e.getValues()[1];
-					sliderLabel.setText("Chosen Range: ["+e.getValues()[0]+", "+e.getValues()[1]+"]");
-					return true;
-				} else return false;
-			}
-			
-			@Override
-			public void onChange(SliderEvent e) {
-				updateMinAndMaxYearChart(""+e.getValues()[0], ""+e.getValues()[1]);
-			}
-			
-		});
-		s.setWidth("1000px");
-		verticalSouthPanel.add(s);
-		verticalSouthPanel.add(sliderLabel);
-		verticalSouthPanel.setStyleName("veticalSouthPanel");
-		verticalSouthPanel.setSpacing(15);
+
+		if(dataBase == null){
+			s = new RangeSlider("yearSlider",1888,2016,1888,2016);
+		}else{
+			GWT.log("DBmin:" + dataBase.getMinYear());
+			GWT.log("DBmax:" + dataBase.getMaxYear());
+			s = new RangeSlider("yearSlider",dataBase.getMinYear(),dataBase.getMaxYear(),dataBase.getMinYear(),dataBase.getMaxYear());
+		
+			sliderLabel.setText("Chosen Range: ["+dataBase.getMinYear()+", "+dataBase.getMaxYear()+"]");
+
+			s.addListener(new SliderListener() {
+
+				int currentMin=dataBase.getMinYear(), currentMax = dataBase.getMaxYear();
+
+				@Override
+				public void onStop(SliderEvent e) {
+				}
+
+				@Override
+				public void onStart(SliderEvent e) {
+				}
+
+				@Override
+				public boolean onSlide(SliderEvent e) {
+
+					int newcurrentMin=e.getValues()[0];
+					int newcurrentMax=e.getValues()[1];
+					if(newcurrentMin >= currentMin && currentMax >= newcurrentMax) {
+						currentMin=e.getValues()[0];
+						currentMax=e.getValues()[1];
+						sliderLabel.setText("Chosen Range: ["+e.getValues()[0]+", "+e.getValues()[1]+"]");
+						return true;
+					} else return false;
+				}
+
+				@Override
+				public void onChange(SliderEvent e) {
+					updateMinAndMaxYearChart(""+e.getValues()[0], ""+e.getValues()[1]);
+				}
+
+			});
+			s.setWidth("1000px");
+			verticalSouthPanel.add(s);
+			verticalSouthPanel.add(sliderLabel);
+			verticalSouthPanel.setStyleName("veticalSouthPanel");
+			verticalSouthPanel.setSpacing(15);
+		}
+		
 	}
 
 	/**
@@ -417,8 +426,6 @@ public class Moviebase implements EntryPoint {
 		GWT.log("Fetching movies");
 		try {
 			// call on server to request the file in the specified path
-			// request regular file
-//			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, "PreprocessedData/movies_preprocessed.tsv");
 			// request systemtest file 
 //			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, "PreprocessedData/systemtest_file.tsv");
 			// request files from directory
@@ -455,6 +462,7 @@ public class Moviebase implements EntryPoint {
 	 */
 	public void onDatabaseReady(){
 		updateFilterSelectBox();
+		setRangeSlider();
 	}
 
 	/**

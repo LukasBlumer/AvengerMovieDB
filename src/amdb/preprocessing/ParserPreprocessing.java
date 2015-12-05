@@ -111,6 +111,9 @@ public class ParserPreprocessing {
 			// set releaseDate
 			if (lineArray[3] != null && lineArray[3].length() >= 4) {
 				releaseDate = Integer.parseInt(lineArray[3].substring(0, 4));
+				if( releaseDate < 1880){ // if release date is earlier than earliest movies
+					releaseDate = -1;
+				}
 			}
 
 			// set genres
@@ -285,7 +288,6 @@ public class ParserPreprocessing {
 	 */
 	public static void main(String[] args) {
 		preprocessFile("war/WEB-INF/files", "war/PreprocessedData/movies_preprocessed_dir.tsv");
-//		preprocessFile("war/WEB-INF/movies.tsv", "war/PreprocessedData/movies_preprocessed.tsv");
 //		preprocessFile("war/WEB-INF/systemtest_files", "war/PreprocessedData/systemtest_file.tsv");
 		System.out.println("Done");
 	}
