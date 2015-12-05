@@ -491,7 +491,10 @@ public class Moviebase implements EntryPoint {
 		}
 	}
 	
-	// create Map, remove the current center, add Map to center
+	/**
+	 * This method creates a <tt>GeoChart</tt>, removes the current centre and replaces 
+	 * it by the <tt>GeoChart</tt>.
+	 */
 	public void setMap(){
 		ChartLoader chartLoader = new ChartLoader(ChartPackage.GEOCHART);
 		chartLoader.loadApi(new Runnable() {
@@ -522,7 +525,10 @@ public class Moviebase implements EntryPoint {
 		});
 	}
 
-	// create Pie Chart, remove the current center, add Pie Chart to center
+	/**
+	 * This method creates a <tt>PieChart</tt>, removes the current centre and replaces 
+	 * it by the <tt>PieChart</tt>.
+	 */
 	public void setPieChart(){
 		ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
 		chartLoader.loadApi(new Runnable() {
@@ -536,7 +542,10 @@ public class Moviebase implements EntryPoint {
 		});	
 	}
 
-	// create Column Chart, remove the current center, add Column Chart to center
+	/**
+	 * This method creates a <tt>ColumnChart</tt>, removes the current centre and replaces 
+	 * it by the <tt>ColumnChart</tt>.
+	 */
 	public void setColumnChart(){
 		// Conversion of MovieCollection to DataTable
 		ArrayList<Movie> movieList = currentMovies.getMovies();
@@ -585,7 +594,9 @@ public class Moviebase implements EntryPoint {
 		}
 	}
 
-	//Deletes the chosen filter depending on the current Center
+	/**
+	 * This method deletes the filters currently applied to the <tt>MovieCollection</tt>
+	 */
 	public void deleteFilter(){
 
 		currentMovies = dataBase;
@@ -597,7 +608,10 @@ public class Moviebase implements EntryPoint {
 
 	}
 
-	//Update the chosen filter depending on the current Center
+	/**
+	 * Update the chosen filter depending on the current Center
+	 * @param country
+	 */
 	public void updateCountryChart(String country){
 
 		currentMovies = currentMovies.filterByCountry(country);
@@ -606,7 +620,10 @@ public class Moviebase implements EntryPoint {
 		redrawMainComponent();
 	}
 
-	//Update the chosen filter depending on the current Center
+	/**
+	 * Update the chosen filter depending on the current Center
+	 * @param language
+	 */
 	public void updateLanguageChart(String language){
 
 		currentMovies = currentMovies.filterByLanguage(language);
@@ -615,6 +632,10 @@ public class Moviebase implements EntryPoint {
 		redrawMainComponent();
 	}
 
+	/**
+	 * Updates the <tt>MovieCollection</tt> by filtering it with the provided genre.
+	 * @param genre
+	 */
 	public void updateGenreChart(String genre){
 
 		currentMovies = currentMovies.filterByGenre(genre);
@@ -623,6 +644,10 @@ public class Moviebase implements EntryPoint {
 		redrawMainComponent();
 	}
 
+	/**
+	 * Updates the <tt>MovieCollection</tt> by filtering it according to the given minimum length.
+	 * @param minLength
+	 */
 	public void updateMinLengthChart(String minLength){
 
 		int intMinLength = Integer.parseInt(minLength);
@@ -632,6 +657,11 @@ public class Moviebase implements EntryPoint {
 		redrawMainComponent();
 	}
 	
+	/**
+	 * Updates the <tt>MovieCollection</tt> by filtering it according to the provided minYear and maxYear.
+	 * @param minYear
+	 * @param maxYear
+	 */
 	public void updateMinAndMaxYearChart(String minYear,String maxYear){
 		
 		int intMinYear = Integer.parseInt(minYear);
@@ -643,6 +673,9 @@ public class Moviebase implements EntryPoint {
 		
 	}
 	
+	/**
+	 * Changes the center component to the per capita view.
+	 */
 	public void displayMapPerCapita(){
 		
 		if(dockLayoutPanel.getWidget(4) == geoChart){
