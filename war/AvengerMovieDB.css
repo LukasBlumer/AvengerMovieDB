@@ -19,8 +19,19 @@ h1 {
 }
 
 /** Most GWT widgets already have a style name defined */
-.gwt-DialogBox {
-  width: 400px;
+.exportButtonSort {
+  position: fixed;
+  bottom: 90px;
+}
+
+.perCapitaButton {
+  position: fixed;
+  bottom: 125px;
+}
+
+.deleteButton {
+  position: fixed;
+  bottom: 160px;
 }
 
 .dialogVPanel {

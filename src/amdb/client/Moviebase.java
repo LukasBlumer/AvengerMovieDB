@@ -160,7 +160,9 @@ public class Moviebase implements EntryPoint {
 		minLengthSort.setText("Filter By Minimum Length");
 		minLengthSort.addItem(textBoxForMinLength);
 		minLengthSort.addItem(updateMinLength);
-
+		
+		TreeItem perCapitaButton = new TreeItem(displayPerCapita);
+		TreeItem deleteButton = new TreeItem(delete);
 		TreeItem exportButtonSort = new TreeItem(export);
 
 		//Add everything to the rootTree
@@ -168,8 +170,8 @@ public class Moviebase implements EntryPoint {
 		filterTree.addItem(languageSort);
 		filterTree.addItem(genreSort);
 		filterTree.addItem(minLengthSort);
-		filterTree.addItem(delete);
-		filterTree.addItem(displayPerCapita);
+		filterTree.addItem(deleteButton);
+		filterTree.addItem(perCapitaButton);
 		filterTree.addItem(exportButtonSort);
 
 		countrySort.setStyleName("countrySort",false);
@@ -184,9 +186,19 @@ public class Moviebase implements EntryPoint {
 		minLengthSort.setStyleName("minLengthSort",false);
 		minLengthSort.setState(true);
 
-		exportButtonSort.setStyleName("exportButtonSort",false);
-		countrySort.setState(true);
+		exportButtonSort.setStyleName("exportButtonSort",true);
+		exportButtonSort.setState(true);
+		
+		deleteButton.setStyleName("deleteButton", true);
+		deleteButton.setState(true);
+		
+		perCapitaButton.setStyleName("perCapitaButton", true);
+		perCapitaButton.setState(true);
 
+		exportButtonSort.setWidth("210px");
+		deleteButton.setWidth("210px");
+		perCapitaButton.setWidth("210px");
+		
 		//All clickevents for the buttons in the sidebar
 
 		delete.addClickHandler(new ClickHandler(){
