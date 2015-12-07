@@ -84,6 +84,12 @@ public class PerCapitaComponent {
 
 	}
 	
+	/**
+	 * A simple method to round a double to two decimals.
+	 * @param value
+	 * @param places
+	 * @return
+	 */
 	public static double round(double value, int places) {
 	    if (places < 0) throw new IllegalArgumentException();
 
